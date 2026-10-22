@@ -11,9 +11,9 @@ export function errorMessage(e: unknown, t: TFn): string {
 
 export function Brand({ to = '/' }: { to?: string }) {
   return (
-    <Link to={to} className="brand" aria-label="Cap Emploi">
+    <Link to={to} className="brand" aria-label="Cap Emploi Luxembourg">
       <svg className="brand-mark" width="30" height="30" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="16" fill="var(--brand)" /><path d="M45 19 L36 36 L28 28 Z" fill="var(--accent)" /><path d="M19 45 L28 28 L36 36 Z" fill="#fff" fillOpacity="0.55" /></svg>
-      <span aria-hidden="true"><b>cap</b>emploi</span>
+      <span className="brand-text" aria-hidden="true"><span><b>cap</b>emploi</span><small>Luxembourg</small></span>
     </Link>
   );
 }

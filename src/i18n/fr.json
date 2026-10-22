@@ -78,7 +78,7 @@
     "pwdHint": "8 caractères minimum.",
     "confirmPwd": "Confirmer le mot de passe",
     "forgot": "Mot de passe oublié ?",
-    "consent": "J’accepte que mes données soient traitées pour faire fonctionner Cap Emploi, selon la politique de",
+    "consent": "J’accepte que mes données soient traitées pour faire fonctionner Cap Emploi Luxembourg, selon la politique de",
     "loginCta": "Se connecter",
     "signupCta": "Créer mon compte",
     "haveAccount": "Déjà un compte ?",
@@ -94,7 +94,7 @@
     "backLogin": "Retour à la connexion",
     "newPwdTitle": "Nouveau mot de passe",
     "pwdChanged": "Mot de passe modifié.",
-    "openApp": "Ouvrir Cap Emploi",
+    "openApp": "Ouvrir Cap Emploi Luxembourg",
     "linkInvalid": "Lien invalide ou expiré. Un lien de réinitialisation ne sert qu’une fois.",
     "err": {
       "email": "Saisissez une adresse e-mail valide, par exemple nom@domaine.lu.",
@@ -108,7 +108,7 @@
     }
   },
   "onboarding": {
-    "title": "Bienvenue sur Cap Emploi",
+    "title": "Bienvenue sur Cap Emploi Luxembourg",
     "intro": "Trois réglages pour adapter l’outil à votre recherche. Tout reste modifiable ensuite dans votre profil.",
     "trade": "Les métiers que vous visez",
     "cta": "Continuer",
@@ -330,7 +330,7 @@
     "title": "Politique de confidentialité",
     "who": {
       "h": "Responsable",
-      "p": "Cap Emploi est édité par Yorrick Pellegri, Luxembourg. Ce texte est une version de lancement, à faire valider avant l’ouverture au public."
+      "p": "Cap Emploi Luxembourg est édité par Yorrick Pellegri, Luxembourg. Ce texte est une version de lancement, à faire valider avant l’ouverture au public."
     },
     "data": {
       "h": "Données traitées",
@@ -374,7 +374,7 @@
       "tagGeneral": "Généraliste",
       "tagPublic": "Service public",
       "viaWeb": "via recherche web",
-      "tos": "Ces sites interdisent la collecte automatique : Cap Emploi ouvre leur recherche, sans copier leurs annonces. La recherche automatique passe par l’API officielle de Jooble.",
+      "tos": "Ces sites interdisent la collecte automatique : Cap Emploi Luxembourg ouvre leur recherche, sans copier leurs annonces. La recherche automatique passe par l’API officielle de Jooble.",
       "disabled": "La recherche automatique n’est pas encore activée (clé API Jooble à demander, gratuite). En attendant, utilisez les liens ci-dessus.",
       "none": "Aucune offre trouvée pour cette recherche.",
       "results": "Offres trouvées",
@@ -682,7 +682,7 @@
     "mailOff": "Le relevé des alertes e-mail utilise l’IA pour extraire les offres ; il n’est pas activé. Ajoutez les offres à la main."
   },
   "setup": {
-    "title": "Cap Emploi ouvre très bientôt",
+    "title": "Cap Emploi Luxembourg ouvre très bientôt",
     "body": "Le site est en ligne, mais les comptes ne sont pas encore activés. Revenez dans quelques jours pour créer votre compte et préparer vos candidatures en français, anglais et allemand."
   }
 }

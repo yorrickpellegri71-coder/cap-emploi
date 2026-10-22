@@ -98,6 +98,8 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .brand { display: inline-flex; align-items: center; gap: 10px; font-family: var(--display); font-size: 20px; letter-spacing: -0.02em; color: var(--brand); text-decoration: none; white-space: nowrap; }
 .brand b { font-weight: 700; }
 .brand span { font-weight: 500; }
+.brand-text { display: flex; flex-direction: column; line-height: 1; }
+.brand small { font-family: var(--sans); font-size: 10px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.8; margin-top: 4px; }
 .topbar .brand-mark rect { fill: var(--brand-2); }
 @media (prefers-color-scheme: dark) { .brand { color: var(--text); } }
 .nav { display: flex; align-items: center; gap: 4px; height: 100%; }

@@ -78,7 +78,7 @@
     "pwdHint": "At least 8 characters.",
     "confirmPwd": "Confirm password",
     "forgot": "Forgot your password?",
-    "consent": "I agree that my data is processed to run Cap Emploi, as described in the",
+    "consent": "I agree that my data is processed to run Cap Emploi Luxembourg, as described in the",
     "loginCta": "Sign in",
     "signupCta": "Create my account",
     "haveAccount": "Already have an account?",
@@ -94,7 +94,7 @@
     "backLogin": "Back to sign in",
     "newPwdTitle": "New password",
     "pwdChanged": "Password changed.",
-    "openApp": "Open Cap Emploi",
+    "openApp": "Open Cap Emploi Luxembourg",
     "linkInvalid": "Invalid or expired link. A reset link can only be used once.",
     "err": {
       "email": "Enter a valid email address, for example name@domain.lu.",
@@ -108,7 +108,7 @@
     }
   },
   "onboarding": {
-    "title": "Welcome to Cap Emploi",
+    "title": "Welcome to Cap Emploi Luxembourg",
     "intro": "Three settings to tailor the tool to your search. You can change everything later in your profile.",
     "trade": "The fields you are aiming for",
     "cta": "Continue",
@@ -330,7 +330,7 @@
     "title": "Privacy policy",
     "who": {
       "h": "Controller",
-      "p": "Cap Emploi is published by Yorrick Pellegri, Luxembourg. This is a launch version, to be reviewed before opening to the public."
+      "p": "Cap Emploi Luxembourg is published by Yorrick Pellegri, Luxembourg. This is a launch version, to be reviewed before opening to the public."
     },
     "data": {
       "h": "Data processed",
@@ -374,7 +374,7 @@
       "tagGeneral": "General",
       "tagPublic": "Public service",
       "viaWeb": "via web search",
-      "tos": "These sites forbid automated collection: Cap Emploi opens their search without copying their ads. Automatic search uses Jooble’s official API.",
+      "tos": "These sites forbid automated collection: Cap Emploi Luxembourg opens their search without copying their ads. Automatic search uses Jooble’s official API.",
       "disabled": "Automatic search is not enabled yet (free Jooble API key to request). Meanwhile, use the links above.",
       "none": "No job ads found for this search.",
       "results": "Job ads found",
@@ -682,7 +682,7 @@
     "mailOff": "Checking email alerts uses AI to extract the offers; it is not enabled. Add offers manually."
   },
   "setup": {
-    "title": "Cap Emploi opens very soon",
+    "title": "Cap Emploi Luxembourg opens very soon",
     "body": "The site is online, but accounts are not active yet. Come back in a few days to create your account and prepare your applications in French, English and German."
   }
 }
