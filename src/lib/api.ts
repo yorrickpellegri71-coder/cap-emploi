@@ -1,7 +1,7 @@
 // Accès aux données. La sécurité par utilisateur est garantie côté base (RLS) : aucune requête ne filtre « à la main ».
 import { stageEffect, isoDay, isoWeek } from './dates';
 import { supabase, unwrap } from './supabase';
-import type { CompanyBrief, CounterKey, Counters, DocumentRow, JobResult, Lang, MessageTemplates, ProfileData, Stage, Target } from './types';
+import type { CompanyBrief, CounterKey, Counters, Digest, DocumentRow, JobResult, Lang, MessageTemplates, Opportunity, OppStatus, ProfileData, Stage, Target } from './types';
 
 export async function fetchTargets(): Promise<Target[]> {
   return unwrap(await supabase.from('targets').select('*').order('updated_at', { ascending: false })) as Target[];
@@ -120,16 +120,49 @@ export const companyBrief = (input: { company?: string; offer_text?: string; job
 export const searchJobs = (input: { keywords: string; location?: string; page?: number }) =>
   callAi<{ total: number; jobs: JobResult[] }>({ action: 'search_jobs', ...input });
 
+// ───────────── Opportunités ─────────────
+
+export async function fetchOpportunities(): Promise<Opportunity[]> {
+  return unwrap(await supabase.from('opportunities').select('*').neq('status', 'dismissed').order('score', { ascending: false }).limit(200)) as Opportunity[];
+}
+
+export async function setOpportunityStatus(ids: string[], status: OppStatus): Promise<void> {
+  if (ids.length) unwrap(await supabase.from('opportunities').update({ status }).in('id', ids).select('id'));
+}
+
+export async function fetchLatestDigest(): Promise<Digest | null> {
+  return unwrap(await supabase.from('digests').select('*').order('day', { ascending: false }).limit(1).maybeSingle()) as Digest | null;
+}
+
+export async function fetchDocument(id: string): Promise<DocumentRow> {
+  return unwrap(await supabase.from('documents').select('*').eq('id', id).single()) as DocumentRow;
+}
+
+export const discoverOpportunities = () => callAi<{ inserted: number; toPrepare: string[]; jobsEnabled: boolean }>({ action: 'discover' });
+
+export const prepareOpportunity = (id: string, lang?: Lang) =>
+  callAi<{ opportunity: Opportunity; document?: DocumentRow }>({ action: 'prepare', opportunity_id: id, lang });
+
+/** Lien mailto prérempli : l'utilisateur choisit le destinataire et joint ses fichiers, puis envoie lui-même. */
+export function mailtoLink(doc: Pick<DocumentRow, 'email_subject' | 'email_body'>, to = ''): string {
+  return `mailto:${encodeURIComponent(to)}?subject=${encodeURIComponent(doc.email_subject)}&body=${encodeURIComponent(doc.email_body)}`;
+}
+
 /** Export RGPD : toutes les données du compte en JSON. */
 export async function exportMyData(): Promise<Blob> {
-  const [profile, targets, weeks, documents, usage] = await Promise.all([
+  const [profile, targets, weeks, documents, usage, opportunities, digests] = await Promise.all([
     supabase.from('profiles').select('*').maybeSingle(),
     supabase.from('targets').select('*'),
     supabase.from('weeks').select('*'),
     supabase.from('documents').select('*'),
     supabase.from('ai_usage').select('*'),
+    supabase.from('opportunities').select('*'),
+    supabase.from('digests').select('*'),
   ]);
-  const data = { exported_at: new Date().toISOString(), profile: unwrap(profile), targets: unwrap(targets), weeks: unwrap(weeks), documents: unwrap(documents), ai_usage: unwrap(usage) };
+  const data = {
+    exported_at: new Date().toISOString(), profile: unwrap(profile), targets: unwrap(targets), weeks: unwrap(weeks), documents: unwrap(documents),
+    ai_usage: unwrap(usage), opportunities: unwrap(opportunities), digests: unwrap(digests),
+  };
   return new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
 }
 

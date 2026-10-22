@@ -1,0 +1,3 @@
+# La fonction ai vérifie elle-même la session (auth.getUser) ou le secret de la tâche planifiée.
+[functions.ai]
+verify_jwt = false

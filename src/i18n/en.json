@@ -29,7 +29,8 @@
     "account": "My account",
     "privacy": "Privacy",
     "signout": "Sign out",
-    "apply": "Apply"
+    "apply": "Apply",
+    "opps": "Opportunities"
   },
   "errors": {
     "network": "Cannot reach the server. Check your connection and try again.",
@@ -56,7 +57,8 @@
       "search_disabled": "Automatic job collection is not enabled yet.",
       "keywords_missing": "Enter a job title or keywords.",
       "quota_searches": "Monthly automatic search limit reached. The links to the job sites remain available.",
-      "search_unavailable": "The job search service is not responding. Use the links to the job sites."
+      "search_unavailable": "The job search service is not responding. Use the links to the job sites.",
+      "quota_discoveries": "Monthly opportunity search limit reached."
     }
   },
   "auth": {
@@ -363,5 +365,61 @@
     "emptyTitle": "No packs yet",
     "emptyHint": "Analyse a job ad, then generate your first pack.",
     "dossierName": "Application pack"
+  },
+  "opps": {
+    "eyebrow": "Opportunities for me",
+    "title": "Where to apply",
+    "intro": "Based on your profile: collected job ads and likely target companies, scored out of 100 with the reason. The best ones get a pack ready for approval.",
+    "run": "Find my opportunities",
+    "scoreTitle": "Fit score with your profile (out of 100)",
+    "kindCompany": "Likely target company",
+    "found": "Found on {date}",
+    "openAd": "View ad",
+    "dismiss": "Dismiss",
+    "prepare": "Prepare the pack",
+    "preparing": "Preparing the pack…",
+    "reviewDossier": "Review the pack",
+    "hideDossier": "Hide the pack",
+    "validate": "Approve",
+    "mail": "Draft the email",
+    "openApply": "Open in Apply",
+    "select": "Select {name}",
+    "sentDone": "Application counted. Follow-up due on {date}.",
+    "otherSector": "Other sectors",
+    "running": {
+      "search": "Searching and scoring opportunities…",
+      "prepare": "Preparing pack {i} of {n}…"
+    },
+    "result": "{n} new opportunit(ies), {p} pack(s) ready to approve.",
+    "jobsDisabled": "Job ad collection is not active yet: only target companies are suggested.",
+    "validatedN": "{n} sending(s) approved. Open the “Approved” tab to send.",
+    "digest": {
+      "today": "Today’s summary",
+      "of": "Summary of {date}",
+      "line": "{j} new job ad(s), {c} target compan(ies), {p} pack(s) prepared."
+    },
+    "rule": "Nothing is sent without your approval: approve each pack (or a selection), then send it yourself and click “I have sent it”.",
+    "views": {
+      "to_validate": "To approve",
+      "validated": "Approved, to send",
+      "all": "New",
+      "sent": "Sent"
+    },
+    "selectAll": "Select all",
+    "validateSelection": "Approve selection ({n})",
+    "empty": {
+      "to_validate": "Nothing to approve",
+      "validated": "No approved sending pending",
+      "all": "No new opportunities",
+      "sent": "No applications sent from this list"
+    },
+    "emptyHint": "Run a search: the app scans job ads and suggests companies that fit your profile.",
+    "settings": {
+      "title": "Opportunity settings",
+      "auto": "Automatically prepare the pack for the best opportunities (within your AI document allowance)",
+      "minScore": "Minimum score for automatic preparation",
+      "email": "Receive the daily summary by email",
+      "note": "The daily summary is always shown here. Email requires a sending service to be enabled at launch."
+    }
   }
 }

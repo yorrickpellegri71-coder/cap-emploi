@@ -7,6 +7,7 @@ import { ForgotPassword, Login, NewPassword, Privacy, Signup } from './pages/Aut
 import { Apply } from './pages/Apply';
 import { Messages } from './pages/Messages';
 import { Onboarding } from './pages/Onboarding';
+import { Opportunities } from './pages/Opportunities';
 import { Profile } from './pages/Profile';
 import { Targets } from './pages/Targets';
 import { Week } from './pages/Week';
@@ -86,6 +87,7 @@ export function App() {
             <Route index element={<Week />} />
             <Route path="/cibles" element={<Targets />} />
             <Route path="/messages" element={<Messages />} />
+            <Route path="/opportunites" element={<Opportunities />} />
             <Route path="/postuler" element={<Apply />} />
             <Route path="/documents" element={<ToApply />} />
             <Route path="/profil" element={<Profile />} />

@@ -3,8 +3,13 @@
 //   extract     : lit un CV (texte ou PDF) et en extrait un profil structuré ;
 //   brief       : fiche entreprise à partir d'une offre ou d'un nom (résumé, attentes, idée d'outil digital, points à vérifier) ;
 //   tailor      : dossier complet (e-mail, lettre, CV, présentation) à partir d'une offre et du profil, sans inventer de faits ;
-//   search_jobs : recherche d'offres au Luxembourg par l'API officielle de Jooble (si JOOBLE_API_KEY est défini).
-// Secrets attendus : ANTHROPIC_API_KEY ; facultatifs : CLAUDE_MODEL, FREE_DOCS_PER_MONTH, ALLOWED_ORIGIN, JOOBLE_API_KEY, JOOBLE_HOST.
+//   search_jobs : recherche d'offres au Luxembourg par l'API officielle de Jooble (si JOOBLE_API_KEY est défini) ;
+//   discover    : « Opportunités pour moi » : offres et entreprises cibles probables, notées selon le profil ;
+//   prepare     : prépare le dossier complet d'une opportunité et la place dans la file « À valider » ;
+//   daily       : tâche planifiée (en-tête x-cron-secret) : opportunités du jour et résumé, e-mail facultatif.
+// Rien n'est jamais envoyé à un employeur : l'envoi reste fait par l'utilisateur, après validation.
+// Secrets attendus : ANTHROPIC_API_KEY ; facultatifs : CLAUDE_MODEL, FREE_DOCS_PER_MONTH, ALLOWED_ORIGIN, JOOBLE_API_KEY, JOOBLE_HOST,
+// CRON_SECRET (tâche quotidienne), RESEND_API_KEY + DIGEST_FROM + APP_URL (e-mail du résumé quotidien).
 // SUPABASE_URL, SUPABASE_ANON_KEY et SUPABASE_SERVICE_ROLE_KEY sont fournis par Supabase.
 
 import Anthropic from 'npm:@anthropic-ai/sdk@1.1.0';
@@ -154,10 +159,10 @@ const monthKey = () => new Date().toISOString().slice(0, 7);
 async function usageRow(admin: SupabaseClient, userId: string) {
   const { data, error } = await admin.from('ai_usage').select('*').eq('user_id', userId).eq('month', monthKey()).maybeSingle();
   if (error) throw error;
-  return data ?? { documents: 0, extractions: 0, briefs: 0, searches: 0, input_tokens: 0, output_tokens: 0 };
+  return data ?? { documents: 0, extractions: 0, briefs: 0, searches: 0, discoveries: 0, input_tokens: 0, output_tokens: 0 };
 }
 
-type UsageField = 'documents' | 'extractions' | 'briefs' | 'searches';
+type UsageField = 'documents' | 'extractions' | 'briefs' | 'searches' | 'discoveries';
 
 async function recordUsage(admin: SupabaseClient, userId: string, field: UsageField, usage?: Anthropic.Beta.BetaUsage) {
   const row = await usageRow(admin, userId);
@@ -168,6 +173,7 @@ async function recordUsage(admin: SupabaseClient, userId: string, field: UsageFi
     extractions: row.extractions + (field === 'extractions' ? 1 : 0),
     briefs: (row.briefs ?? 0) + (field === 'briefs' ? 1 : 0),
     searches: (row.searches ?? 0) + (field === 'searches' ? 1 : 0),
+    discoveries: (row.discoveries ?? 0) + (field === 'discoveries' ? 1 : 0),
     input_tokens: Number(row.input_tokens) + (usage?.input_tokens ?? 0),
     output_tokens: Number(row.output_tokens) + (usage?.output_tokens ?? 0),
   });
@@ -213,6 +219,8 @@ async function extract(body: Record<string, unknown>, userId: string, admin: Sup
   return { profile: result };
 }
 
+// Les fonctions métier reçoivent un client et l'identifiant de l'utilisateur, et filtrent toujours par utilisateur :
+// elles servent aussi bien au client de l'utilisateur (RLS) qu'au client de service de la tâche quotidienne.
 async function tailor(body: Record<string, unknown>, userId: string, db: SupabaseClient, admin: SupabaseClient) {
   const offer = typeof body.offer_text === 'string' ? body.offer_text.trim() : '';
   if (offer.length < 80) throw new Fail('offer_too_short');
@@ -228,7 +236,7 @@ async function tailor(body: Record<string, unknown>, userId: string, db: Supabas
 
   let target: { company: string; contact_name: string; contact_role: string; brief: Record<string, unknown> } | null = null;
   if (typeof body.target_id === 'string' && body.target_id) {
-    const res = await db.from('targets').select('company, contact_name, contact_role, brief').eq('id', body.target_id).maybeSingle();
+    const res = await db.from('targets').select('company, contact_name, contact_role, brief').eq('id', body.target_id).eq('user_id', userId).maybeSingle();
     target = res.data;
   }
   const brief = target?.brief && Object.keys(target.brief).length
@@ -248,6 +256,7 @@ async function tailor(body: Record<string, unknown>, userId: string, db: Supabas
   await recordUsage(admin, userId, 'documents', usage);
 
   const { data: doc, error: insErr } = await db.from('documents').insert({
+    user_id: userId,
     target_id: typeof body.target_id === 'string' && body.target_id ? body.target_id : null,
     company: String(result.company || target?.company || '').slice(0, 200),
     job_title: String(result.job_title ?? '').slice(0, 200),
@@ -295,6 +304,14 @@ async function searchJobs(body: Record<string, unknown>, userId: string, admin: 
   const row = await usageRow(admin, userId);
   if ((row.searches ?? 0) >= MAX_SEARCHES) throw new Fail('quota_searches', 429);
 
+  const result = await jooble(key, keywords, location, page);
+  await recordUsage(admin, userId, 'searches');
+  return result;
+}
+
+type Job = { title: string; company: string; location: string; snippet: string; source: string; link: string; updated: string; salary: string };
+
+async function jooble(key: string, keywords: string, location: string, page = 1): Promise<{ total: number; jobs: Job[] }> {
   const res = await fetch(`https://${Deno.env.get('JOOBLE_HOST') ?? 'jooble.org'}/api/${key}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -305,7 +322,6 @@ async function searchJobs(body: Record<string, unknown>, userId: string, admin: 
     throw new Fail('search_unavailable', 502);
   }
   const data = await res.json() as { totalCount?: number; jobs?: Record<string, unknown>[] };
-  await recordUsage(admin, userId, 'searches');
   const str = (v: unknown) => (typeof v === 'string' ? v.replace(/<[^>]+>/g, '').trim() : '');
   return {
     total: data.totalCount ?? 0,
@@ -314,6 +330,253 @@ async function searchJobs(body: Record<string, unknown>, userId: string, admin: 
       source: str(j.source), link: str(j.link), updated: str(j.updated), salary: str(j.salary),
     })),
   };
+}
+
+// ───────────────────────── Opportunités pour moi ─────────────────────────
+
+const MAX_DISCOVERIES = 40;
+const DISCOVER_SCHEMA = {
+  type: 'object',
+  additionalProperties: false,
+  required: ['jobs', 'companies'],
+  properties: {
+    jobs: {
+      type: 'array',
+      items: {
+        type: 'object',
+        additionalProperties: false,
+        required: ['index', 'score', 'sector', 'reason'],
+        properties: { index: { type: 'integer' }, score: { type: 'integer' }, sector: { type: 'string' }, reason: { type: 'string' } },
+      },
+    },
+    companies: {
+      type: 'array',
+      items: {
+        type: 'object',
+        additionalProperties: false,
+        required: ['company', 'location', 'sector', 'score', 'reason'],
+        properties: { company: { type: 'string' }, location: { type: 'string' }, sector: { type: 'string' }, score: { type: 'integer' }, reason: { type: 'string' } },
+      },
+    },
+  },
+};
+
+const DISCOVER_SYSTEM = `You match a job seeker's profile with opportunities in Luxembourg and the Greater Region.
+1. jobs: score every listed job ad from 0 to 100 for fit with the candidate's experience, level, sector and languages, using only the profile's facts and the ad excerpt. Give the sector and one short reason (max 25 words) naming the concrete match or the main gap. Return one item per ad, with its index.
+2. companies: propose up to 8 real employers in Luxembourg or the Greater Region that are likely to hire this profile through a direct, spontaneous approach. Only well-known, existing organisations you are confident about; never invent a company. Exclude the companies listed as already known. Score the likely fit from 0 to 100 and give one short reason (max 25 words) tied to the profile. Location: city if you are confident, otherwise "Luxembourg".
+Be strict: 80+ only for a strong, evident match. Write reasons and sectors in the requested output language.`;
+
+type Profile = {
+  display_name: string; ui_lang: string; doc_lang: string; trade: string; plan: string; cv_text: string;
+  profile_data: Record<string, unknown>; opp_auto_prepare: boolean; opp_min_score: number;
+};
+type Opportunity = { id: string; kind: string; title: string; company: string; location: string; sector: string; link: string; snippet: string; score: number; reason: string; status: string; target_id: string | null };
+
+const norm = (s: string) => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
+
+async function loadProfile(db: SupabaseClient, userId: string): Promise<Profile> {
+  const { data, error } = await db.from('profiles')
+    .select('display_name, ui_lang, doc_lang, trade, plan, cv_text, profile_data, opp_auto_prepare, opp_min_score').eq('id', userId).single();
+  if (error) throw error;
+  return data as Profile;
+}
+
+/** Requêtes de recherche tirées du profil : titre visé et dernier poste. */
+function profileQueries(p: Profile): string[] {
+  const d = p.profile_data as { headline?: string; experiences?: { title?: string }[] };
+  const list = [d.headline, d.experiences?.[0]?.title].map((x) => (x ?? '').trim()).filter(Boolean);
+  return [...new Set(list.map((x) => x.slice(0, 80)))].slice(0, 2);
+}
+
+async function discoverFor(db: SupabaseClient, admin: SupabaseClient, userId: string) {
+  const profile = await loadProfile(db, userId);
+  const facts = Object.keys(profile.profile_data ?? {}).length ? JSON.stringify(profile.profile_data, null, 1) : profile.cv_text.slice(0, MAX_CV_CHARS);
+  if (!facts.trim()) throw new Fail('profile_empty');
+  const usage = await usageRow(admin, userId);
+  if ((usage.discoveries ?? 0) >= MAX_DISCOVERIES) throw new Fail('quota_discoveries', 429);
+
+  const [{ data: known }, { data: targets }] = await Promise.all([
+    db.from('opportunities').select('dedupe_key').eq('user_id', userId),
+    db.from('targets').select('company').eq('user_id', userId),
+  ]);
+  const seen = new Set((known ?? []).map((k: { dedupe_key: string }) => k.dedupe_key));
+  const knownCompanies = [...new Set((targets ?? []).map((t: { company: string }) => t.company))];
+
+  // 1. Offres collectées par l'API officielle de Jooble, nouvelles uniquement.
+  const key = Deno.env.get('JOOBLE_API_KEY');
+  let jobs: Job[] = [];
+  if (key) {
+    for (const q of profileQueries(profile)) {
+      try { jobs.push(...(await jooble(key, q, 'Luxembourg')).jobs); } catch { /* une source en panne ne bloque pas les entreprises */ }
+    }
+    const fresh = new Map<string, Job>();
+    for (const j of jobs) {
+      const k = `job:${j.link || norm(`${j.title} ${j.company}`)}`;
+      if (!seen.has(k) && !fresh.has(k)) fresh.set(k, j);
+    }
+    jobs = [...fresh.values()].slice(0, 30);
+  }
+
+  // 2. Notation des offres et entreprises probables, en un seul appel.
+  const text = [
+    `<candidate_profile>\n${facts}\n</candidate_profile>`,
+    `Field: ${profile.trade}.`,
+    `Companies already known (exclude): ${knownCompanies.join(', ') || 'none'}.`,
+    jobs.length ? `<job_ads>\n${jobs.map((j, i) => `[${i}] ${j.title} | ${j.company} | ${j.location}\n${j.snippet.slice(0, 600)}`).join('\n\n')}\n</job_ads>` : 'No job ads collected today: return an empty jobs list.',
+    `Output language: ${LANG_NAMES[profile.ui_lang] ?? 'French'}.`,
+  ].join('\n\n');
+  const { result, usage: tokens } = await callClaude(DISCOVER_SYSTEM, [{ type: 'text', text }], DISCOVER_SCHEMA);
+  await recordUsage(admin, userId, 'discoveries', tokens);
+
+  const clamp = (n: unknown) => Math.max(0, Math.min(100, Math.round(Number(n) || 0)));
+  const rows: Record<string, unknown>[] = [];
+  for (const m of (result.jobs as { index: number; score: number; sector: string; reason: string }[]) ?? []) {
+    const j = jobs[m.index];
+    if (!j) continue;
+    rows.push({
+      user_id: userId, kind: 'job', title: j.title.slice(0, 200), company: j.company.slice(0, 200), location: j.location.slice(0, 120),
+      sector: String(m.sector).slice(0, 120), source: j.source.slice(0, 120), link: j.link.slice(0, 1000), snippet: j.snippet.slice(0, 2000),
+      score: clamp(m.score), reason: String(m.reason).slice(0, 400), dedupe_key: `job:${j.link || norm(`${j.title} ${j.company}`)}`,
+    });
+  }
+  const knownNorm = new Set(knownCompanies.map(norm));
+  for (const c of (result.companies as { company: string; location: string; sector: string; score: number; reason: string }[]) ?? []) {
+    const k = `company:${norm(c.company)}`;
+    if (!c.company.trim() || seen.has(k) || knownNorm.has(norm(c.company))) continue;
+    rows.push({
+      user_id: userId, kind: 'company', title: '', company: c.company.slice(0, 200), location: String(c.location).slice(0, 120),
+      sector: String(c.sector).slice(0, 120), score: clamp(c.score), reason: String(c.reason).slice(0, 400), dedupe_key: k,
+    });
+  }
+  let inserted: Opportunity[] = [];
+  if (rows.length) {
+    const { data, error } = await db.from('opportunities').upsert(rows, { onConflict: 'user_id,dedupe_key', ignoreDuplicates: true }).select();
+    if (error) throw error;
+    inserted = (data ?? []) as Opportunity[];
+  }
+  await admin.from('profiles').update({ opp_last_run: new Date().toISOString() }).eq('id', userId);
+
+  // 3. Opportunités à préparer automatiquement : au-dessus du seuil, dans la limite du quota.
+  const docsLeft = profile.plan === 'free' ? Math.max(FREE_DOCS - usage.documents, 0) : 5;
+  const toPrepare = profile.opp_auto_prepare
+    ? inserted.filter((o) => o.score >= profile.opp_min_score).sort((a, b) => b.score - a.score).slice(0, docsLeft).map((o) => o.id)
+    : [];
+  return { inserted, toPrepare, profile, jobsEnabled: Boolean(key) };
+}
+
+/** Prépare le dossier d'une opportunité : cible créée ou retrouvée, dossier complet, passage en « À valider ». */
+async function prepareOpportunity(db: SupabaseClient, admin: SupabaseClient, userId: string, oppId: string, langOverride?: string) {
+  const { data: opp, error } = await db.from('opportunities').select('*').eq('id', oppId).eq('user_id', userId).single();
+  if (error) throw error;
+  const o = opp as Opportunity;
+  if (!['new', 'preparing'].includes(o.status) && !langOverride) return { opportunity: o };
+  const profile = await loadProfile(db, userId);
+  await db.from('opportunities').update({ status: 'preparing' }).eq('id', o.id).eq('user_id', userId);
+
+  try {
+    // Cible : celle du même nom si elle existe, sinon une nouvelle « À contacter ».
+    let targetId = o.target_id;
+    if (!targetId) {
+      const { data: existing } = await db.from('targets').select('id, company').eq('user_id', userId);
+      const match = (existing ?? []).find((t: { company: string }) => norm(t.company) === norm(o.company));
+      if (match) targetId = match.id;
+      else {
+        const { data: created, error: tErr } = await db.from('targets').insert({
+          user_id: userId, company: o.company || o.title, sector: o.sector, priority: o.score >= 80 ? 'A' : 'B',
+          channel: o.kind === 'job' ? 'jobboard' : 'email', job_url: o.link, notes: o.reason,
+          brief: { company: o.company, job_title: o.title, sector: o.sector, location: o.location, offer_text: o.kind === 'job' ? o.snippet : '' },
+        }).select('id').single();
+        if (tErr) throw tErr;
+        targetId = created.id;
+      }
+    }
+    const headline = String((profile.profile_data as { headline?: string }).headline ?? '');
+    const offer = o.kind === 'job'
+      ? `${o.title}\n${[o.company, o.location].filter(Boolean).join(' – ')}\n${o.snippet}\n(Excerpt of the job ad: rely on it only for the employer's needs.)`
+      : `Spontaneous application, no job ad. Company: ${o.company}${o.location ? `, ${o.location}` : ''}. Sector: ${o.sector}.\nTarget role: ${headline || 'to be inferred from the profile'}.\nWhy this company fits (unverified): ${o.reason}`;
+    const { document } = await tailor({ offer_text: offer.padEnd(80, ' '), lang: langOverride ?? profile.doc_lang, target_id: targetId }, userId, db, admin);
+    const { data: updated } = await db.from('opportunities')
+      .update({ status: 'to_validate', target_id: targetId, document_id: document.id }).eq('id', o.id).eq('user_id', userId).select().single();
+    return { opportunity: updated, document };
+  } catch (e) {
+    await db.from('opportunities').update({ status: 'new' }).eq('id', o.id).eq('user_id', userId);
+    throw e;
+  }
+}
+
+async function recordDigest(admin: SupabaseClient, userId: string, inserted: Opportunity[], prepared: number) {
+  const day = new Date().toISOString().slice(0, 10);
+  const { data: prev } = await admin.from('digests').select('*').eq('user_id', userId).eq('day', day).maybeSingle();
+  const top = [...inserted].sort((a, b) => b.score - a.score).slice(0, 5)
+    .map((o) => ({ id: o.id, kind: o.kind, title: o.title, company: o.company, score: o.score, reason: o.reason }));
+  await admin.from('digests').upsert({
+    user_id: userId, day,
+    new_jobs: (prev?.new_jobs ?? 0) + inserted.filter((o) => o.kind === 'job').length,
+    new_companies: (prev?.new_companies ?? 0) + inserted.filter((o) => o.kind === 'company').length,
+    prepared: (prev?.prepared ?? 0) + prepared,
+    top: [...top, ...((prev?.top as unknown[]) ?? [])].slice(0, 5),
+  }, { onConflict: 'user_id,day' });
+}
+
+const DIGEST_TEXT: Record<string, { subject: string; intro: (j: number, c: number, p: number) => string; cta: string; note: string }> = {
+  fr: { subject: 'Cap Emploi : vos opportunités du jour', intro: (j, c, p) => `${j} nouvelle(s) offre(s) et ${c} entreprise(s) cible(s) pour vous. ${p} dossier(s) prêt(s) à valider.`, cta: 'Ouvrir mes opportunités', note: 'Rien n’est envoyé sans votre validation.' },
+  en: { subject: 'Cap Emploi: your opportunities today', intro: (j, c, p) => `${j} new job ad(s) and ${c} target compan(ies) for you. ${p} pack(s) ready to approve.`, cta: 'Open my opportunities', note: 'Nothing is sent without your approval.' },
+  de: { subject: 'Cap Emploi: Ihre Chancen von heute', intro: (j, c, p) => `${j} neue Anzeige(n) und ${c} Zielunternehmen für Sie. ${p} Unterlage(n) zur Freigabe bereit.`, cta: 'Meine Chancen öffnen', note: 'Nichts wird ohne Ihre Freigabe gesendet.' },
+};
+const escHtml = (s: string) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!);
+
+/** E-mail du résumé quotidien, seulement si RESEND_API_KEY est défini et que l'utilisateur l'a demandé. */
+async function emailDigest(admin: SupabaseClient, userId: string, lang: string, inserted: Opportunity[], prepared: number) {
+  const key = Deno.env.get('RESEND_API_KEY');
+  const from = Deno.env.get('DIGEST_FROM');
+  if (!key || !from || !inserted.length) return false;
+  const { data } = await admin.auth.admin.getUserById(userId);
+  const to = data.user?.email;
+  if (!to) return false;
+  const t = DIGEST_TEXT[lang] ?? DIGEST_TEXT.fr;
+  const url = `${Deno.env.get('APP_URL') ?? ''}/opportunites`;
+  const items = [...inserted].sort((a, b) => b.score - a.score).slice(0, 5)
+    .map((o) => `<li><strong>${o.score}</strong> · ${escHtml(o.title ? `${o.title} – ${o.company}` : o.company)}<br><small>${escHtml(o.reason)}</small></li>`).join('');
+  const html = `<p>${escHtml(t.intro(inserted.filter((o) => o.kind === 'job').length, inserted.filter((o) => o.kind === 'company').length, prepared))}</p><ul>${items}</ul><p><a href="${escHtml(url)}">${t.cta}</a></p><p><small>${t.note}</small></p>`;
+  const res = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ from, to, subject: t.subject, html }),
+  });
+  if (!res.ok) console.error('Resend', res.status, await res.text().catch(() => ''));
+  return res.ok;
+}
+
+/** Tâche quotidienne : traite un utilisateur à la fois et s'arrête avant la limite de durée ; relancée toutes les 10 minutes le matin. */
+async function daily(admin: SupabaseClient) {
+  const started = Date.now();
+  const since = new Date(Date.now() - 20 * 3600 * 1000).toISOString();
+  const { data: users, error } = await admin.from('profiles').select('id, ui_lang, opp_daily_email')
+    .eq('onboarded', true).or(`opp_last_run.is.null,opp_last_run.lt.${since}`).limit(20);
+  if (error) throw error;
+  const done: string[] = [];
+  for (const u of users ?? []) {
+    if (Date.now() - started > 60_000) break;
+    try {
+      const { inserted, toPrepare } = await discoverFor(admin, admin, u.id);
+      let prepared = 0;
+      for (const id of toPrepare.slice(0, 1)) {
+        if (Date.now() - started > 80_000) break;
+        try { await prepareOpportunity(admin, admin, u.id, id); prepared++; } catch (e) { console.error('prepare', u.id, e); }
+      }
+      await recordDigest(admin, u.id, inserted, prepared);
+      if (u.opp_daily_email) {
+        const sent = await emailDigest(admin, u.id, u.ui_lang, inserted, prepared);
+        if (sent) await admin.from('digests').update({ emailed: true }).eq('user_id', u.id).eq('day', new Date().toISOString().slice(0, 10));
+      }
+      done.push(u.id);
+    } catch (e) {
+      console.error('daily', u.id, e);
+      // Profil vide ou quota atteint : on ne réessaie pas avant demain.
+      await admin.from('profiles').update({ opp_last_run: new Date().toISOString() }).eq('id', u.id);
+    }
+  }
+  return { processed: done.length };
 }
 
 // ───────────────────────── Point d'entrée ─────────────────────────
@@ -325,6 +588,11 @@ Deno.serve(async (req) => {
   try {
     const authHeader = req.headers.get('Authorization') ?? '';
     const url = Deno.env.get('SUPABASE_URL')!;
+    // Tâche planifiée : authentifiée par un secret partagé, sans session utilisateur.
+    const cronSecret = Deno.env.get('CRON_SECRET');
+    if (cronSecret && req.headers.get('x-cron-secret') === cronSecret) {
+      return json(await daily(createClient(url, Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!)));
+    }
     // Client au nom de l'utilisateur : la sécurité par ligne (RLS) s'applique.
     const db = createClient(url, Deno.env.get('SUPABASE_ANON_KEY')!, { global: { headers: { Authorization: authHeader } } });
     const { data: { user } } = await db.auth.getUser(authHeader.replace(/^Bearer\s+/i, ''));
@@ -337,6 +605,15 @@ Deno.serve(async (req) => {
     if (body.action === 'tailor') return json(await tailor(body, user.id, db, admin));
     if (body.action === 'brief') return json(await companyBrief(body, user.id, admin));
     if (body.action === 'search_jobs') return json(await searchJobs(body, user.id, admin));
+    if (body.action === 'discover') {
+      const { inserted, toPrepare, jobsEnabled } = await discoverFor(db, admin, user.id);
+      await recordDigest(admin, user.id, inserted, 0);
+      return json({ inserted: inserted.length, toPrepare, jobsEnabled });
+    }
+    if (body.action === 'prepare' && typeof body.opportunity_id === 'string') {
+      const lang = typeof body.lang === 'string' && body.lang in LANG_NAMES ? body.lang : undefined;
+      return json(await prepareOpportunity(db, admin, user.id, body.opportunity_id, lang));
+    }
     throw new Fail('unknown_action');
   } catch (e) {
     if (e instanceof Fail) return json({ error: e.code }, e.status);

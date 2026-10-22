@@ -29,7 +29,8 @@
     "account": "Mon compte",
     "privacy": "Confidentialité",
     "signout": "Se déconnecter",
-    "apply": "Postuler"
+    "apply": "Postuler",
+    "opps": "Opportunités"
   },
   "errors": {
     "network": "Connexion au serveur impossible. Vérifiez votre réseau puis réessayez.",
@@ -56,7 +57,8 @@
       "search_disabled": "La collecte automatique d’offres n’est pas encore activée.",
       "keywords_missing": "Saisissez un poste ou des mots-clés.",
       "quota_searches": "Limite mensuelle de recherches automatiques atteinte. Les liens vers les sites restent disponibles.",
-      "search_unavailable": "Le service de recherche d’offres ne répond pas. Utilisez les liens vers les sites."
+      "search_unavailable": "Le service de recherche d’offres ne répond pas. Utilisez les liens vers les sites.",
+      "quota_discoveries": "Limite mensuelle de recherches d’opportunités atteinte."
     }
   },
   "auth": {
@@ -363,5 +365,61 @@
     "emptyTitle": "Aucun dossier pour l’instant",
     "emptyHint": "Analysez une offre puis générez votre premier dossier.",
     "dossierName": "Dossier de candidature"
+  },
+  "opps": {
+    "eyebrow": "Opportunités pour moi",
+    "title": "Où postuler",
+    "intro": "À partir de votre profil : offres collectées et entreprises cibles probables, notées sur 100, avec la raison. Les meilleures reçoivent un dossier prêt à valider.",
+    "run": "Chercher mes opportunités",
+    "scoreTitle": "Score d’adéquation avec votre profil (sur 100)",
+    "kindCompany": "Entreprise cible probable",
+    "found": "Repérée le {date}",
+    "openAd": "Voir l’offre",
+    "dismiss": "Écarter",
+    "prepare": "Préparer le dossier",
+    "preparing": "Dossier en préparation…",
+    "reviewDossier": "Relire le dossier",
+    "hideDossier": "Masquer le dossier",
+    "validate": "Valider",
+    "mail": "Préparer l’e-mail",
+    "openApply": "Ouvrir dans Postuler",
+    "select": "Sélectionner {name}",
+    "sentDone": "Candidature comptée. Relance prévue le {date}.",
+    "otherSector": "Autres secteurs",
+    "running": {
+      "search": "Recherche et notation des opportunités…",
+      "prepare": "Préparation du dossier {i} sur {n}…"
+    },
+    "result": "{n} nouvelle(s) opportunité(s), {p} dossier(s) prêt(s) à valider.",
+    "jobsDisabled": "Collecte d’offres inactive pour l’instant : seules les entreprises cibles sont proposées.",
+    "validatedN": "{n} envoi(s) validé(s). Ouvrez l’onglet « Validées » pour envoyer.",
+    "digest": {
+      "today": "Résumé du jour",
+      "of": "Résumé du {date}",
+      "line": "{j} nouvelle(s) offre(s), {c} entreprise(s) cible(s), {p} dossier(s) préparé(s)."
+    },
+    "rule": "Aucun envoi sans votre validation : validez chaque dossier (ou une sélection), puis envoyez-le vous-même et cliquez sur « J’ai envoyé ».",
+    "views": {
+      "to_validate": "À valider",
+      "validated": "Validées, à envoyer",
+      "all": "Nouvelles",
+      "sent": "Envoyées"
+    },
+    "selectAll": "Tout sélectionner",
+    "validateSelection": "Valider la sélection ({n})",
+    "empty": {
+      "to_validate": "Rien à valider",
+      "validated": "Aucun envoi validé en attente",
+      "all": "Aucune nouvelle opportunité",
+      "sent": "Aucune candidature envoyée depuis cette liste"
+    },
+    "emptyHint": "Lancez une recherche : l’application parcourt les offres et propose des entreprises adaptées à votre profil.",
+    "settings": {
+      "title": "Réglages des opportunités",
+      "auto": "Préparer automatiquement le dossier des meilleures opportunités (dans la limite de vos documents IA)",
+      "minScore": "Score minimum pour la préparation automatique",
+      "email": "Recevoir le résumé quotidien par e-mail",
+      "note": "Le résumé quotidien est toujours visible ici. L’e-mail nécessite l’activation d’un service d’envoi au lancement."
+    }
   }
 }

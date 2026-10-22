@@ -7,6 +7,7 @@ import { Brand, LangSwitch } from './ui';
 
 const NAV = [
   { to: '/', key: 'nav.week', icon: 'M3 4h18v17H3zM3 9h18M8 2v4M16 2v4' },
+  { to: '/opportunites', key: 'nav.opps', icon: 'M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7.1L12 17.3 5.8 21l1.6-7.1L2 9.2l7.1-.6z' },
   { to: '/postuler', key: 'nav.apply', icon: 'M3 11 21 3l-8 18-2-8-8-2zM11 13l10-10' },
   { to: '/cibles', key: 'nav.targets', icon: 'M3 5h4v14H3zM10 5h4v9h-4zM17 5h4v6h-4z' },
   { to: '/messages', key: 'nav.messages', icon: 'M4 5h16v11H8l-4 4z' },

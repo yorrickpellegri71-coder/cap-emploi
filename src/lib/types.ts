@@ -40,6 +40,9 @@ export interface Profile {
   onboarded: boolean;
   consent_at: string | null;
   plan: 'free' | 'premium';
+  opp_auto_prepare: boolean;
+  opp_min_score: number;
+  opp_daily_email: boolean;
 }
 
 export interface CompanyBrief {
@@ -91,6 +94,27 @@ export interface DocumentRow {
 }
 
 export interface JobResult { title: string; company: string; location: string; snippet: string; source: string; link: string; updated: string; salary: string }
+
+export type OppStatus = 'new' | 'preparing' | 'to_validate' | 'validated' | 'sent' | 'dismissed';
+export interface Opportunity {
+  id: string;
+  kind: 'job' | 'company';
+  title: string;
+  company: string;
+  location: string;
+  sector: string;
+  source: string;
+  link: string;
+  snippet: string;
+  score: number;
+  reason: string;
+  status: OppStatus;
+  target_id: string | null;
+  document_id: string | null;
+  found_at: string;
+  updated_at: string;
+}
+export interface Digest { day: string; new_jobs: number; new_companies: number; prepared: number; top: { id: string; kind: string; title: string; company: string; score: number; reason: string }[] }
 
 export type MessageKind = 'first_contact' | 'followup' | 'thanks';
 export type MessageTemplates = Record<MessageKind, { subject: string; body: string }>;

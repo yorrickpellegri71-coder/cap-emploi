@@ -223,3 +223,18 @@ details summary { cursor: pointer; margin-bottom: 8px; }
   .search-row .field:not(.grow) { width: 100%; }
   .search-row .btn { width: 100%; }
 }
+
+/* ── Opportunités ── */
+.opp { display: flex; flex-direction: column; gap: 10px; padding: 16px; }
+.opp.selected { border-color: var(--brand-2); }
+.opp-head { display: flex; gap: 12px; align-items: flex-start; }
+.opp-head p { margin-top: 4px; }
+.opp-check { width: 20px; height: 20px; margin-top: 8px; flex: none; }
+.score { flex: none; width: 42px; height: 42px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font: 700 15px var(--mono); }
+.score-high { background: var(--ok-bg); color: var(--ok); box-shadow: inset 0 0 0 2px var(--ok); }
+.score-mid { background: var(--warn-bg); color: var(--warn); box-shadow: inset 0 0 0 2px var(--accent); }
+.score-low { background: var(--surface-2); color: var(--muted); }
+.bulk-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding: 10px 14px; background: var(--surface); border: 1px solid var(--rule); border-radius: var(--radius); position: sticky; top: 68px; z-index: 5; }
+.digest { border-left: 4px solid var(--brand-2); }
+.digest ul { padding-left: 18px; }
+@media (max-width: 760px) { .bulk-bar { top: 64px; } .tabbar a { font-size: 10px; } }

@@ -29,7 +29,8 @@
     "account": "Mein Konto",
     "privacy": "Datenschutz",
     "signout": "Abmelden",
-    "apply": "Bewerben"
+    "apply": "Bewerben",
+    "opps": "Chancen"
   },
   "errors": {
     "network": "Keine Verbindung zum Server. Prüfen Sie Ihr Netzwerk und versuchen Sie es erneut.",
@@ -56,7 +57,8 @@
       "search_disabled": "Die automatische Stellensuche ist noch nicht aktiviert.",
       "keywords_missing": "Geben Sie eine Stelle oder Stichwörter ein.",
       "quota_searches": "Monatliches Limit für automatische Suchen erreicht. Die Links zu den Jobbörsen bleiben verfügbar.",
-      "search_unavailable": "Der Suchdienst antwortet nicht. Nutzen Sie die Links zu den Jobbörsen."
+      "search_unavailable": "Der Suchdienst antwortet nicht. Nutzen Sie die Links zu den Jobbörsen.",
+      "quota_discoveries": "Monatliches Limit für die Suche nach Chancen erreicht."
     }
   },
   "auth": {
@@ -363,5 +365,61 @@
     "emptyTitle": "Noch keine Unterlagen",
     "emptyHint": "Analysieren Sie eine Anzeige und erstellen Sie Ihre ersten Unterlagen.",
     "dossierName": "Bewerbungsunterlagen"
+  },
+  "opps": {
+    "eyebrow": "Chancen für mich",
+    "title": "Wo bewerben",
+    "intro": "Auf Basis Ihres Profils: gesammelte Anzeigen und wahrscheinliche Zielunternehmen, bewertet von 0 bis 100 mit Begründung. Die besten erhalten Unterlagen zur Freigabe.",
+    "run": "Meine Chancen suchen",
+    "scoreTitle": "Passung zu Ihrem Profil (von 100)",
+    "kindCompany": "Wahrscheinliches Zielunternehmen",
+    "found": "Gefunden am {date}",
+    "openAd": "Anzeige ansehen",
+    "dismiss": "Verwerfen",
+    "prepare": "Unterlagen vorbereiten",
+    "preparing": "Unterlagen werden vorbereitet…",
+    "reviewDossier": "Unterlagen prüfen",
+    "hideDossier": "Unterlagen ausblenden",
+    "validate": "Freigeben",
+    "mail": "E-Mail vorbereiten",
+    "openApply": "In Bewerben öffnen",
+    "select": "{name} auswählen",
+    "sentDone": "Bewerbung gezählt. Nachfassen am {date}.",
+    "otherSector": "Weitere Branchen",
+    "running": {
+      "search": "Chancen werden gesucht und bewertet…",
+      "prepare": "Unterlagen {i} von {n} werden vorbereitet…"
+    },
+    "result": "{n} neue Chance(n), {p} Unterlage(n) zur Freigabe bereit.",
+    "jobsDisabled": "Die Anzeigensammlung ist noch nicht aktiv: Es werden nur Zielunternehmen vorgeschlagen.",
+    "validatedN": "{n} Versand/Versände freigegeben. Öffnen Sie „Freigegeben“, um zu senden.",
+    "digest": {
+      "today": "Zusammenfassung von heute",
+      "of": "Zusammenfassung vom {date}",
+      "line": "{j} neue Anzeige(n), {c} Zielunternehmen, {p} vorbereitete Unterlage(n)."
+    },
+    "rule": "Nichts wird ohne Ihre Freigabe gesendet: Geben Sie jede Unterlage (oder eine Auswahl) frei, senden Sie selbst und klicken Sie dann auf „Ich habe gesendet“.",
+    "views": {
+      "to_validate": "Zur Freigabe",
+      "validated": "Freigegeben, zu senden",
+      "all": "Neu",
+      "sent": "Gesendet"
+    },
+    "selectAll": "Alle auswählen",
+    "validateSelection": "Auswahl freigeben ({n})",
+    "empty": {
+      "to_validate": "Nichts freizugeben",
+      "validated": "Kein freigegebener Versand offen",
+      "all": "Keine neuen Chancen",
+      "sent": "Noch keine Bewerbung aus dieser Liste gesendet"
+    },
+    "emptyHint": "Starten Sie eine Suche: Die App durchsucht Anzeigen und schlägt passende Unternehmen vor.",
+    "settings": {
+      "title": "Einstellungen für Chancen",
+      "auto": "Unterlagen für die besten Chancen automatisch vorbereiten (im Rahmen Ihrer KI-Dokumente)",
+      "minScore": "Mindestpunktzahl für die automatische Vorbereitung",
+      "email": "Tägliche Zusammenfassung per E-Mail erhalten",
+      "note": "Die tägliche Zusammenfassung ist immer hier sichtbar. Für die E-Mail muss beim Start ein Versanddienst aktiviert werden."
+    }
   }
 }

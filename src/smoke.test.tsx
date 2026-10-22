@@ -8,7 +8,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 const tables: Record<string, unknown[]> = {
   profiles: [{ id: 'u', display_name: 'Test', ui_lang: 'fr', doc_lang: 'fr', trade: 'hospitality', goals: { contacts: 5, applications: 3, followups: 5, posts: 1, training: 1, network: 1 },
     followup_days: 7, cv_text: 'CV', profile_data: { full_name: 'Test User', headline: 'Directeur', experiences: [{ title: 'Directeur', company: 'Hôtel', location: '', start: '2020', end: '', achievements: ['+12 %'] }], skills: ['Gestion'], languages: [{ language: 'Anglais', level: 'C1' }] },
-    onboarded: true, consent_at: '2026-10-22T10:00:00Z', plan: 'free' }],
+    onboarded: true, consent_at: '2026-10-22T10:00:00Z', plan: 'free', opp_auto_prepare: true, opp_min_score: 75, opp_daily_email: false }],
   targets: [
     { id: 't1', company: 'Hôtel A', sector: 'Hôtel de luxe', priority: 'A', contact_name: 'Anne', contact_role: 'DG', channel: 'linkedin', stage: 'contacted', last_contact_on: '2026-10-01', job_url: '', notes: '',
       brief: { company: 'Hôtel A', job_title: 'Directeur', summary: 'Résumé', expectations: ['Gestion'], digital_idea: 'Tableau de bord', to_check: ['Nom du DG'], offer_text: 'Offre' }, created_at: '', updated_at: '' },
@@ -18,6 +18,11 @@ const tables: Record<string, unknown[]> = {
   modeles: [{ trade: '*', content: { first_contact: { subject: 'Objet {company}', body: 'Bonjour {contact}' }, followup: { subject: 's', body: 'b' }, thanks: { subject: 's', body: 'b' } } }],
   documents: [{ id: 'd1', target_id: null, company: 'Hôtel A', job_title: 'Directeur', lang: 'fr', offer_text: 'x', cv: '# Test\n## Expérience\n- point', letter: 'Madame,', email_subject: 'Candidature', email_body: 'Bonjour', pitch: 'Je suis', gaps: ['Allemand courant'], created_at: '2026-10-22T10:00:00Z' }],
   ai_usage: [{ documents: 1, extractions: 0 }],
+  opportunities: [
+    { id: 'o1', kind: 'job', title: 'Directeur', company: 'Hôtel C', location: 'Luxembourg', sector: 'Hôtel de luxe', source: 'jobs.lu', link: 'https://example.org', snippet: 'x', score: 86, reason: 'Expérience équivalente', status: 'to_validate', target_id: 't1', document_id: 'd1', found_at: '2026-10-22T06:00:00Z', updated_at: '' },
+    { id: 'o2', kind: 'company', title: '', company: 'Groupe D', location: 'Luxembourg', sector: 'Groupe hôtelier', source: '', link: '', snippet: '', score: 72, reason: 'Secteur proche', status: 'new', target_id: null, document_id: null, found_at: '2026-10-22T06:00:00Z', updated_at: '' },
+  ],
+  digests: [{ day: '2026-10-22', new_jobs: 1, new_companies: 1, prepared: 1, top: [{ id: 'o1', kind: 'job', title: 'Directeur', company: 'Hôtel C', score: 86, reason: 'x' }] }],
 };
 
 vi.mock('./lib/supabase', () => {
@@ -49,7 +54,7 @@ vi.mock('./lib/supabase', () => {
   };
 });
 
-const ROUTES = ['/', '/cibles', '/messages?cible=t1&type=followup', '/postuler', '/postuler?cible=t1', '/postuler?cible=t2', '/documents?cible=t1', '/profil', '/confidentialite', '/inconnu'];
+const ROUTES = ['/', '/opportunites', '/cibles', '/messages?cible=t1&type=followup', '/postuler', '/postuler?cible=t1', '/postuler?cible=t2', '/documents?cible=t1', '/profil', '/confidentialite', '/inconnu'];
 
 afterEach(cleanup);
 
@@ -71,6 +76,6 @@ describe.each(['fr', 'en', 'de'])('écrans (%s)', (lang) => {
     spy.mockRestore();
     expect(errors).toEqual([]);
     // Aucune clé de traduction brute ne doit apparaître à l'écran.
-    expect(container.textContent).not.toMatch(/\b(week|targets|profile|apply|messages|common|errors)\.[a-z]/);
+    expect(container.textContent).not.toMatch(/\b(week|targets|profile|apply|opps|messages|common|errors)\.[a-z]/);
   });
 });
