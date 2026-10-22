@@ -11,7 +11,10 @@ export type Stage = (typeof STAGES)[number];
 export const CHANNELS = ['linkedin', 'email', 'phone', 'visit', 'jobboard', 'other'] as const;
 export type Channel = (typeof CHANNELS)[number];
 
-export const TRADES = ['general', 'hospitality', 'events'] as const;
+export const TRADES = [
+  'general', 'hospitality', 'events', 'operations', 'facility', 'property', 'customer',
+  'luxury_retail', 'purchasing', 'quality', 'project', 'health_seniors', 'consulting',
+] as const;
 export type Trade = (typeof TRADES)[number];
 
 export interface Experience { title: string; company: string; location: string; start: string; end: string; achievements: string[] }
@@ -33,6 +36,8 @@ export interface Profile {
   ui_lang: Lang;
   doc_lang: Lang;
   trade: string;
+  target_trades: string[];
+  senior_mode: boolean;
   goals: Counters;
   followup_days: number;
   cv_text: string;

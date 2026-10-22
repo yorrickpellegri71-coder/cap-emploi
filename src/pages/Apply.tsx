@@ -7,6 +7,7 @@ import { aiEnabled } from '../lib/ai';
 import { AiError, companyBrief, createTemplateDocument, fetchDocuments, fetchUsage, markApplied, searchJobs, tailorDocuments, upsertTargetFromBrief } from '../lib/api';
 import { isoDay } from '../lib/dates';
 import { sourcesFor, sourceUrl } from '../lib/jobSources';
+import { searchIdeas, targetTrades } from '../lib/trades';
 import { useApp } from '../lib/session';
 import { LANGS, type DocumentRow, type JobResult, type Lang, type Target } from '../lib/types';
 
@@ -33,14 +34,17 @@ function spontaneousOffer(target: Target, headline: string) {
 // ───────────── 1. Recherche ─────────────
 
 function Search({ onUse }: { onUse: (job: JobResult) => void }) {
-  const { t, locale } = useI18n();
+  const { t, locale, lang } = useI18n();
   const { profile } = useApp();
   const [query, setQuery] = useState(profile.profile_data.headline ?? '');
   const [where, setWhere] = useState('Luxembourg');
   const [jobs, setJobs] = useState<JobResult[] | null>(null);
   const [busy, setBusy] = useState(false);
   const [note, setNote] = useState<{ tone: 'info' | 'error'; text: string } | null>(null);
-  const sources = useMemo(() => sourcesFor(profile.trade), [profile.trade]);
+  const trades = targetTrades(profile);
+  const tradesKey = trades.join(',');
+  const sources = useMemo(() => sourcesFor(tradesKey.split(',')), [tradesKey]);
+  const ideas = useMemo(() => searchIdeas(tradesKey.split(','), lang), [tradesKey, lang]);
 
   const collect = async (e: FormEvent) => {
     e.preventDefault();
@@ -71,13 +75,21 @@ function Search({ onUse }: { onUse: (job: JobResult) => void }) {
         </div>
         <button type="submit" className="btn btn-primary" disabled={busy || !query.trim()}>{busy ? t('common.wait') : t('apply.search.collect')}</button>
       </form>
+      {ideas.length > 0 && (
+        <div className="stack">
+          <span className="small strong">{t('apply.search.ideas')}</span>
+          <div className="row-end wrap" style={{ justifyContent: 'flex-start' }}>
+            {ideas.map((k) => <button key={k} type="button" className={`btn btn-sm ${query === k ? 'btn-primary' : ''}`} aria-pressed={query === k} onClick={() => setQuery(k)}>{k}</button>)}
+          </div>
+        </div>
+      )}
       <div className="stack">
         <span className="small strong">{t('apply.search.sources')}</span>
         <div className="source-grid">
           {sources.map((s) => (
             <a key={s.id} className="source" href={sourceUrl(s, query, where)} target="_blank" rel="noopener noreferrer">
               <strong>{s.name}</strong>
-              <span className="xs muted">{s.tags.includes('hospitality') ? t('apply.search.tagHospitality') : s.tags.includes('public') ? t('apply.search.tagPublic') : t('apply.search.tagGeneral')}{s.search || !query.trim() ? '' : ` · ${t('apply.search.viaWeb')}`}</span>
+              <span className="xs muted">{s.tags.includes('specialized') ? t('apply.search.tagSpecialized') : s.tags.includes('recruiter') ? t('apply.search.tagRecruiter') : s.tags.includes('public') ? t('apply.search.tagPublic') : t('apply.search.tagGeneral')}{s.search || !query.trim() ? '' : ` · ${t('apply.search.viaWeb')}`}</span>
             </a>
           ))}
         </div>

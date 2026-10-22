@@ -1,0 +1,67 @@
+{
+  "general": {
+    "fr": ["responsable", "manager", "directeur adjoint"],
+    "en": ["manager", "head of", "deputy director"],
+    "de": ["Leiter", "Manager", "stellvertretender Direktor"]
+  },
+  "hospitality": {
+    "fr": ["directeur d'exploitation hôtel", "directeur d'hébergement", "directeur de la restauration", "directeur général hôtel"],
+    "en": ["hotel operations manager", "rooms division manager", "food and beverage director", "hotel general manager"],
+    "de": ["Hoteldirektor", "Operations Manager Hotel", "Leiter Logis", "F&B Direktor"]
+  },
+  "events": {
+    "fr": ["responsable événementiel", "directeur de lieu de réception", "chef de projet événementiel", "responsable banquets"],
+    "en": ["event manager", "venue manager", "event project manager", "banqueting manager"],
+    "de": ["Eventmanager", "Veranstaltungsleiter", "Bankettleiter", "Projektleiter Events"]
+  },
+  "operations": {
+    "fr": ["directeur des opérations", "responsable d'exploitation", "responsable de site", "directeur de centre"],
+    "en": ["operations manager", "head of operations", "site manager", "general manager services"],
+    "de": ["Betriebsleiter", "Leiter Operations", "Standortleiter", "Operations Manager"]
+  },
+  "facility": {
+    "fr": ["facility manager", "responsable services généraux", "responsable soft services", "gestionnaire de site"],
+    "en": ["facility manager", "workplace manager", "soft services manager", "office services manager"],
+    "de": ["Facility Manager", "Leiter Gebäudemanagement", "Workplace Manager", "Leiter Infrastruktur"]
+  },
+  "property": {
+    "fr": ["property manager", "gestionnaire immobilier", "asset manager immobilier", "responsable résidence"],
+    "en": ["property manager", "building manager", "residential manager", "asset manager real estate"],
+    "de": ["Property Manager", "Immobilienverwalter", "Objektleiter", "Asset Manager Immobilien"]
+  },
+  "customer": {
+    "fr": ["responsable expérience client", "directeur service client", "responsable relation client", "customer success manager"],
+    "en": ["customer experience manager", "head of customer service", "client relations manager", "guest experience manager"],
+    "de": ["Customer Experience Manager", "Leiter Kundenservice", "Kundenbeziehungsmanager", "Leiter Kundenerlebnis"]
+  },
+  "luxury_retail": {
+    "fr": ["directeur de boutique luxe", "store manager luxe", "client advisor luxe", "responsable clientèle privée"],
+    "en": ["luxury store manager", "boutique director", "client experience manager luxury", "clienteling manager"],
+    "de": ["Store Manager Luxus", "Boutique Direktor", "Filialleiter Luxus", "Client Advisor Luxus"]
+  },
+  "purchasing": {
+    "fr": ["acheteur", "responsable achats", "responsable approvisionnement", "category manager"],
+    "en": ["purchasing manager", "procurement manager", "buyer", "category manager"],
+    "de": ["Einkaufsleiter", "Einkäufer", "Beschaffungsmanager", "Category Manager"]
+  },
+  "quality": {
+    "fr": ["responsable qualité", "responsable hygiène sécurité", "responsable QHSE", "auditeur qualité"],
+    "en": ["quality manager", "health and safety manager", "QHSE manager", "quality auditor"],
+    "de": ["Qualitätsmanager", "Leiter Arbeitssicherheit", "QHSE Manager", "Qualitätsauditor"]
+  },
+  "project": {
+    "fr": ["chef de projet", "responsable ouverture", "chef de projet transformation", "PMO"],
+    "en": ["project manager", "pre-opening manager", "transformation project manager", "PMO"],
+    "de": ["Projektleiter", "Pre-Opening Manager", "Projektmanager Transformation", "PMO"]
+  },
+  "health_seniors": {
+    "fr": ["directeur de résidence seniors", "responsable hôtellerie hospitalière", "directeur d'établissement de soins", "responsable services hôteliers clinique"],
+    "en": ["senior living manager", "care home manager", "hospital hospitality manager", "residence director"],
+    "de": ["Leiter Seniorenresidenz", "Heimleiter", "Leiter Hotellerie Klinik", "Residenzleiter"]
+  },
+  "consulting": {
+    "fr": ["manager de transition", "consultant hôtellerie", "formateur hôtellerie", "directeur par intérim"],
+    "en": ["interim manager", "hospitality consultant", "hospitality trainer", "interim director"],
+    "de": ["Interim Manager", "Hotelberater", "Trainer Hotellerie", "Interimsdirektor"]
+  }
+}

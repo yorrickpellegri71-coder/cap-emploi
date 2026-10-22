@@ -3,14 +3,16 @@ import { useNavigate } from 'react-router-dom';
 import { Brand, LangSwitch, Notice, errorMessage } from '../components/ui';
 import { useI18n } from '../i18n';
 import { useApp } from '../lib/session';
-import { LANGS, TRADES, type Lang } from '../lib/types';
+import { TradePicker } from '../components/TradePicker';
+import { targetTrades } from '../lib/trades';
+import { LANGS, type Lang } from '../lib/types';
 
 export function Onboarding() {
   const { t, lang } = useI18n();
   const { profile, updateProfile } = useApp();
   const navigate = useNavigate();
   const [name, setName] = useState(profile.display_name);
-  const [trade, setTrade] = useState(profile.trade);
+  const [trades, setTrades] = useState(targetTrades(profile));
   const [docLang, setDocLang] = useState<Lang>(profile.doc_lang);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<unknown>(null);
@@ -20,7 +22,7 @@ export function Onboarding() {
     setBusy(true);
     setError(null);
     try {
-      await updateProfile({ display_name: name.trim(), trade, doc_lang: docLang, ui_lang: lang, onboarded: true });
+      await updateProfile({ display_name: name.trim(), trade: trades[0], target_trades: trades, doc_lang: docLang, ui_lang: lang, onboarded: true });
       navigate('/profil?bienvenue=1', { replace: true });
     } catch (err) {
       setError(err);
@@ -39,18 +41,7 @@ export function Onboarding() {
           <label htmlFor="ob-name">{t('profile.name')}</label>
           <input id="ob-name" className="input" value={name} autoComplete="name" onChange={(e) => setName(e.target.value)} />
         </div>
-        <fieldset className="field">
-          <legend>{t('onboarding.trade')}</legend>
-          <div className="choice-grid">
-            {TRADES.map((tr) => (
-              <label key={tr} className={`choice ${trade === tr ? 'selected' : ''}`}>
-                <input type="radio" name="trade" value={tr} checked={trade === tr} onChange={() => setTrade(tr)} />
-                <strong>{t(`trades.${tr}.name`)}</strong>
-                <span className="small muted">{t(`trades.${tr}.desc`)}</span>
-              </label>
-            ))}
-          </div>
-        </fieldset>
+        <TradePicker value={trades} onChange={setTrades} legend={t('onboarding.trade')} hint={t('onboarding.tradeHint')} />
         <div className="field">
           <label htmlFor="ob-doc">{t('profile.docLang')}</label>
           <select id="ob-doc" className="input" value={docLang} onChange={(e) => setDocLang(e.target.value as Lang)}>

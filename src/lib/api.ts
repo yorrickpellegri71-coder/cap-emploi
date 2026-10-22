@@ -69,7 +69,7 @@ export async function markApplied(target: Target, info: AppliedInfo): Promise<Ta
 export async function createTemplateDocument(target: Target, profile: Profile, lang: Lang, jobTitle: string, offerText: string): Promise<DocumentRow> {
   const { buildDossier } = await import('./templateDossier');
   const pieces = buildDossier({
-    company: target.company, jobTitle, contact: target.contact_name, lang, profile: profile.profile_data, displayName: profile.display_name,
+    company: target.company, jobTitle, contact: target.contact_name, lang, profile: profile.profile_data, displayName: profile.display_name, senior: profile.senior_mode,
   });
   return unwrap(await supabase.from('documents').insert({
     target_id: target.id, company: target.company, job_title: jobTitle.slice(0, 200), lang, offer_text: offerText.slice(0, 30000), ...pieces,
@@ -190,9 +190,13 @@ export async function fetchWeek(week: string): Promise<Counters> {
   return row?.counters ?? {};
 }
 
-export async function fetchSectors(trade: string, lang: Lang): Promise<string[]> {
-  const row = unwrap(await supabase.from('modeles').select('content').eq('trade', trade).eq('lang', lang).eq('kind', 'sectors').maybeSingle()) as { content: string[] } | null;
-  return row?.content ?? [];
+/** Secteurs des métiers visés, dans l'ordre des métiers, sans doublon ; « Autre » en dernier. */
+export async function fetchSectors(trades: string[], lang: Lang): Promise<string[]> {
+  const rows = unwrap(await supabase.from('modeles').select('trade, content').in('trade', trades).eq('lang', lang).eq('kind', 'sectors')) as { trade: string; content: string[] }[];
+  const lists = trades.map((tr) => rows.find((r) => r.trade === tr)?.content ?? []);
+  const other = lists.map((l) => l[l.length - 1]).find(Boolean);
+  const all = [...new Set(lists.flatMap((l) => l.slice(0, -1)))];
+  return other ? [...all, other] : all;
 }
 
 export async function fetchMessages(lang: Lang, trade: string): Promise<MessageTemplates | null> {

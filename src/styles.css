@@ -299,3 +299,4 @@ details summary { cursor: pointer; margin-bottom: 8px; }
 .reco-skip { background: var(--danger-bg); color: var(--danger); }
 .btn.disabled { opacity: 0.5; pointer-events: none; }
 .alert-banner { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.tag-main { margin-left: 8px; background: var(--brand-2); color: #fff; font-size: 11px; vertical-align: 2px; }

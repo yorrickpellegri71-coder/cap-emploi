@@ -110,21 +110,75 @@
   "onboarding": {
     "title": "Willkommen bei Cap Emploi",
     "intro": "Drei Einstellungen, um das Werkzeug an Ihre Suche anzupassen. Alles bleibt später in Ihrem Profil änderbar.",
-    "trade": "Ihr Berufsfeld",
-    "cta": "Weiter"
+    "trade": "Die Berufe, die Sie anstreben",
+    "cta": "Weiter",
+    "tradeHint": "Wählen Sie mehrere: Ihre Erfahrung lässt sich auf andere Berufe übertragen. Der erste angekreuzte Beruf dient für die Nachrichtenvorlagen."
   },
   "trades": {
     "general": {
       "name": "Alle Berufe",
-      "desc": "Allgemeine Branchen und Nachrichten, für jede Stelle geeignet."
+      "desc": "Allgemeine Branchen und Nachrichten, für jede Stelle.",
+      "skills": "Teamführung, Budget- und GuV-Verantwortung, Serviceorientierung, Organisation und Sprachen."
     },
     "hospitality": {
       "name": "Hotellerie und Gastronomie",
-      "desc": "Hotels, Restaurants, Hotelgruppen, Casinos, Caterer."
+      "desc": "Hotels, Restaurants, Hotelgruppen, Casinos, Caterer.",
+      "skills": "Ihr Kernberuf: Betrieb, Logis, F&B, Revenue, Servicequalität und Führung."
     },
     "events": {
       "name": "Veranstaltungen",
-      "desc": "Agenturen, Veranstaltungsorte, Kongresse, Messen, Festivals."
+      "desc": "Agenturen, Locations, Kongresse, Messen, Festivals.",
+      "skills": "Bankette und Tagungen, Koordination von Dienstleistern, Umgang mit Unvorhergesehenem, anspruchsvolle Kunden."
+    },
+    "operations": {
+      "name": "Betriebsleitung",
+      "desc": "Leitung von Standorten oder Diensten: Gemeinschaftsverpflegung, Freizeit, Unternehmensdienste.",
+      "skills": "Einen Betrieb rund um die Uhr führen: Dienstpläne, Kennzahlen, GuV, abteilungsübergreifende Teams und Betriebskontinuität."
+    },
+    "facility": {
+      "name": "Facility Management",
+      "desc": "Gebäudedienste, Empfang, Reinigung, Instandhaltung, Zentralen und Institutionen.",
+      "skills": "Gebäudetechnik und Instandhaltung, Dienstleister (Reinigung, Sicherheit, Verpflegung), Serviceverträge und Nutzererlebnis."
+    },
+    "property": {
+      "name": "Immobilien und Property Management",
+      "desc": "Gebäudeverwaltung, Servicewohnen, Büros, Einkaufszentren.",
+      "skills": "Tägliche Bewirtschaftung einer Immobilie: Instandhaltung, Budgets, Bewohner- oder Mieterbeziehungen, Zusatzleistungen."
+    },
+    "customer": {
+      "name": "Kundenservice und Kundenerlebnis",
+      "desc": "Private Banking, Luftfahrt, Premium-Automobil, Versicherung, Concierge.",
+      "skills": "Premium-Servicekultur, Beschwerdemanagement, Kundenbindung, Zufriedenheitsmessung und Schulung der Empfangsteams."
+    },
+    "luxury_retail": {
+      "name": "Luxuseinzelhandel",
+      "desc": "Mode, Schmuck, Uhren, Kaufhäuser, Weine und Spirituosen.",
+      "skills": "Anspruchsvolle internationale Kundschaft, Luxuscodes, Führung von Verkaufsteams und Umsatzziele."
+    },
+    "purchasing": {
+      "name": "Einkauf und Beschaffung",
+      "desc": "Lebensmittel- und allgemeiner Einkauf, Gemeinschaftsverpflegung, Handel.",
+      "skills": "Lieferantenverhandlungen, Wareneinsatz, Bestände und Ausschreibungen, gelernt in der Hotel- und Restaurantleitung."
+    },
+    "quality": {
+      "name": "Qualität, Hygiene und Sicherheit",
+      "desc": "Qualität, HACCP, Arbeitsschutz, Audit und Zertifizierung.",
+      "skills": "Markenstandards, HACCP, Audits und Mystery Visits, Maßnahmenpläne, Sicherheit von Gästen und Personal."
+    },
+    "project": {
+      "name": "Projektmanagement",
+      "desc": "Eröffnungen, Renovierungen, Transformation, Großveranstaltungen.",
+      "skills": "Eröffnungen und Renovierungen, Einführung neuer Leistungen, Koordination vieler Beteiligter unter Zeitdruck."
+    },
+    "health_seniors": {
+      "name": "Gesundheit und Seniorenresidenzen",
+      "desc": "Seniorenresidenzen, Pflegeheime, Klinik-Hotellerie.",
+      "skills": "Unterbringung, Verpflegung und Empfang für Bewohner, Fürsorge, Teamführung und Einhaltung von Normen."
+    },
+    "consulting": {
+      "name": "Beratung, Schulung und Interim",
+      "desc": "Interim-Management, Beratung, Schulung, Hotelfachschulen.",
+      "skills": "Jahrelange Erfahrung weitergeben: Betriebe sanieren, Teams schulen, auditieren und beraten. Aufgaben, die erfahrene Profile suchen."
     }
   },
   "counters": {
@@ -251,7 +305,7 @@
     "eduFormat": "Eine pro Zeile: Abschluss – Schule – Jahr.",
     "settings": "Einstellungen",
     "name": "Vor- und Nachname",
-    "trade": "Berufsfeld",
+    "trade": "Angestrebte Berufe",
     "docLang": "Standardsprache der Unterlagen",
     "docLangHint": "Sprache von Lebensläufen, Briefen und Nachrichten; unabhängig von der Sprache der Oberfläche.",
     "followupDays": "Tage bis zum Nachfassen",
@@ -261,7 +315,16 @@
     "export": "Meine Daten herunterladen",
     "deleteWord": "LÖSCHEN",
     "deleteLabel": "Um Ihr Konto und alle Ihre Daten endgültig zu löschen, geben Sie {word} ein",
-    "delete": "Mein Konto löschen"
+    "delete": "Mein Konto löschen",
+    "tradesHint": "Kreuzen Sie alle Berufe an, die Sie interessieren: Sie bestimmen Quellen, Suchideen und Chancen.",
+    "skillsTitle": "Ihre übertragbaren Kompetenzen",
+    "skillsIntro": "Was ein Werdegang in der Hotellerie in jeden angestrebten Beruf mitbringt. Prüfen Sie, dass Ihr Profil es mit Fakten und Zahlen belegt.",
+    "senior": {
+      "label": "Meine Erfahrung hervorheben (erfahrenes Profil)",
+      "hint": "Ihre Lebensläufe zeigen weder Alter, Geburtsdatum noch Foto; Stationen, die länger als 15 Jahre zurückliegen, werden in einer Zeile zusammengefasst; Anschreiben und Chancen stellen Ihre Erfahrung als Stärke dar und weisen Sie auch auf Arbeitgeber hin, die erfahrene Profile suchen. Nichts wird verschwiegen oder erfunden: alles bleibt in Ihrem Profil.",
+      "law": "In Luxemburg verbietet das Gesetz Altersdiskriminierung bei der Einstellung (Gesetz vom 28. November 2006 über die Gleichbehandlung)."
+    },
+    "mainTrade": "Haupt"
   },
   "privacy": {
     "title": "Datenschutzerklärung",
@@ -309,7 +372,6 @@
       "collect": "Suchen",
       "sources": "Suche auf jeder Website öffnen",
       "tagGeneral": "Allgemein",
-      "tagHospitality": "Hotellerie",
       "tagPublic": "Öffentlicher Dienst",
       "viaWeb": "über Websuche",
       "tos": "Diese Websites untersagen das automatische Auslesen: Cap Emploi öffnet ihre Suche, ohne Anzeigen zu kopieren. Die automatische Suche nutzt die offizielle API von Jooble.",
@@ -317,7 +379,10 @@
       "none": "Keine Anzeigen für diese Suche gefunden.",
       "results": "Gefundene Anzeigen",
       "open": "Anzeige ansehen",
-      "use": "Bewerbung vorbereiten"
+      "use": "Bewerbung vorbereiten",
+      "ideas": "Suchideen für Ihre Berufe",
+      "tagSpecialized": "Spezialisiert",
+      "tagRecruiter": "Personalberatung"
     },
     "brief": {
       "title": "Anzeige oder Unternehmen analysieren",

@@ -8,7 +8,9 @@ Même socle que GeoMarket Live : React 19 + TypeScript + Vite, publié sur GitHu
 ## Fonctions
 
 - Inscription par e-mail et mot de passe, consentement explicite, mot de passe oublié.
-- Profil candidat : import du CV (PDF, Word, texte), extraction par l’IA, entièrement modifiable. Choix du métier (tous métiers, hôtellerie-restauration, événementiel).
+- Profil candidat : import du CV (PDF, Word, texte), extraction par l’IA, entièrement modifiable.
+- **Métiers visés** (plusieurs au choix) : hôtellerie-restauration, événementiel, direction des opérations, facility management, immobilier et property management, service et expérience client, retail de luxe, achats, qualité-hygiène-sécurité, gestion de projet, santé et résidences seniors, conseil-formation-management de transition, ou tous métiers. Chaque métier apporte ses secteurs, ses idées de recherche, ses sources (sites spécialisés, cabinets de recrutement) et les compétences transférables depuis l’hôtellerie ; les opportunités et l’analyse des offres tiennent compte de l’expérience transposable.
+- **Profil expérimenté** (option) : CV sans âge, date de naissance ni photo, expériences de plus de 15 ans résumées en une ligne, années de diplôme retirées ; lettres et opportunités présentent l’expérience comme un atout et incluent les employeurs qui recherchent des profils expérimentés. Rien n’est inventé ni retiré du profil.
 - Cibles et pipeline par étapes, relances automatiques après 7 jours (délai réglable), rythme de la semaine avec objectifs, messages prêts à copier en FR, EN ou DE.
 - **Offres reçues** : offres arrivées par les alertes e-mail des sites d’emploi (Gmail ou Outlook, en option), par la recherche quotidienne ou ajoutées à la main. Alerte et compteur des nouvelles offres. Avant de postuler : lecture de l’offre, analyse détaillée par l’IA (poste, entreprise, lieu, contrat, salaire, langues, missions, exigences, points forts, manques, score, recommandation), puis une liste de vérification imposée par la base : « offre lue » et « conditions acceptées » avant la préparation des documents, « documents relus » avant l’envoi.
 - **Opportunités pour moi** : offres collectées et entreprises probables, notées avec la raison, par secteur ; préparation automatique des dossiers dans une file « À valider » ; résumé quotidien.
@@ -40,7 +42,7 @@ npm run build
 
 Un fichier par langue : `src/i18n/fr.json`, `en.json`, `de.json`. Un test vérifie que les trois ont les mêmes clés et les mêmes variables, et que chaque clé utilisée dans le code existe.
 
-Les modèles de messages et les secteurs par métier sont en base (table `modeles`), générés depuis `scripts/modeles.json` par `npm run seed`.
+Les modèles de messages, les secteurs et les mots-clés de recherche par métier sont en base (table `modeles`), générés depuis `scripts/modeles.json` et `src/lib/tradeKeywords.json` par `npm run seed`.
 
 ## Base de données : un schéma à part dans un projet existant
 

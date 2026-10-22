@@ -110,21 +110,75 @@
   "onboarding": {
     "title": "Bienvenue sur Cap Emploi",
     "intro": "Trois réglages pour adapter l’outil à votre recherche. Tout reste modifiable ensuite dans votre profil.",
-    "trade": "Votre métier",
-    "cta": "Continuer"
+    "trade": "Les métiers que vous visez",
+    "cta": "Continuer",
+    "tradeHint": "Choisissez-en plusieurs : votre expérience se transpose dans d’autres métiers. Le premier coché sert pour les modèles de messages."
   },
   "trades": {
     "general": {
       "name": "Tous métiers",
-      "desc": "Secteurs et messages généraux, valables pour tout poste."
+      "desc": "Secteurs et messages généraux, valables pour tout poste.",
+      "skills": "Management d’équipes, gestion d’un budget et d’un compte d’exploitation, sens du service, organisation et langues."
     },
     "hospitality": {
       "name": "Hôtellerie et restauration",
-      "desc": "Hôtels, restaurants, groupes hôteliers, casinos, traiteurs."
+      "desc": "Hôtels, restaurants, groupes hôteliers, casinos, traiteurs.",
+      "skills": "Votre cœur de métier : exploitation, hébergement, restauration, revenue, qualité de service et encadrement."
     },
     "events": {
       "name": "Événementiel",
-      "desc": "Agences, lieux de réception, congrès, salons, festivals."
+      "desc": "Agences, lieux de réception, congrès, salons, festivals.",
+      "skills": "Banquets et séminaires, coordination de prestataires, gestion des imprévus le jour J, relation avec des clients exigeants."
+    },
+    "operations": {
+      "name": "Direction des opérations",
+      "desc": "Exploitation de sites ou de services : restauration collective, loisirs, services aux entreprises.",
+      "skills": "Piloter un site ouvert 7 jours sur 7 : planning, indicateurs, compte d’exploitation, équipes multiservices et continuité de service."
+    },
+    "facility": {
+      "name": "Facility management",
+      "desc": "Services généraux, accueil, propreté, maintenance, sièges et institutions.",
+      "skills": "Technique et maintenance d’un bâtiment, sous-traitants (nettoyage, sécurité, restauration), contrats de service et expérience des occupants."
+    },
+    "property": {
+      "name": "Immobilier et property management",
+      "desc": "Gestion d’immeubles, résidences avec services, bureaux, centres commerciaux.",
+      "skills": "Gestion d’un actif immobilier au quotidien : entretien, budgets, relation avec les résidents ou locataires, services associés."
+    },
+    "customer": {
+      "name": "Service et expérience client",
+      "desc": "Banque privée, aérien, automobile premium, assurance, conciergerie.",
+      "skills": "Culture du service haut de gamme, traitement des réclamations, fidélisation, mesure de la satisfaction et formation des équipes d’accueil."
+    },
+    "luxury_retail": {
+      "name": "Retail et commerce de luxe",
+      "desc": "Mode, joaillerie, horlogerie, grands magasins, vins et spiritueux.",
+      "skills": "Clientèle internationale exigeante, codes du luxe, management d’équipes de vente et objectifs de chiffre d’affaires."
+    },
+    "purchasing": {
+      "name": "Achats et approvisionnement",
+      "desc": "Achats alimentaires et généraux, restauration collective, distribution.",
+      "skills": "Négociation fournisseurs, coûts matière, stocks et appels d’offres, appris dans la gestion d’un hôtel et de ses restaurants."
+    },
+    "quality": {
+      "name": "Qualité, hygiène et sécurité",
+      "desc": "Qualité, HACCP, santé et sécurité, audit et certification.",
+      "skills": "Standards de marque, HACCP, audits et visites mystère, plans d’action et sécurité des clients et du personnel."
+    },
+    "project": {
+      "name": "Gestion de projet",
+      "desc": "Ouvertures, rénovations, transformation, grands événements.",
+      "skills": "Ouvertures et rénovations, lancement de nouveaux services, coordination de nombreux intervenants dans des délais serrés."
+    },
+    "health_seniors": {
+      "name": "Santé et résidences seniors",
+      "desc": "Résidences seniors, maisons de soins, hôtellerie hospitalière.",
+      "skills": "Hébergement, restauration et accueil au service de résidents, bienveillance, gestion d’équipes et respect des normes."
+    },
+    "consulting": {
+      "name": "Conseil, formation et transition",
+      "desc": "Management de transition, conseil, formation, écoles hôtelières.",
+      "skills": "Des années d’expérience à transmettre : redresser un établissement, former des équipes, auditer et conseiller. Des missions qui recherchent des profils expérimentés."
     }
   },
   "counters": {
@@ -251,7 +305,7 @@
     "eduFormat": "Une par ligne : Diplôme – École – Année.",
     "settings": "Réglages",
     "name": "Prénom et nom",
-    "trade": "Métier",
+    "trade": "Métiers visés",
     "docLang": "Langue des documents par défaut",
     "docLangHint": "Langue des CV, lettres et messages ; indépendante de celle de l’interface.",
     "followupDays": "Délai avant relance (jours)",
@@ -261,7 +315,16 @@
     "export": "Télécharger mes données",
     "deleteWord": "SUPPRIMER",
     "deleteLabel": "Pour supprimer définitivement votre compte et toutes vos données, tapez {word}",
-    "delete": "Supprimer mon compte"
+    "delete": "Supprimer mon compte",
+    "tradesHint": "Cochez tous les métiers qui vous intéressent : ils orientent les sources, les idées de recherche et les opportunités.",
+    "skillsTitle": "Vos compétences transférables",
+    "skillsIntro": "Ce qui, dans un parcours en hôtellerie, se transpose dans chaque métier visé. Vérifiez que votre profil le montre avec des faits et des chiffres.",
+    "senior": {
+      "label": "Mettre mon expérience en avant (profil expérimenté)",
+      "hint": "Vos CV n’affichent ni âge, ni date de naissance, ni photo ; les expériences de plus de 15 ans sont résumées en une ligne ; lettres et opportunités présentent votre expérience comme un atout et vous orientent aussi vers des employeurs qui recherchent des profils expérimentés. Rien n’est caché ni inventé : tout reste dans votre profil.",
+      "law": "Au Luxembourg, la loi interdit la discrimination fondée sur l’âge à l’embauche (loi du 28 novembre 2006 sur l’égalité de traitement)."
+    },
+    "mainTrade": "Principal"
   },
   "privacy": {
     "title": "Politique de confidentialité",
@@ -309,7 +372,6 @@
       "collect": "Rechercher",
       "sources": "Ouvrir la recherche sur chaque site",
       "tagGeneral": "Généraliste",
-      "tagHospitality": "Hôtellerie",
       "tagPublic": "Service public",
       "viaWeb": "via recherche web",
       "tos": "Ces sites interdisent la collecte automatique : Cap Emploi ouvre leur recherche, sans copier leurs annonces. La recherche automatique passe par l’API officielle de Jooble.",
@@ -317,7 +379,10 @@
       "none": "Aucune offre trouvée pour cette recherche.",
       "results": "Offres trouvées",
       "open": "Voir l’offre",
-      "use": "Préparer la candidature"
+      "use": "Préparer la candidature",
+      "ideas": "Idées de recherche pour vos métiers",
+      "tagSpecialized": "Spécialisé",
+      "tagRecruiter": "Cabinet de recrutement"
     },
     "brief": {
       "title": "Analyser une offre ou une entreprise",

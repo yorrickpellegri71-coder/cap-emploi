@@ -1,36 +1,437 @@
 {
   "sectors": {
     "general": {
-      "fr": ["Industrie", "Services", "Commerce et distribution", "Finance et assurance", "Informatique et numérique", "Santé et social", "Public et institutions", "Conseil", "Logistique et transport", "Autre"],
-      "en": ["Industry", "Services", "Retail and distribution", "Finance and insurance", "IT and digital", "Health and social care", "Public sector and institutions", "Consulting", "Logistics and transport", "Other"],
-      "de": ["Industrie", "Dienstleistungen", "Handel und Vertrieb", "Finanzen und Versicherung", "IT und Digitales", "Gesundheit und Soziales", "Öffentlicher Dienst und Institutionen", "Beratung", "Logistik und Transport", "Sonstiges"]
+      "fr": [
+        "Industrie",
+        "Services",
+        "Commerce et distribution",
+        "Finance et assurance",
+        "Informatique et numérique",
+        "Santé et social",
+        "Public et institutions",
+        "Conseil",
+        "Logistique et transport",
+        "Autre"
+      ],
+      "en": [
+        "Industry",
+        "Services",
+        "Retail and distribution",
+        "Finance and insurance",
+        "IT and digital",
+        "Health and social care",
+        "Public sector and institutions",
+        "Consulting",
+        "Logistics and transport",
+        "Other"
+      ],
+      "de": [
+        "Industrie",
+        "Dienstleistungen",
+        "Handel und Vertrieb",
+        "Finanzen und Versicherung",
+        "IT und Digitales",
+        "Gesundheit und Soziales",
+        "Öffentlicher Dienst und Institutionen",
+        "Beratung",
+        "Logistik und Transport",
+        "Sonstiges"
+      ]
     },
     "hospitality": {
-      "fr": ["Hôtel de luxe", "Hôtel affaires", "Resort et spa", "Restaurant gastronomique", "Restauration collective", "Groupe hôtelier", "Casino", "Traiteur", "Autre"],
-      "en": ["Luxury hotel", "Business hotel", "Resort and spa", "Fine dining restaurant", "Contract catering", "Hotel group", "Casino", "Catering", "Other"],
-      "de": ["Luxushotel", "Businesshotel", "Resort und Spa", "Gourmetrestaurant", "Gemeinschaftsverpflegung", "Hotelgruppe", "Casino", "Catering", "Sonstiges"]
+      "fr": [
+        "Hôtel de luxe",
+        "Hôtel affaires",
+        "Resort et spa",
+        "Restaurant gastronomique",
+        "Restauration collective",
+        "Groupe hôtelier",
+        "Casino",
+        "Traiteur",
+        "Autre"
+      ],
+      "en": [
+        "Luxury hotel",
+        "Business hotel",
+        "Resort and spa",
+        "Fine dining restaurant",
+        "Contract catering",
+        "Hotel group",
+        "Casino",
+        "Catering",
+        "Other"
+      ],
+      "de": [
+        "Luxushotel",
+        "Businesshotel",
+        "Resort und Spa",
+        "Gourmetrestaurant",
+        "Gemeinschaftsverpflegung",
+        "Hotelgruppe",
+        "Casino",
+        "Catering",
+        "Sonstiges"
+      ]
     },
     "events": {
-      "fr": ["Agence événementielle", "Lieu de réception", "Centre de congrès", "Salon et exposition", "Festival et culture", "Sport", "Traiteur événementiel", "Autre"],
-      "en": ["Event agency", "Event venue", "Convention centre", "Trade fair and exhibition", "Festival and culture", "Sport", "Event catering", "Other"],
-      "de": ["Eventagentur", "Veranstaltungsort", "Kongresszentrum", "Messe und Ausstellung", "Festival und Kultur", "Sport", "Eventcatering", "Sonstiges"]
+      "fr": [
+        "Agence événementielle",
+        "Lieu de réception",
+        "Centre de congrès",
+        "Salon et exposition",
+        "Festival et culture",
+        "Sport",
+        "Traiteur événementiel",
+        "Autre"
+      ],
+      "en": [
+        "Event agency",
+        "Event venue",
+        "Convention centre",
+        "Trade fair and exhibition",
+        "Festival and culture",
+        "Sport",
+        "Event catering",
+        "Other"
+      ],
+      "de": [
+        "Eventagentur",
+        "Veranstaltungsort",
+        "Kongresszentrum",
+        "Messe und Ausstellung",
+        "Festival und Kultur",
+        "Sport",
+        "Eventcatering",
+        "Sonstiges"
+      ]
+    },
+    "operations": {
+      "fr": [
+        "Services aux entreprises",
+        "Restauration collective",
+        "Loisirs et tourisme",
+        "Commerce et distribution",
+        "Logistique",
+        "Santé et résidences",
+        "Autre"
+      ],
+      "en": [
+        "Business services",
+        "Contract catering",
+        "Leisure and tourism",
+        "Retail and distribution",
+        "Logistics",
+        "Health and residences",
+        "Other"
+      ],
+      "de": [
+        "Unternehmensdienstleistungen",
+        "Gemeinschaftsverpflegung",
+        "Freizeit und Tourismus",
+        "Handel und Vertrieb",
+        "Logistik",
+        "Gesundheit und Residenzen",
+        "Sonstiges"
+      ]
+    },
+    "facility": {
+      "fr": [
+        "Facility management intégré",
+        "Banque et finance",
+        "Institutions européennes",
+        "Sièges d'entreprises",
+        "Hôpitaux et cliniques",
+        "Campus et écoles",
+        "Autre"
+      ],
+      "en": [
+        "Integrated facility management",
+        "Banking and finance",
+        "European institutions",
+        "Corporate headquarters",
+        "Hospitals and clinics",
+        "Campuses and schools",
+        "Other"
+      ],
+      "de": [
+        "Integriertes Facility Management",
+        "Banken und Finanzen",
+        "Europäische Institutionen",
+        "Unternehmenszentralen",
+        "Krankenhäuser und Kliniken",
+        "Campus und Schulen",
+        "Sonstiges"
+      ]
+    },
+    "property": {
+      "fr": [
+        "Gestion immobilière",
+        "Promotion immobilière",
+        "Résidences avec services",
+        "Bureaux et coworking",
+        "Centres commerciaux",
+        "Fonds immobiliers",
+        "Autre"
+      ],
+      "en": [
+        "Property management",
+        "Real estate development",
+        "Serviced residences",
+        "Offices and coworking",
+        "Shopping centres",
+        "Real estate funds",
+        "Other"
+      ],
+      "de": [
+        "Immobilienverwaltung",
+        "Projektentwicklung",
+        "Servicewohnen",
+        "Büros und Coworking",
+        "Einkaufszentren",
+        "Immobilienfonds",
+        "Sonstiges"
+      ]
+    },
+    "customer": {
+      "fr": [
+        "Banque privée",
+        "Compagnies aériennes et aéroports",
+        "Automobile premium",
+        "Assurance",
+        "Conciergerie",
+        "Télécoms",
+        "Autre"
+      ],
+      "en": [
+        "Private banking",
+        "Airlines and airports",
+        "Premium automotive",
+        "Insurance",
+        "Concierge services",
+        "Telecoms",
+        "Other"
+      ],
+      "de": [
+        "Private Banking",
+        "Fluggesellschaften und Flughäfen",
+        "Premium-Automobil",
+        "Versicherung",
+        "Concierge-Dienste",
+        "Telekommunikation",
+        "Sonstiges"
+      ]
+    },
+    "luxury_retail": {
+      "fr": [
+        "Mode et maroquinerie",
+        "Joaillerie et horlogerie",
+        "Grands magasins",
+        "Vins et spiritueux",
+        "Beauté et parfum",
+        "Automobile de luxe",
+        "Autre"
+      ],
+      "en": [
+        "Fashion and leather goods",
+        "Jewellery and watches",
+        "Department stores",
+        "Wines and spirits",
+        "Beauty and fragrance",
+        "Luxury cars",
+        "Other"
+      ],
+      "de": [
+        "Mode und Lederwaren",
+        "Schmuck und Uhren",
+        "Kaufhäuser",
+        "Weine und Spirituosen",
+        "Beauty und Parfum",
+        "Luxusautomobile",
+        "Sonstiges"
+      ]
+    },
+    "purchasing": {
+      "fr": [
+        "Hôtellerie et restauration",
+        "Restauration collective",
+        "Distribution alimentaire",
+        "Industrie",
+        "Santé",
+        "Secteur public",
+        "Autre"
+      ],
+      "en": [
+        "Hospitality",
+        "Contract catering",
+        "Food retail",
+        "Industry",
+        "Health care",
+        "Public sector",
+        "Other"
+      ],
+      "de": [
+        "Hotellerie und Gastronomie",
+        "Gemeinschaftsverpflegung",
+        "Lebensmittelhandel",
+        "Industrie",
+        "Gesundheitswesen",
+        "Öffentlicher Sektor",
+        "Sonstiges"
+      ]
+    },
+    "quality": {
+      "fr": [
+        "Agroalimentaire",
+        "Restauration collective",
+        "Hôtellerie",
+        "Santé",
+        "Audit et certification",
+        "Industrie",
+        "Autre"
+      ],
+      "en": [
+        "Food industry",
+        "Contract catering",
+        "Hospitality",
+        "Health care",
+        "Audit and certification",
+        "Industry",
+        "Other"
+      ],
+      "de": [
+        "Lebensmittelindustrie",
+        "Gemeinschaftsverpflegung",
+        "Hotellerie",
+        "Gesundheitswesen",
+        "Audit und Zertifizierung",
+        "Industrie",
+        "Sonstiges"
+      ]
+    },
+    "project": {
+      "fr": [
+        "Ouvertures et rénovations",
+        "Conseil",
+        "Promotion immobilière",
+        "Transformation d'entreprise",
+        "Grands événements",
+        "Secteur public",
+        "Autre"
+      ],
+      "en": [
+        "Openings and renovations",
+        "Consulting",
+        "Real estate development",
+        "Business transformation",
+        "Major events",
+        "Public sector",
+        "Other"
+      ],
+      "de": [
+        "Eröffnungen und Renovierungen",
+        "Beratung",
+        "Projektentwicklung",
+        "Unternehmenstransformation",
+        "Großveranstaltungen",
+        "Öffentlicher Sektor",
+        "Sonstiges"
+      ]
+    },
+    "health_seniors": {
+      "fr": [
+        "Résidences seniors",
+        "Maisons de soins",
+        "Hôpitaux et cliniques",
+        "Réseaux d'aide et de soins",
+        "Centres de rééducation",
+        "Autre"
+      ],
+      "en": [
+        "Senior residences",
+        "Care homes",
+        "Hospitals and clinics",
+        "Home care networks",
+        "Rehabilitation centres",
+        "Other"
+      ],
+      "de": [
+        "Seniorenresidenzen",
+        "Pflegeheime",
+        "Krankenhäuser und Kliniken",
+        "Hilfs- und Pflegenetze",
+        "Reha-Zentren",
+        "Sonstiges"
+      ]
+    },
+    "consulting": {
+      "fr": [
+        "Management de transition",
+        "Conseil en hôtellerie",
+        "Formation professionnelle",
+        "Écoles hôtelières",
+        "Audit et mystery shopping",
+        "Autre"
+      ],
+      "en": [
+        "Interim management",
+        "Hospitality consulting",
+        "Professional training",
+        "Hospitality schools",
+        "Audit and mystery shopping",
+        "Other"
+      ],
+      "de": [
+        "Interim-Management",
+        "Hotelberatung",
+        "Berufliche Weiterbildung",
+        "Hotelfachschulen",
+        "Audit und Mystery Shopping",
+        "Sonstiges"
+      ]
     }
   },
   "messages": {
     "fr": {
-      "first_contact": { "subject": "Candidature spontanée – {company}", "body": "Bonjour {contact},\n\nJe suis {me}, {headline}. Je suis avec intérêt le développement de {company} et j'aimerais beaucoup échanger avec vous sur vos besoins à venir.\n\nAuriez-vous 15 minutes dans les prochains jours pour un court échange ?\n\nBien cordialement,\n{me}" },
-      "followup": { "subject": "Suite à mon message – {company}", "body": "Bonjour {contact},\n\nJe me permets de revenir vers vous suite à mon message de la semaine dernière. Contribuer aux projets de {company} m'intéresse toujours beaucoup.\n\nSeriez-vous disponible pour un bref échange cette semaine ?\n\nBien cordialement,\n{me}" },
-      "thanks": { "subject": "Merci pour notre entretien", "body": "Bonjour {contact},\n\nMerci pour le temps que vous m'avez accordé et pour la qualité de notre échange. Notre conversation a renforcé mon envie de rejoindre {company}.\n\nJe reste à votre disposition pour toute information complémentaire.\n\nBien cordialement,\n{me}" }
+      "first_contact": {
+        "subject": "Candidature spontanée – {company}",
+        "body": "Bonjour {contact},\n\nJe suis {me}, {headline}. Je suis avec intérêt le développement de {company} et j'aimerais beaucoup échanger avec vous sur vos besoins à venir.\n\nAuriez-vous 15 minutes dans les prochains jours pour un court échange ?\n\nBien cordialement,\n{me}"
+      },
+      "followup": {
+        "subject": "Suite à mon message – {company}",
+        "body": "Bonjour {contact},\n\nJe me permets de revenir vers vous suite à mon message de la semaine dernière. Contribuer aux projets de {company} m'intéresse toujours beaucoup.\n\nSeriez-vous disponible pour un bref échange cette semaine ?\n\nBien cordialement,\n{me}"
+      },
+      "thanks": {
+        "subject": "Merci pour notre entretien",
+        "body": "Bonjour {contact},\n\nMerci pour le temps que vous m'avez accordé et pour la qualité de notre échange. Notre conversation a renforcé mon envie de rejoindre {company}.\n\nJe reste à votre disposition pour toute information complémentaire.\n\nBien cordialement,\n{me}"
+      }
     },
     "en": {
-      "first_contact": { "subject": "Introduction – {company}", "body": "Dear {contact},\n\nI am {me}, {headline}. I have been following {company}'s development with interest and would welcome the chance to discuss your upcoming needs.\n\nWould you have 15 minutes in the coming days for a short call?\n\nKind regards,\n{me}" },
-      "followup": { "subject": "Following up – {company}", "body": "Dear {contact},\n\nI am following up on my message from last week. I remain very keen to contribute to {company}'s projects.\n\nWould you be available for a brief conversation this week?\n\nKind regards,\n{me}" },
-      "thanks": { "subject": "Thank you for our meeting", "body": "Dear {contact},\n\nThank you for your time and for our conversation. It strengthened my wish to join {company}.\n\nI remain at your disposal for any further information.\n\nKind regards,\n{me}" }
+      "first_contact": {
+        "subject": "Introduction – {company}",
+        "body": "Dear {contact},\n\nI am {me}, {headline}. I have been following {company}'s development with interest and would welcome the chance to discuss your upcoming needs.\n\nWould you have 15 minutes in the coming days for a short call?\n\nKind regards,\n{me}"
+      },
+      "followup": {
+        "subject": "Following up – {company}",
+        "body": "Dear {contact},\n\nI am following up on my message from last week. I remain very keen to contribute to {company}'s projects.\n\nWould you be available for a brief conversation this week?\n\nKind regards,\n{me}"
+      },
+      "thanks": {
+        "subject": "Thank you for our meeting",
+        "body": "Dear {contact},\n\nThank you for your time and for our conversation. It strengthened my wish to join {company}.\n\nI remain at your disposal for any further information.\n\nKind regards,\n{me}"
+      }
     },
     "de": {
-      "first_contact": { "subject": "Initiativbewerbung – {company}", "body": "Guten Tag {contact},\n\nmein Name ist {me}, {headline}. Ich verfolge die Entwicklung von {company} mit großem Interesse und würde mich über einen Austausch zu Ihrem künftigen Bedarf freuen.\n\nHätten Sie in den nächsten Tagen 15 Minuten für ein kurzes Gespräch?\n\nMit freundlichen Grüßen\n{me}" },
-      "followup": { "subject": "Nachfrage zu meiner Nachricht – {company}", "body": "Guten Tag {contact},\n\nich komme auf meine Nachricht von letzter Woche zurück. Ich bin weiterhin sehr motiviert, zu den Projekten von {company} beizutragen.\n\nHätten Sie diese Woche Zeit für ein kurzes Gespräch?\n\nMit freundlichen Grüßen\n{me}" },
-      "thanks": { "subject": "Vielen Dank für das Gespräch", "body": "Guten Tag {contact},\n\nvielen Dank für Ihre Zeit und das angenehme Gespräch. Es hat meinen Wunsch bestärkt, Teil von {company} zu werden.\n\nFür weitere Informationen stehe ich Ihnen gerne zur Verfügung.\n\nMit freundlichen Grüßen\n{me}" }
+      "first_contact": {
+        "subject": "Initiativbewerbung – {company}",
+        "body": "Guten Tag {contact},\n\nmein Name ist {me}, {headline}. Ich verfolge die Entwicklung von {company} mit großem Interesse und würde mich über einen Austausch zu Ihrem künftigen Bedarf freuen.\n\nHätten Sie in den nächsten Tagen 15 Minuten für ein kurzes Gespräch?\n\nMit freundlichen Grüßen\n{me}"
+      },
+      "followup": {
+        "subject": "Nachfrage zu meiner Nachricht – {company}",
+        "body": "Guten Tag {contact},\n\nich komme auf meine Nachricht von letzter Woche zurück. Ich bin weiterhin sehr motiviert, zu den Projekten von {company} beizutragen.\n\nHätten Sie diese Woche Zeit für ein kurzes Gespräch?\n\nMit freundlichen Grüßen\n{me}"
+      },
+      "thanks": {
+        "subject": "Vielen Dank für das Gespräch",
+        "body": "Guten Tag {contact},\n\nvielen Dank für Ihre Zeit und das angenehme Gespräch. Es hat meinen Wunsch bestärkt, Teil von {company} zu werden.\n\nFür weitere Informationen stehe ich Ihnen gerne zur Verfügung.\n\nMit freundlichen Grüßen\n{me}"
+      }
     }
   }
 }

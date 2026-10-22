@@ -19,6 +19,10 @@ create table cap_emploi.profiles (
   ui_lang text not null default 'fr' check (ui_lang in ('fr', 'en', 'de')),
   doc_lang text not null default 'fr' check (doc_lang in ('fr', 'en', 'de')),
   trade text not null default 'general',
+  -- Métiers visés (plusieurs possibles) ; trade garde le premier, pour les modèles de messages.
+  target_trades text[] not null default '{general}' check (cardinality(target_trades) between 1 and 13),
+  -- Profil expérimenté : CV sans âge ni photo, expériences anciennes résumées, expérience présentée comme un atout.
+  senior_mode boolean not null default false,
   goals jsonb not null default '{"contacts":5,"applications":3,"followups":5,"posts":1,"training":1,"network":1}',
   followup_days int not null default 7 check (followup_days between 1 and 60),
   cv_text text not null default '' check (length(cv_text) <= 60000),
@@ -35,7 +39,7 @@ create policy "profil : modification" on cap_emploi.profiles for update to authe
 
 -- Le plan et le consentement ne sont modifiables que côté serveur : mise à jour limitée aux colonnes listées.
 revoke update on cap_emploi.profiles from authenticated, anon;
-grant update (display_name, ui_lang, doc_lang, trade, goals, followup_days, cv_text, profile_data, onboarded)
+grant update (display_name, ui_lang, doc_lang, trade, target_trades, senior_mode, goals, followup_days, cv_text, profile_data, onboarded)
   on cap_emploi.profiles to authenticated;
 
 -- Création du profil à la première connexion (nom, langue et consentement transmis par le formulaire d'inscription).
@@ -159,11 +163,11 @@ create policy "usage : lecture" on cap_emploi.ai_usage for select to authenticat
 
 -- ───────────────────────── Modèles par métier et par langue ─────────────────────────
 
--- trade '*' : modèle commun à tous les métiers. kind : sectors | messages.
+-- trade '*' : modèle commun à tous les métiers. kind : sectors | messages | keywords (mots-clés de recherche).
 create table cap_emploi.modeles (
   trade text not null,
   lang text not null check (lang in ('fr', 'en', 'de')),
-  kind text not null check (kind in ('sectors', 'messages')),
+  kind text not null check (kind in ('sectors', 'messages', 'keywords')),
   content jsonb not null,
   primary key (trade, lang, kind)
 );

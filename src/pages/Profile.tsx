@@ -5,7 +5,9 @@ import { useI18n } from '../i18n';
 import { AiError, deleteMyAccount, exportMyData, extractProfile } from '../lib/api';
 import { aiEnabled } from '../lib/ai';
 import { useApp } from '../lib/session';
-import { COUNTERS, LANGS, TRADES, type Counters, type Experience, type Lang, type ProfileData } from '../lib/types';
+import { TradePicker } from '../components/TradePicker';
+import { targetTrades } from '../lib/trades';
+import { COUNTERS, LANGS, type Counters, type Experience, type Lang, type ProfileData } from '../lib/types';
 
 const lines = (s: string) => s.split('\n').map((x) => x.trim()).filter(Boolean);
 
@@ -116,7 +118,8 @@ export function Profile() {
   const [cvText, setCvText] = useState(profile.cv_text);
   const [data, setData] = useState<ProfileData>(profile.profile_data);
   const [name, setName] = useState(profile.display_name);
-  const [trade, setTrade] = useState(profile.trade);
+  const [trades, setTrades] = useState(targetTrades(profile));
+  const [senior, setSenior] = useState(profile.senior_mode ?? false);
   const [docLang, setDocLang] = useState<Lang>(profile.doc_lang);
   const [goals, setGoals] = useState<Counters>(profile.goals);
   const [days, setDays] = useState(profile.followup_days);
@@ -172,7 +175,7 @@ export function Profile() {
     setNotice(null);
     try {
       const cleaned = clean(data);
-      await updateProfile({ display_name: name.trim(), trade, doc_lang: docLang, goals, followup_days: days, cv_text: cvText, profile_data: cleaned });
+      await updateProfile({ display_name: name.trim(), trade: trades[0], target_trades: trades, senior_mode: senior, doc_lang: docLang, goals, followup_days: days, cv_text: cvText, profile_data: cleaned });
       setData(cleaned);
       setNotice({ tone: 'ok', text: t('common.saved') });
     } catch (e) {
@@ -227,18 +230,32 @@ export function Profile() {
         <ProfileEditor data={data} onChange={setData} />
       </section>
 
+      <section className="card stack-lg" aria-labelledby="tr-h">
+        <h2 id="tr-h" className="h2">{t('profile.trade')}</h2>
+        <TradePicker value={trades} onChange={setTrades} legend={t('profile.trade')} hint={t('profile.tradesHint')} hideLegend />
+        <div className="stack">
+          <h3 className="h3">{t('profile.skillsTitle')}</h3>
+          <p className="small muted">{t('profile.skillsIntro')}</p>
+          <ul className="bullets">
+            {trades.map((tr) => <li key={tr}><strong>{t(`trades.${tr}.name`)}</strong> : {t(`trades.${tr}.skills`)}</li>)}
+          </ul>
+        </div>
+        <div className="stack">
+          <label className="check">
+            <input type="checkbox" checked={senior} onChange={(e) => setSenior(e.target.checked)} />
+            <span className="strong">{t('profile.senior.label')}</span>
+          </label>
+          <p className="small muted">{t('profile.senior.hint')}</p>
+          <p className="xs muted">{t('profile.senior.law')}</p>
+        </div>
+      </section>
+
       <section className="card stack-lg" aria-labelledby="set-h">
         <h2 id="set-h" className="h2">{t('profile.settings')}</h2>
         <div className="grid-2">
           <div className="field">
             <label htmlFor="p-name">{t('profile.name')}</label>
             <input id="p-name" className="input" value={name} onChange={(e) => setName(e.target.value)} />
-          </div>
-          <div className="field">
-            <label htmlFor="p-trade">{t('profile.trade')}</label>
-            <select id="p-trade" className="input" value={trade} onChange={(e) => setTrade(e.target.value)}>
-              {TRADES.map((x) => <option key={x} value={x}>{t(`trades.${x}.name`)}</option>)}
-            </select>
           </div>
           <div className="field">
             <label htmlFor="p-doc">{t('profile.docLang')}</label>

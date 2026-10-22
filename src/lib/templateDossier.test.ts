@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { buildDossier } from './templateDossier';
+import { buildDossier, profileCv } from './templateDossier';
 import type { ProfileData } from './types';
 
 const profile: ProfileData = {
@@ -27,5 +27,29 @@ describe('dossier sans IA', () => {
     expect(d.letter.startsWith('Guten Tag Frau Klein,')).toBe(true);
     expect(d.cv).toContain('## Berufserfahrung');
     expect(d.letter).toContain('Mit freundlichen Grüßen');
+  });
+});
+
+describe('profil expérimenté', () => {
+  const long: ProfileData = {
+    ...profile,
+    experiences: [
+      { title: "Directeur d'exploitation", company: 'Hôtel Exemple', location: 'Luxembourg', start: '2018', end: '', achievements: ['RevPAR +12 %'] },
+      { title: 'Directeur adjoint', company: 'Palace Ancien', location: 'Paris', start: '2001', end: '2008', achievements: ['Ouverture du spa'] },
+    ],
+    education: [{ degree: 'BTS Hôtellerie', school: 'Lycée hôtelier', year: '1990' }],
+  };
+  it('résume les expériences anciennes sans dates et retire les années de diplôme', () => {
+    const cv = profileCv(long, 'Alex', 'fr', true, 2026);
+    expect(cv).toContain('### Parcours antérieur');
+    expect(cv).toContain('Directeur adjoint, Palace Ancien');
+    expect(cv).not.toMatch(/2001|2008|1990/);
+    expect(cv).toContain('RevPAR +12 %');
+  });
+  it('garde tout le détail hors mode expérimenté', () => {
+    const cv = profileCv(long, 'Alex', 'fr', false, 2026);
+    expect(cv).toContain('2001 – 2008');
+    expect(cv).toContain('1990');
+    expect(cv).not.toContain('Parcours antérieur');
   });
 });

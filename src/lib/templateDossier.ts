@@ -1,8 +1,8 @@
 // Dossier sans IA : assemblé uniquement à partir des faits du profil, dans la langue choisie.
 // Rien n'est inventé ; les passages à personnaliser sont signalés entre crochets.
-import type { Lang, ProfileData } from './types';
+import type { Experience, Lang, ProfileData } from './types';
 
-export interface DossierInput { company: string; jobTitle: string; contact: string; lang: Lang; profile: ProfileData; displayName: string }
+export interface DossierInput { company: string; jobTitle: string; contact: string; lang: Lang; profile: ProfileData; displayName: string; senior?: boolean }
 export interface DossierPieces { email_subject: string; email_body: string; letter: string; cv: string; pitch: string; gaps: string[] }
 
 const L = {
@@ -19,6 +19,7 @@ const L = {
     sections: { profile: 'Profil', exp: 'Expérience', skills: 'Compétences', langs: 'Langues', edu: 'Formation', certs: 'Certifications' },
     gap: 'Dossier modèle préparé sans IA à partir de votre profil : personnalisez la lettre (passages entre crochets) et vérifiez chaque pièce avant l’envoi.',
     now: 'aujourd’hui',
+    earlier: 'Parcours antérieur',
   },
   en: {
     subject: (job: string) => `Application${job ? ` – ${job}` : ' (speculative)'}`,
@@ -33,6 +34,7 @@ const L = {
     sections: { profile: 'Profile', exp: 'Experience', skills: 'Skills', langs: 'Languages', edu: 'Education', certs: 'Certifications' },
     gap: 'Template pack prepared without AI from your profile: personalise the letter (passages in brackets) and check every piece before sending.',
     now: 'present',
+    earlier: 'Earlier career',
   },
   de: {
     subject: (job: string) => `Bewerbung${job ? ` – ${job}` : ' (Initiativbewerbung)'}`,
@@ -47,28 +49,44 @@ const L = {
     sections: { profile: 'Profil', exp: 'Berufserfahrung', skills: 'Kompetenzen', langs: 'Sprachen', edu: 'Ausbildung', certs: 'Zertifikate' },
     gap: 'Mustervorlage ohne KI aus Ihrem Profil erstellt: Passen Sie das Anschreiben an (Stellen in eckigen Klammern) und prüfen Sie jedes Dokument vor dem Versand.',
     now: 'heute',
+    earlier: 'Früherer Werdegang',
   },
 } as const;
 
 /** CV en texte avec titres simples, repris tel quel du profil. */
-export function profileCv(p: ProfileData, name: string, lang: Lang): string {
+/** Dernière année d'une expérience (fin, sinon en cours) ; null si aucune année lisible. */
+function endYear(x: Experience, thisYear: number): number | null {
+  if (!x.end.trim()) return x.start.trim() ? thisYear : null;
+  const years = x.end.match(/\b(19|20)\d{2}\b/g);
+  return years ? Number(years[years.length - 1]) : null;
+}
+
+/**
+ * CV en texte à partir du profil. Profil expérimenté : expériences terminées depuis plus de 15 ans résumées
+ * en une ligne sans dates, années de diplôme retirées. Aucun fait n'est ajouté ni supprimé du profil.
+ */
+export function profileCv(p: ProfileData, name: string, lang: Lang, senior = false, thisYear = new Date().getFullYear()): string {
   const s = L[lang].sections;
+  const old = (x: Experience) => { const y = endYear(x, thisYear); return senior && y !== null && y < thisYear - 15; };
+  const recent = (p.experiences ?? []).filter((x) => !old(x));
+  const earlier = (p.experiences ?? []).filter(old);
   const out: string[] = [`# ${p.full_name || name}`];
   if (p.headline) out.push(p.headline);
   if (p.location) out.push(p.location);
   if (p.summary) out.push('', `## ${s.profile}`, p.summary);
-  if (p.experiences?.length) {
+  if (recent.length || earlier.length) {
     out.push('', `## ${s.exp}`);
-    for (const x of p.experiences) {
+    for (const x of recent) {
       out.push('', `### ${[x.title, x.company].filter(Boolean).join(' – ')}`);
       const when = [x.start, x.end || (x.start ? L[lang].now : '')].filter(Boolean).join(' – ');
       if (when || x.location) out.push([when, x.location].filter(Boolean).join(' · '));
       for (const a of x.achievements ?? []) out.push(`- ${a}`);
     }
+    if (earlier.length) out.push('', `### ${L[lang].earlier}`, earlier.map((x) => [x.title, x.company].filter(Boolean).join(', ')).join(' · '));
   }
   if (p.skills?.length) out.push('', `## ${s.skills}`, ...p.skills.map((x) => `- ${x}`));
   if (p.languages?.length) out.push('', `## ${s.langs}`, ...p.languages.map((x) => `- ${x.language}${x.level ? ` : ${x.level}` : ''}`));
-  if (p.education?.length) out.push('', `## ${s.edu}`, ...p.education.map((x) => `- ${[x.degree, x.school, x.year].filter(Boolean).join(', ')}`));
+  if (p.education?.length) out.push('', `## ${s.edu}`, ...p.education.map((x) => `- ${[x.degree, x.school, senior ? '' : x.year].filter(Boolean).join(', ')}`));
   if (p.certifications?.length) out.push('', `## ${s.certs}`, ...p.certifications.map((x) => `- ${x}`));
   return out.join('\n');
 }
@@ -97,7 +115,7 @@ export function buildDossier(i: DossierInput): DossierPieces {
     email_subject: t.subject(job),
     email_body: `${t.greet(i.contact.trim())}\n\n${t.emailBody(job, co, firstProof)}\n\n${t.closeMail}${sign}`,
     letter,
-    cv: profileCv(p, i.displayName, i.lang),
+    cv: profileCv(p, i.displayName, i.lang, i.senior),
     pitch: t.pitch(who, p.headline ?? '', p.summary ?? '', job, co).replace(/\s+/g, ' ').trim(),
     gaps: [t.gap],
   };

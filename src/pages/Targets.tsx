@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Empty, Modal, Notice, errorMessage, fmtDate } from '../components/ui';
 import { useI18n } from '../i18n';
 import { deleteTarget, fetchSectors, moveTarget, saveTarget, type TargetInput } from '../lib/api';
+import { targetTrades } from '../lib/trades';
 import { useApp } from '../lib/session';
 import { CHANNELS, STAGES, type Stage, type Target } from '../lib/types';
 
@@ -21,7 +22,8 @@ function TargetForm({ target, onClose }: { target: Target | null; onClose: () =>
   const [error, setError] = useState<unknown>(null);
   const set = <K extends keyof TargetInput>(k: K, v: TargetInput[K]) => setForm((f) => ({ ...f, [k]: v }));
 
-  useEffect(() => { fetchSectors(profile.trade, lang).then(setSectors).catch(() => setSectors([])); }, [profile.trade, lang]);
+  const tradesKey = targetTrades(profile).join(',');
+  useEffect(() => { fetchSectors(tradesKey.split(','), lang).then(setSectors).catch(() => setSectors([])); }, [tradesKey, lang]);
 
   const submit = async (e: FormEvent) => {
     e.preventDefault();

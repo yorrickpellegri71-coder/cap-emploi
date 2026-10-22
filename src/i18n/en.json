@@ -110,21 +110,75 @@
   "onboarding": {
     "title": "Welcome to Cap Emploi",
     "intro": "Three settings to tailor the tool to your search. You can change everything later in your profile.",
-    "trade": "Your field",
-    "cta": "Continue"
+    "trade": "The fields you are aiming for",
+    "cta": "Continue",
+    "tradeHint": "Pick several: your experience carries over to other fields. The first one ticked is used for message templates."
   },
   "trades": {
     "general": {
       "name": "All fields",
-      "desc": "General sectors and messages, suitable for any role."
+      "desc": "General sectors and messages, valid for any role.",
+      "skills": "Team management, budget and P&L ownership, service mindset, organisation and languages."
     },
     "hospitality": {
-      "name": "Hospitality and restaurants",
-      "desc": "Hotels, restaurants, hotel groups, casinos, caterers."
+      "name": "Hospitality and catering",
+      "desc": "Hotels, restaurants, hotel groups, casinos, caterers.",
+      "skills": "Your core field: operations, rooms, food and beverage, revenue, service quality and leadership."
     },
     "events": {
       "name": "Events",
-      "desc": "Agencies, venues, conventions, trade fairs, festivals."
+      "desc": "Agencies, venues, conventions, trade fairs, festivals.",
+      "skills": "Banqueting and meetings, supplier coordination, handling the unexpected on the day, demanding clients."
+    },
+    "operations": {
+      "name": "Operations management",
+      "desc": "Running sites or services: contract catering, leisure, business services.",
+      "skills": "Running a 24/7 site: rostering, KPIs, P&L, multi-department teams and service continuity."
+    },
+    "facility": {
+      "name": "Facility management",
+      "desc": "Workplace services, front desk, cleaning, maintenance, headquarters and institutions.",
+      "skills": "Building maintenance, subcontractors (cleaning, security, catering), service contracts and occupant experience."
+    },
+    "property": {
+      "name": "Real estate and property management",
+      "desc": "Building management, serviced residences, offices, shopping centres.",
+      "skills": "Day-to-day running of a property: upkeep, budgets, resident or tenant relations, added services."
+    },
+    "customer": {
+      "name": "Customer service and experience",
+      "desc": "Private banking, airlines, premium cars, insurance, concierge services.",
+      "skills": "Premium service culture, complaint handling, loyalty, satisfaction measurement and front-line training."
+    },
+    "luxury_retail": {
+      "name": "Luxury retail",
+      "desc": "Fashion, jewellery, watches, department stores, wines and spirits.",
+      "skills": "Demanding international clientele, luxury codes, sales team leadership and revenue targets."
+    },
+    "purchasing": {
+      "name": "Purchasing and procurement",
+      "desc": "Food and general purchasing, contract catering, distribution.",
+      "skills": "Supplier negotiation, food cost, stock and tenders, learned running a hotel and its restaurants."
+    },
+    "quality": {
+      "name": "Quality, hygiene and safety",
+      "desc": "Quality, HACCP, health and safety, audit and certification.",
+      "skills": "Brand standards, HACCP, audits and mystery visits, action plans, guest and staff safety."
+    },
+    "project": {
+      "name": "Project management",
+      "desc": "Openings, renovations, transformation, major events.",
+      "skills": "Openings and renovations, launching new services, coordinating many stakeholders against tight deadlines."
+    },
+    "health_seniors": {
+      "name": "Health care and senior living",
+      "desc": "Senior residences, care homes, hospital hospitality services.",
+      "skills": "Accommodation, catering and welcome serving residents, care for people, team management and compliance."
+    },
+    "consulting": {
+      "name": "Consulting, training and interim",
+      "desc": "Interim management, consulting, training, hospitality schools.",
+      "skills": "Years of experience to pass on: turning a property around, training teams, auditing and advising. Assignments that look for experienced profiles."
     }
   },
   "counters": {
@@ -251,7 +305,7 @@
     "eduFormat": "One per line: Degree – School – Year.",
     "settings": "Settings",
     "name": "Full name",
-    "trade": "Field",
+    "trade": "Target fields",
     "docLang": "Default document language",
     "docLangHint": "Language of CVs, letters and messages; independent of the interface language.",
     "followupDays": "Days before follow-up",
@@ -261,7 +315,16 @@
     "export": "Download my data",
     "deleteWord": "DELETE",
     "deleteLabel": "To permanently delete your account and all your data, type {word}",
-    "delete": "Delete my account"
+    "delete": "Delete my account",
+    "tradesHint": "Tick every field you are interested in: they shape sources, search ideas and opportunities.",
+    "skillsTitle": "Your transferable skills",
+    "skillsIntro": "What a hospitality background brings to each target field. Check that your profile shows it with facts and figures.",
+    "senior": {
+      "label": "Put my experience forward (experienced profile)",
+      "hint": "Your CVs show no age, date of birth or photo; roles older than 15 years are summarised in one line; letters and opportunities present your experience as an asset and also point you to employers looking for experienced profiles. Nothing is hidden or invented: everything stays in your profile.",
+      "law": "In Luxembourg, the law prohibits age discrimination in hiring (law of 28 November 2006 on equal treatment)."
+    },
+    "mainTrade": "Main"
   },
   "privacy": {
     "title": "Privacy policy",
@@ -309,7 +372,6 @@
       "collect": "Search",
       "sources": "Open the search on each site",
       "tagGeneral": "General",
-      "tagHospitality": "Hospitality",
       "tagPublic": "Public service",
       "viaWeb": "via web search",
       "tos": "These sites forbid automated collection: Cap Emploi opens their search without copying their ads. Automatic search uses Jooble’s official API.",
@@ -317,7 +379,10 @@
       "none": "No job ads found for this search.",
       "results": "Job ads found",
       "open": "View ad",
-      "use": "Prepare the application"
+      "use": "Prepare the application",
+      "ideas": "Search ideas for your fields",
+      "tagSpecialized": "Specialised",
+      "tagRecruiter": "Recruitment firm"
     },
     "brief": {
       "title": "Analyse a job ad or a company",

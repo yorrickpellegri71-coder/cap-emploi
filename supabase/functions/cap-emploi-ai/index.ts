@@ -185,7 +185,7 @@ const BRIEF_SCHEMA = {
 
 const ANALYZE_SYSTEM = `You help a job seeker in Luxembourg and the Greater Region read a job offer carefully before applying.
 Report only what the offer says for job_title, company, location, contract, salary, languages, missions and requirements; use an empty string or an empty list when the offer does not say it. Never guess a salary or a contract type.
-strengths: the candidate's facts from the profile that match the offer, each tied to a requirement. gaps: requirements the profile does not show. Never invent anything about the candidate.
+strengths: the candidate's facts from the profile that match the offer, each tied to a requirement; experience from another field counts when it clearly transfers (for example hotel operations for facility or customer-experience roles): say so. gaps: requirements the profile does not show. Never invent anything about the candidate.
 score: honest fit from 0 to 100, based on the requirements met. recommendation: apply, apply_with_care (worth it, but gaps or conditions to check) or skip; recommendation_reason: two or three sentences.
 Write every text field in the requested output language.`;
 
@@ -208,6 +208,11 @@ You have no web access. Separate what is known from what is assumed:
 - to_check: three to six points the candidate must verify before sending (decision-maker's name, recent news, exact requirements, languages, salary range, anything you assumed).
 Write every text field in the requested output language.`;
 
+// Profil expérimenté : mêmes faits, présentation qui ne prête pas le flanc aux préjugés liés à l'âge.
+const SENIOR_RULES = `Experienced-candidate mode is on:
+- CV: never show age, date of birth or photo. Give full detail for the last 15 years; summarise older roles in one "Earlier career" line (titles and employers, no dates). Do not show graduation years. Keep every fact true; nothing is hidden from the profile, it is only condensed.
+- Letter, email and pitch: present the depth of experience as an asset (judgement, reliability, training others, results over time) and show energy and openness to new tools and methods. Never mention age.`;
+
 const TAILOR_SYSTEM = `You write a complete, tailored application pack for one job offer, for a job-search assistant used in Luxembourg and the Greater Region.
 
 The absolute rule: use only facts present in the candidate profile below. Never invent or alter an employer, title, date, figure, degree, certification, language level or skill. You may select, reorder, group and rephrase the candidate's facts to match the offer, and translate them faithfully into the output language. When the offer asks for something the profile does not show, do not claim it: list it in "gaps" instead, as a short sentence in the output language, so the candidate can decide what to add.
@@ -216,6 +221,7 @@ The CV: plain text with simple markdown (a "# " line for the name, "## " section
 The letter: plain text, under 350 words, addressed to the contact if known, otherwise a neutral greeting in the output language. Three to four short paragraphs: why this company and role, two or three concrete proofs from the profile tied to the offer's needs, a clear request for a meeting. Polite closing customary in the output language. Do not invent the company's facts beyond what the offer says.
 The email: email_subject is a short subject line naming the role; email_body is a brief covering email (under 120 words) that presents the attached CV and letter, with one concrete proof and a request for a meeting.
 The pitch: a short global presentation of the candidate for this role (about 80 to 120 words), usable as a LinkedIn message or an oral introduction, first person.
+When the offer is in a different field from the candidate's background, bridge the gap honestly: present the transferable experience in the offer's vocabulary and show why it applies, without claiming experience in the new field that the profile does not show.
 If a company brief is given, use it only to understand the employer's likely needs; its content is unverified, so never state it as fact in the documents.
 Write all documents entirely in the requested output language. "company" and "job_title" are taken from the offer (empty string if absent).`;
 
@@ -295,7 +301,7 @@ async function tailor(body: Record<string, unknown>, userId: string, db: Db, adm
   if (offer.length < 80) throw new Fail('offer_too_short');
   const lang = typeof body.lang === 'string' && body.lang in LANG_NAMES ? body.lang : 'fr';
 
-  const { data: profile, error } = await db.from('profiles').select('display_name, plan, cv_text, profile_data').eq('id', userId).single();
+  const { data: profile, error } = await db.from('profiles').select('display_name, plan, cv_text, profile_data, senior_mode').eq('id', userId).single();
   if (error) throw error;
   const facts = profile.profile_data && Object.keys(profile.profile_data).length ? JSON.stringify(profile.profile_data, null, 1) : '';
   if (!facts && !profile.cv_text.trim()) throw new Fail('profile_empty');
@@ -321,7 +327,7 @@ async function tailor(body: Record<string, unknown>, userId: string, db: Db, adm
     `Output language: ${LANG_NAMES[lang]}.`,
   ].filter(Boolean).join('\n\n');
 
-  const { result, usage } = await callClaude(TAILOR_SYSTEM, [{ type: 'text', text: context }], TAILOR_SCHEMA);
+  const { result, usage } = await callClaude(profile.senior_mode ? `${TAILOR_SYSTEM}\n\n${SENIOR_RULES}` : TAILOR_SYSTEM, [{ type: 'text', text: context }], TAILOR_SCHEMA);
   await recordUsage(admin, userId, 'documents', usage);
 
   const { data: doc, error: insErr } = await db.from('documents').insert({
@@ -433,10 +439,11 @@ const DISCOVER_SCHEMA = {
 const DISCOVER_SYSTEM = `You match a job seeker's profile with opportunities in Luxembourg and the Greater Region.
 1. jobs: score every listed job ad from 0 to 100 for fit with the candidate's experience, level, sector and languages, using only the profile's facts and the ad excerpt. Give the sector and one short reason (max 25 words) naming the concrete match or the main gap. Return one item per ad, with its index.
 2. companies: propose up to 8 real employers in Luxembourg or the Greater Region that are likely to hire this profile through a direct, spontaneous approach. Only well-known, existing organisations you are confident about; never invent a company. Exclude the companies listed as already known. Score the likely fit from 0 to 100 and give one short reason (max 25 words) tied to the profile. Location: city if you are confident, otherwise "Luxembourg".
+The candidate may target several fields, including fields next to their background: score transferable experience fairly when the profile shows the matching facts, and name in the reason which experience transfers. Propose companies across all target fields.
 Be strict: 80+ only for a strong, evident match. Write reasons and sectors in the requested output language.`;
 
 type Profile = {
-  display_name: string; ui_lang: string; doc_lang: string; trade: string; plan: string; cv_text: string;
+  display_name: string; ui_lang: string; doc_lang: string; trade: string; target_trades: string[]; senior_mode: boolean; plan: string; cv_text: string;
   profile_data: Record<string, unknown>; opp_auto_prepare: boolean; opp_min_score: number;
 };
 type Opportunity = { id: string; kind: string; title: string; company: string; location: string; sector: string; source: string; link: string; snippet: string; score: number; reason: string; status: string; target_id: string | null };
@@ -447,16 +454,33 @@ const offerKey = (link: string, title: string, company: string) => (link ? `link
 
 async function loadProfile(db: Db, userId: string): Promise<Profile> {
   const { data, error } = await db.from('profiles')
-    .select('display_name, ui_lang, doc_lang, trade, plan, cv_text, profile_data, opp_auto_prepare, opp_min_score').eq('id', userId).single();
+    .select('display_name, ui_lang, doc_lang, trade, target_trades, senior_mode, plan, cv_text, profile_data, opp_auto_prepare, opp_min_score').eq('id', userId).single();
   if (error) throw error;
   return data as Profile;
 }
 
-/** Requêtes de recherche tirées du profil : titre visé et dernier poste. */
-function profileQueries(p: Profile): string[] {
+const TRADE_NAMES: Record<string, string> = {
+  general: 'any field', hospitality: 'hospitality and catering', events: 'events', operations: 'operations management',
+  facility: 'facility management', property: 'real estate and property management', customer: 'customer service and experience',
+  luxury_retail: 'luxury retail', purchasing: 'purchasing and procurement', quality: 'quality, hygiene and safety',
+  project: 'project management', health_seniors: 'health care and senior living', consulting: 'consulting, training and interim management',
+};
+
+const tradesOf = (p: Profile) => (p.target_trades?.length ? p.target_trades : [p.trade]).filter((t) => t in TRADE_NAMES);
+
+/** Requêtes de recherche : titre visé, dernier poste, puis un mot-clé par métier visé (au plus 5 requêtes). */
+async function profileQueries(db: Db, p: Profile): Promise<string[]> {
   const d = p.profile_data as { headline?: string; experiences?: { title?: string }[] };
   const list = [d.headline, d.experiences?.[0]?.title].map((x) => (x ?? '').trim()).filter(Boolean);
-  return [...new Set(list.map((x) => x.slice(0, 80)))].slice(0, 2);
+  const trades = tradesOf(p).filter((t) => t !== 'general');
+  if (trades.length) {
+    const { data } = await db.from('modeles').select('trade, content').eq('kind', 'keywords').eq('lang', p.doc_lang).in('trade', trades);
+    for (const t of trades) {
+      const first = ((data ?? []).find((r: { trade: string }) => r.trade === t)?.content as string[] | undefined)?.[0];
+      if (first) list.push(first);
+    }
+  }
+  return [...new Set(list.map((x) => x.slice(0, 80)))].slice(0, 5);
 }
 
 async function discoverFor(db: Db, admin: Db, userId: string) {
@@ -477,7 +501,7 @@ async function discoverFor(db: Db, admin: Db, userId: string) {
   const key = Deno.env.get('CAP_JOOBLE_API_KEY');
   let jobs: Job[] = [];
   if (key) {
-    for (const q of profileQueries(profile)) {
+    for (const q of await profileQueries(db, profile)) {
       try { jobs.push(...(await jooble(key, q, 'Luxembourg')).jobs); } catch { /* une source en panne ne bloque pas les entreprises */ }
     }
     const fresh = new Map<string, Job>();
@@ -491,11 +515,12 @@ async function discoverFor(db: Db, admin: Db, userId: string) {
   // 2. Notation des offres et entreprises probables, en un seul appel.
   const text = [
     `<candidate_profile>\n${facts}\n</candidate_profile>`,
-    `Field: ${profile.trade}.`,
+    `Target fields: ${tradesOf(profile).map((t) => TRADE_NAMES[t]).join('; ')}.`,
+    profile.senior_mode ? 'Experienced candidate: also favour employers and assignments that value seniority (interim management, consulting, training, opening or turnaround roles).' : '',
     `Companies already known (exclude): ${knownCompanies.join(', ') || 'none'}.`,
     jobs.length ? `<job_ads>\n${jobs.map((j, i) => `[${i}] ${j.title} | ${j.company} | ${j.location}\n${j.snippet.slice(0, 600)}`).join('\n\n')}\n</job_ads>` : 'No job ads collected today: return an empty jobs list.',
     `Output language: ${LANG_NAMES[profile.ui_lang] ?? 'French'}.`,
-  ].join('\n\n');
+  ].filter(Boolean).join('\n\n');
   const { result, usage: tokens } = await callClaude(DISCOVER_SYSTEM, [{ type: 'text', text }], DISCOVER_SCHEMA);
   await recordUsage(admin, userId, 'discoveries', tokens);
 

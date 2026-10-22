@@ -12,8 +12,10 @@ describe('sources d’emploi', () => {
   it('ouvrent l’accueil du site sans recherche', () => {
     expect(sourceUrl(JOB_SOURCES[0], '  ', '')).toBe(JOB_SOURCES[0].home);
   });
-  it('placent les sites spécialisés en premier pour l’hôtellerie', () => {
-    expect(sourcesFor('hospitality')[0].tags).toContain('hospitality');
-    expect(sourcesFor('general')[0].id).toBe(JOB_SOURCES[0].id);
+  it('placent en premier les sites spécialisés dans les métiers visés', () => {
+    expect(sourcesFor(['hospitality'])[0].trades).toContain('hospitality');
+    expect(sourcesFor(['health_seniors'])[0].id).toBe('servior');
+    expect(sourcesFor(['facility', 'hospitality']).slice(0, 4).every((s) => s.tags.includes('specialized') || s.tags.includes('recruiter'))).toBe(true);
+    expect(sourcesFor(['general'])[0].id).toBe(JOB_SOURCES[0].id);
   });
 });
