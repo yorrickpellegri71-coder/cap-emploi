@@ -10,12 +10,13 @@ const tables: Record<string, unknown[]> = {
     followup_days: 7, cv_text: 'CV', profile_data: { full_name: 'Test User', headline: 'Directeur', experiences: [{ title: 'Directeur', company: 'Hôtel', location: '', start: '2020', end: '', achievements: ['+12 %'] }], skills: ['Gestion'], languages: [{ language: 'Anglais', level: 'C1' }] },
     onboarded: true, consent_at: '2026-10-22T10:00:00Z', plan: 'free' }],
   targets: [
-    { id: 't1', company: 'Hôtel A', sector: 'Hôtel de luxe', priority: 'A', contact_name: 'Anne', contact_role: 'DG', channel: 'linkedin', stage: 'contacted', last_contact_on: '2026-10-01', job_url: '', notes: '', created_at: '', updated_at: '' },
-    { id: 't2', company: 'Resto B', sector: '', priority: 'B', contact_name: '', contact_role: '', channel: 'email', stage: 'todo', last_contact_on: null, job_url: '', notes: '', created_at: '', updated_at: '' },
+    { id: 't1', company: 'Hôtel A', sector: 'Hôtel de luxe', priority: 'A', contact_name: 'Anne', contact_role: 'DG', channel: 'linkedin', stage: 'contacted', last_contact_on: '2026-10-01', job_url: '', notes: '',
+      brief: { company: 'Hôtel A', job_title: 'Directeur', summary: 'Résumé', expectations: ['Gestion'], digital_idea: 'Tableau de bord', to_check: ['Nom du DG'], offer_text: 'Offre' }, created_at: '', updated_at: '' },
+    { id: 't2', company: 'Resto B', sector: '', priority: 'B', contact_name: '', contact_role: '', channel: 'email', stage: 'todo', last_contact_on: null, job_url: '', notes: '', brief: {}, created_at: '', updated_at: '' },
   ],
   weeks: [{ counters: { contacts: 2 } }],
   modeles: [{ trade: '*', content: { first_contact: { subject: 'Objet {company}', body: 'Bonjour {contact}' }, followup: { subject: 's', body: 'b' }, thanks: { subject: 's', body: 'b' } } }],
-  documents: [{ id: 'd1', target_id: null, company: 'Hôtel A', job_title: 'Directeur', lang: 'fr', offer_text: 'x', cv: '# Test\n## Expérience\n- point', letter: 'Madame,', gaps: ['Allemand courant'], created_at: '2026-10-22T10:00:00Z' }],
+  documents: [{ id: 'd1', target_id: null, company: 'Hôtel A', job_title: 'Directeur', lang: 'fr', offer_text: 'x', cv: '# Test\n## Expérience\n- point', letter: 'Madame,', email_subject: 'Candidature', email_body: 'Bonjour', pitch: 'Je suis', gaps: ['Allemand courant'], created_at: '2026-10-22T10:00:00Z' }],
   ai_usage: [{ documents: 1, extractions: 0 }],
 };
 
@@ -48,7 +49,7 @@ vi.mock('./lib/supabase', () => {
   };
 });
 
-const ROUTES = ['/', '/cibles', '/messages?cible=t1&type=followup', '/documents', '/profil', '/confidentialite', '/inconnu'];
+const ROUTES = ['/', '/cibles', '/messages?cible=t1&type=followup', '/postuler', '/postuler?cible=t1', '/postuler?cible=t2', '/documents?cible=t1', '/profil', '/confidentialite', '/inconnu'];
 
 afterEach(cleanup);
 
@@ -70,6 +71,6 @@ describe.each(['fr', 'en', 'de'])('écrans (%s)', (lang) => {
     spy.mockRestore();
     expect(errors).toEqual([]);
     // Aucune clé de traduction brute ne doit apparaître à l'écran.
-    expect(container.textContent).not.toMatch(/\b(week|targets|profile|documents|messages|common|errors)\.[a-z]/);
+    expect(container.textContent).not.toMatch(/\b(week|targets|profile|apply|messages|common|errors)\.[a-z]/);
   });
 });

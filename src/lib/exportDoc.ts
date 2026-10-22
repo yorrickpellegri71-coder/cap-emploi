@@ -33,9 +33,12 @@ function download(blob: Blob, name: string) {
   window.setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
-export async function exportDocx(text: string, name: string) {
+export interface Piece { title: string; text: string }
+
+/** Un document Word ; plusieurs pièces = une pièce par page, chacune précédée de son titre. */
+export async function exportDocx(content: string | Piece[], name: string) {
   const { Document, Packer, Paragraph, TextRun, HeadingLevel } = await import('docx');
-  const children = parseLines(text).map((l) => {
+  const toParagraphs = (text: string) => parseLines(text).map((l) => {
     switch (l.kind) {
       case 'title': return new Paragraph({ heading: HeadingLevel.TITLE, children: [new TextRun(plain(l.text))] });
       case 'heading': return new Paragraph({ heading: HeadingLevel.HEADING_2, spacing: { before: 240 }, children: [new TextRun(plain(l.text))] });
@@ -44,9 +47,16 @@ export async function exportDocx(text: string, name: string) {
       default: return new Paragraph({ spacing: { after: 80 }, children: [new TextRun(plain(l.text))] });
     }
   });
+  const pieces = typeof content === 'string' ? [{ title: '', text: content }] : content;
   const doc = new Document({
     styles: { default: { document: { run: { font: 'Calibri', size: 22 } } } },
-    sections: [{ properties: { page: { margin: { top: 1000, bottom: 1000, left: 1100, right: 1100 } } }, children }],
+    sections: pieces.map((p) => ({
+      properties: { page: { margin: { top: 1000, bottom: 1000, left: 1100, right: 1100 } } },
+      children: [
+        ...(p.title ? [new Paragraph({ heading: HeadingLevel.HEADING_1, spacing: { after: 200 }, children: [new TextRun(p.title)] })] : []),
+        ...toParagraphs(p.text),
+      ],
+    })),
   });
   download(await Packer.toBlob(doc), name);
 }
@@ -68,14 +78,16 @@ export function toHtml(text: string): string {
   return out.join('\n');
 }
 
-/** Ouvre une page d'impression : l'utilisateur choisit « Enregistrer en PDF ». */
-export function exportPdf(text: string, title: string, lang: string) {
+/** Ouvre une page d'impression : l'utilisateur choisit « Enregistrer en PDF ». Plusieurs pièces = une par page. */
+export function exportPdf(content: string | Piece[], title: string, lang: string) {
+  const pieces = typeof content === 'string' ? [{ title: '', text: content }] : content;
+  const body = pieces.map((p, i) => `<section${i ? ' class="page"' : ''}>${p.title ? `<p class="piece">${esc(p.title)}</p>` : ''}${toHtml(p.text)}</section>`).join('');
   const w = window.open('', '_blank');
   if (!w) throw new Error('popup');
   w.document.write(`<!doctype html><html lang="${lang}"><head><meta charset="utf-8"><title>${esc(title)}</title>
 <style>@page{margin:18mm}body{font:11pt/1.45 Calibri,Arial,sans-serif;color:#111;max-width:180mm;margin:0 auto}
 h1{font-size:20pt;margin:0 0 4pt}h2{font-size:12pt;text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid #999;margin:14pt 0 6pt;padding-bottom:2pt}
-p{margin:0 0 6pt}ul{margin:0 0 6pt;padding-left:16pt}li{margin:0 0 2pt}</style></head><body>${toHtml(text)}</body></html>`);
+p{margin:0 0 6pt}ul{margin:0 0 6pt;padding-left:16pt}li{margin:0 0 2pt}.page{break-before:page}.piece{font-size:9pt;text-transform:uppercase;letter-spacing:.1em;color:#666;margin-bottom:10pt}</style></head><body>${body}</body></html>`);
   w.document.close();
   w.focus();
   w.setTimeout(() => w.print(), 300);

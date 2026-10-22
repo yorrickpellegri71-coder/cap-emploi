@@ -1,10 +1,10 @@
-import { Link, Navigate, Outlet, Route, Routes } from 'react-router-dom';
+import { Link, Navigate, Outlet, Route, Routes, useLocation } from 'react-router-dom';
 import { Shell } from './components/Shell';
 import { Brand, Empty, ErrorState, Loading } from './components/ui';
 import { useI18n } from './i18n';
 import { useSession } from './lib/session';
 import { ForgotPassword, Login, NewPassword, Privacy, Signup } from './pages/Auth';
-import { Documents } from './pages/Documents';
+import { Apply } from './pages/Apply';
 import { Messages } from './pages/Messages';
 import { Onboarding } from './pages/Onboarding';
 import { Profile } from './pages/Profile';
@@ -51,6 +51,12 @@ function Onboarded({ want }: { want: boolean }) {
   return <Outlet />;
 }
 
+/** Ancienne adresse des documents : renvoie vers « Postuler » en gardant la cible. */
+function ToApply() {
+  const { search } = useLocation();
+  return <Navigate to={`/postuler${search}`} replace />;
+}
+
 function NotFound() {
   const { t } = useI18n();
   return (
@@ -80,7 +86,8 @@ export function App() {
             <Route index element={<Week />} />
             <Route path="/cibles" element={<Targets />} />
             <Route path="/messages" element={<Messages />} />
-            <Route path="/documents" element={<Documents />} />
+            <Route path="/postuler" element={<Apply />} />
+            <Route path="/documents" element={<ToApply />} />
             <Route path="/profil" element={<Profile />} />
             <Route path="*" element={<NotFound />} />
           </Route>

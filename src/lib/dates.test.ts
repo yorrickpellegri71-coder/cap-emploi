@@ -4,7 +4,7 @@ import type { Target } from './types';
 
 const t = (id: string, stage: Target['stage'], last: string | null): Target => ({
   id, company: id, sector: '', priority: 'B', contact_name: '', contact_role: '', channel: 'email', stage,
-  last_contact_on: last, job_url: '', notes: '', created_at: '', updated_at: '',
+  last_contact_on: last, job_url: '', notes: '', brief: {}, created_at: '', updated_at: '',
 });
 
 describe('semaines ISO', () => {

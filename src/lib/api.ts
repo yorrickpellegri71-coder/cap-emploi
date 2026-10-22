@@ -1,7 +1,7 @@
 // Accès aux données. La sécurité par utilisateur est garantie côté base (RLS) : aucune requête ne filtre « à la main ».
 import { stageEffect, isoDay, isoWeek } from './dates';
 import { supabase, unwrap } from './supabase';
-import type { CounterKey, Counters, DocumentRow, Lang, MessageTemplates, ProfileData, Stage, Target } from './types';
+import type { CompanyBrief, CounterKey, Counters, DocumentRow, JobResult, Lang, MessageTemplates, ProfileData, Stage, Target } from './types';
 
 export async function fetchTargets(): Promise<Target[]> {
   return unwrap(await supabase.from('targets').select('*').order('updated_at', { ascending: false })) as Target[];
@@ -32,6 +32,31 @@ export async function moveTarget(target: Target, stage: Stage): Promise<Target> 
   return row;
 }
 
+/** « J'ai envoyé » : la cible passe en « Contacté », la candidature est comptée, la relance part du jour. */
+export async function markApplied(target: Target): Promise<Target> {
+  const stage: Stage = ['todo', 'contacted', 'followed_up'].includes(target.stage) ? 'contacted' : target.stage;
+  const row = unwrap(await supabase.from('targets').update({ stage, last_contact_on: isoDay() }).eq('id', target.id).select().single()) as Target;
+  await bumpCounter('applications', 1);
+  return row;
+}
+
+/** Crée la cible d'une fiche entreprise, ou met à jour la cible existante du même nom. */
+export async function upsertTargetFromBrief(brief: CompanyBrief, targets: Target[], jobUrl: string): Promise<Target> {
+  const name = (brief.company ?? '').trim();
+  const existing = targets.find((x) => x.company.trim().toLowerCase() === name.toLowerCase());
+  if (existing) {
+    const patch: Partial<Target> = { brief };
+    if (!existing.sector && brief.sector) patch.sector = brief.sector;
+    if (!existing.contact_name && brief.contact_name) { patch.contact_name = brief.contact_name; patch.contact_role = brief.contact_role ?? ''; }
+    if (!existing.job_url && jobUrl) patch.job_url = jobUrl;
+    return unwrap(await supabase.from('targets').update(patch).eq('id', existing.id).select().single()) as Target;
+  }
+  return saveTarget({
+    company: name, sector: brief.sector ?? '', priority: 'A', contact_name: brief.contact_name ?? '', contact_role: brief.contact_role ?? '',
+    channel: jobUrl ? 'jobboard' : 'email', stage: 'todo', last_contact_on: null, job_url: jobUrl, notes: brief.job_title ? `${brief.job_title}` : '', brief,
+  });
+}
+
 export async function fetchWeek(week: string): Promise<Counters> {
   const row = unwrap(await supabase.from('weeks').select('counters').eq('week', week).maybeSingle()) as { counters: Counters } | null;
   return row?.counters ?? {};
@@ -52,7 +77,7 @@ export async function fetchDocuments(): Promise<DocumentRow[]> {
   return unwrap(await supabase.from('documents').select('*').order('created_at', { ascending: false }).limit(50)) as DocumentRow[];
 }
 
-export async function updateDocument(id: string, patch: Pick<DocumentRow, 'cv' | 'letter'>): Promise<void> {
+export async function updateDocument(id: string, patch: Partial<Pick<DocumentRow, 'cv' | 'letter' | 'email_subject' | 'email_body' | 'pitch'>>): Promise<void> {
   unwrap(await supabase.from('documents').update(patch).eq('id', id).select('id'));
 }
 
@@ -60,10 +85,10 @@ export async function deleteDocument(id: string): Promise<void> {
   unwrap(await supabase.from('documents').delete().eq('id', id).select('id'));
 }
 
-export async function fetchUsage(): Promise<{ documents: number; extractions: number }> {
+export async function fetchUsage(): Promise<{ documents: number; extractions: number; briefs: number }> {
   const month = new Date().toISOString().slice(0, 7);
-  const row = unwrap(await supabase.from('ai_usage').select('documents, extractions').eq('month', month).maybeSingle()) as { documents: number; extractions: number } | null;
-  return row ?? { documents: 0, extractions: 0 };
+  const row = unwrap(await supabase.from('ai_usage').select('documents, extractions, briefs').eq('month', month).maybeSingle()) as { documents: number; extractions: number; briefs: number } | null;
+  return row ?? { documents: 0, extractions: 0, briefs: 0 };
 }
 
 /** Erreur de la fonction IA, avec un code stable traduit par l'interface (errors.ai.<code>). */
@@ -88,6 +113,12 @@ export const extractProfile = (input: { cv_text?: string; pdf_base64?: string })
 
 export const tailorDocuments = (input: { offer_text: string; lang: Lang; target_id?: string | null }) =>
   callAi<{ document: DocumentRow; remaining: number | null }>({ action: 'tailor', ...input });
+
+export const companyBrief = (input: { company?: string; offer_text?: string; job_url?: string; lang: Lang }) =>
+  callAi<{ brief: CompanyBrief }>({ action: 'brief', ...input });
+
+export const searchJobs = (input: { keywords: string; location?: string; page?: number }) =>
+  callAi<{ total: number; jobs: JobResult[] }>({ action: 'search_jobs', ...input });
 
 /** Export RGPD : toutes les données du compte en JSON. */
 export async function exportMyData(): Promise<Blob> {

@@ -7,9 +7,9 @@ import { Brand, LangSwitch } from './ui';
 
 const NAV = [
   { to: '/', key: 'nav.week', icon: 'M3 4h18v17H3zM3 9h18M8 2v4M16 2v4' },
+  { to: '/postuler', key: 'nav.apply', icon: 'M3 11 21 3l-8 18-2-8-8-2zM11 13l10-10' },
   { to: '/cibles', key: 'nav.targets', icon: 'M3 5h4v14H3zM10 5h4v9h-4zM17 5h4v6h-4z' },
   { to: '/messages', key: 'nav.messages', icon: 'M4 5h16v11H8l-4 4z' },
-  { to: '/documents', key: 'nav.documents', icon: 'M6 2h9l5 5v15H6zM14 2v6h6M9 13h8M9 17h8' },
   { to: '/profil', key: 'nav.profile', icon: 'M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21a8 8 0 0 1 16 0' },
 ];
 

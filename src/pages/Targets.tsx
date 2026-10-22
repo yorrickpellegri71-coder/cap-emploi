@@ -8,7 +8,7 @@ import { CHANNELS, STAGES, type Stage, type Target } from '../lib/types';
 
 const EMPTY: TargetInput = {
   company: '', sector: '', priority: 'B', contact_name: '', contact_role: '', channel: 'linkedin',
-  stage: 'todo', last_contact_on: null, job_url: '', notes: '',
+  stage: 'todo', last_contact_on: null, job_url: '', notes: '', brief: {},
 };
 
 function TargetForm({ target, onClose }: { target: Target | null; onClose: () => void }) {
@@ -152,7 +152,7 @@ function TargetCard({ target, onOpen }: { target: Target; onOpen: () => void }) 
           </button>
         )}
       </div>
-      <Link className="xs" to={`/documents?cible=${target.id}`}>{t('targets.tailor')}</Link>
+      <Link className="xs" to={`/postuler?cible=${target.id}`}>{t('targets.tailor')}</Link>
     </article>
   );
 }

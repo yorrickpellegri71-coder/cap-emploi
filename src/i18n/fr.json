@@ -14,18 +14,22 @@
     "optional": "facultatif",
     "language": "Langue de l’interface"
   },
-  "langs": { "fr": "Français", "en": "Anglais", "de": "Allemand" },
+  "langs": {
+    "fr": "Français",
+    "en": "Anglais",
+    "de": "Allemand"
+  },
   "nav": {
     "main": "Navigation principale",
     "skip": "Aller au contenu",
     "week": "Semaine",
     "targets": "Cibles",
     "messages": "Messages",
-    "documents": "CV et lettres",
     "profile": "Profil",
     "account": "Mon compte",
     "privacy": "Confidentialité",
-    "signout": "Se déconnecter"
+    "signout": "Se déconnecter",
+    "apply": "Postuler"
   },
   "errors": {
     "network": "Connexion au serveur impossible. Vérifiez votre réseau puis réessayez.",
@@ -46,7 +50,13 @@
       "ai_unavailable": "Le service IA est momentanément indisponible. Réessayez plus tard.",
       "server_error": "Erreur du serveur. Réessayez dans un instant.",
       "unknown_action": "Action inconnue.",
-      "network": "Connexion au serveur impossible. Vérifiez votre réseau puis réessayez."
+      "network": "Connexion au serveur impossible. Vérifiez votre réseau puis réessayez.",
+      "brief_missing": "Indiquez un nom d’entreprise ou collez le texte de l’offre.",
+      "quota_briefs": "Limite mensuelle de fiches entreprise atteinte.",
+      "search_disabled": "La collecte automatique d’offres n’est pas encore activée.",
+      "keywords_missing": "Saisissez un poste ou des mots-clés.",
+      "quota_searches": "Limite mensuelle de recherches automatiques atteinte. Les liens vers les sites restent disponibles.",
+      "search_unavailable": "Le service de recherche d’offres ne répond pas. Utilisez les liens vers les sites."
     }
   },
   "auth": {
@@ -95,9 +105,18 @@
     "cta": "Continuer"
   },
   "trades": {
-    "general": { "name": "Tous métiers", "desc": "Secteurs et messages généraux, valables pour tout poste." },
-    "hospitality": { "name": "Hôtellerie et restauration", "desc": "Hôtels, restaurants, groupes hôteliers, casinos, traiteurs." },
-    "events": { "name": "Événementiel", "desc": "Agences, lieux de réception, congrès, salons, festivals." }
+    "general": {
+      "name": "Tous métiers",
+      "desc": "Secteurs et messages généraux, valables pour tout poste."
+    },
+    "hospitality": {
+      "name": "Hôtellerie et restauration",
+      "desc": "Hôtels, restaurants, groupes hôteliers, casinos, traiteurs."
+    },
+    "events": {
+      "name": "Événementiel",
+      "desc": "Agences, lieux de réception, congrès, salons, festivals."
+    }
   },
   "counters": {
     "contacts": "Contacts directs",
@@ -123,7 +142,11 @@
     "jobboard": "Site d’emploi",
     "other": "Autre"
   },
-  "priorities": { "A": "A – prioritaire", "B": "B – intéressante", "C": "C – à garder en tête" },
+  "priorities": {
+    "A": "A – prioritaire",
+    "B": "B – intéressante",
+    "C": "C – à garder en tête"
+  },
   "week": {
     "eyebrow": "Semaine {n} · {year}",
     "title": "Rythme de la semaine",
@@ -162,7 +185,7 @@
     "notes": "Notes",
     "noContact": "Décideur à identifier",
     "confirmDelete": "Supprimer cette cible ?",
-    "tailor": "CV et lettre pour cette cible",
+    "tailor": "Préparer la candidature",
     "next": {
       "todo": "Contacté",
       "contacted": "Relancé",
@@ -173,7 +196,11 @@
   "messages": {
     "eyebrow": "Prêts à copier",
     "title": "Messages",
-    "kinds": { "first_contact": "Premier contact", "followup": "Relance", "thanks": "Remerciement" },
+    "kinds": {
+      "first_contact": "Premier contact",
+      "followup": "Relance",
+      "thanks": "Remerciement"
+    },
     "target": "Cible",
     "noTarget": "Aucune cible choisie",
     "lang": "Langue du message",
@@ -181,34 +208,6 @@
     "body": "Message",
     "copyBody": "Copier le message",
     "missing": "À compléter avant l’envoi : {list}. Choisissez une cible ou complétez votre profil."
-  },
-  "documents": {
-    "eyebrow": "Intelligence artificielle",
-    "title": "CV et lettre sur mesure",
-    "needProfile": "Pour que l’IA adapte vos documents, importez d’abord votre CV.",
-    "goProfile": "Compléter mon profil",
-    "offer": "Texte de l’offre",
-    "offerPlaceholder": "Collez ici l’annonce complète : intitulé, missions, profil recherché…",
-    "target": "Cible associée",
-    "lang": "Langue des documents",
-    "remaining": "{n} document(s) gratuit(s) restant(s) ce mois-ci sur {max}.",
-    "noInvention": "L’IA n’utilise que les faits de votre profil.",
-    "generate": "Générer le CV et la lettre",
-    "generating": "Rédaction en cours…",
-    "generatingHint": "Comptez environ une minute : l’IA lit l’offre et sélectionne vos expériences les plus pertinentes.",
-    "cv": "CV",
-    "letter": "Lettre",
-    "untitled": "Document sans titre",
-    "gapsTitle": "Points de l’offre absents de votre profil",
-    "gapsHint": "Ils n’ont pas été ajoutés. Si vous avez cette expérience, complétez votre profil puis régénérez.",
-    "review": "Relisez et modifiez librement avant tout envoi.",
-    "word": "Word",
-    "pdf": "PDF",
-    "popupBlocked": "Votre navigateur a bloqué la fenêtre d’impression. Autorisez les fenêtres pour ce site.",
-    "confirmDelete": "Supprimer ce document ?",
-    "history": "Documents générés",
-    "emptyTitle": "Aucun document pour l’instant",
-    "emptyHint": "Collez une offre ci-dessus pour obtenir un CV et une lettre adaptés."
   },
   "profile": {
     "eyebrow": "Vos informations",
@@ -257,12 +256,112 @@
   },
   "privacy": {
     "title": "Politique de confidentialité",
-    "who": { "h": "Responsable", "p": "Cap Emploi est édité par Yorrick Pellegri, Luxembourg. Ce texte est une version de lancement, à faire valider avant l’ouverture au public." },
-    "data": { "h": "Données traitées", "p": "Adresse e-mail, mot de passe chiffré, profil candidat et CV, cibles et notes, compteurs hebdomadaires et documents générés. Elles servent uniquement à faire fonctionner votre espace." },
-    "ai": { "h": "Intelligence artificielle", "p": "Pour produire vos documents, votre profil et l’offre sont transmis au modèle Claude d’Anthropic par une fonction serveur. Ils ne servent qu’à produire vos documents et ne sont pas utilisés pour entraîner le modèle." },
-    "where": { "h": "Hébergement et sécurité", "p": "Comptes et base de données hébergés par Supabase dans l’Union européenne. Chaque utilisateur n’accède qu’à ses propres données, garanti par des règles de sécurité au niveau de la base." },
-    "rights": { "h": "Vos droits", "p": "Depuis votre profil, vous pouvez télécharger toutes vos données ou supprimer votre compte, ce qui efface définitivement l’ensemble de vos données." },
-    "contact": { "h": "Contact", "p": "Pour toute question sur vos données, écrivez au porteur du projet." },
+    "who": {
+      "h": "Responsable",
+      "p": "Cap Emploi est édité par Yorrick Pellegri, Luxembourg. Ce texte est une version de lancement, à faire valider avant l’ouverture au public."
+    },
+    "data": {
+      "h": "Données traitées",
+      "p": "Adresse e-mail, mot de passe chiffré, profil candidat et CV, cibles et notes, compteurs hebdomadaires et documents générés. Elles servent uniquement à faire fonctionner votre espace."
+    },
+    "ai": {
+      "h": "Intelligence artificielle",
+      "p": "Pour produire vos documents, votre profil et l’offre sont transmis au modèle Claude d’Anthropic par une fonction serveur. Ils ne servent qu’à produire vos documents et ne sont pas utilisés pour entraîner le modèle."
+    },
+    "where": {
+      "h": "Hébergement et sécurité",
+      "p": "Comptes et base de données hébergés par Supabase dans l’Union européenne. Chaque utilisateur n’accède qu’à ses propres données, garanti par des règles de sécurité au niveau de la base."
+    },
+    "rights": {
+      "h": "Vos droits",
+      "p": "Depuis votre profil, vous pouvez télécharger toutes vos données ou supprimer votre compte, ce qui efface définitivement l’ensemble de vos données."
+    },
+    "contact": {
+      "h": "Contact",
+      "p": "Pour toute question sur vos données, écrivez au porteur du projet."
+    },
     "updated": "Version du 22 octobre 2026."
+  },
+  "apply": {
+    "eyebrow": "Postuler en direct",
+    "title": "De l’offre à l’envoi",
+    "intro": "Trouvez une offre, obtenez la fiche de l’entreprise, générez votre dossier complet, puis envoyez-le vous-même.",
+    "needProfile": "Pour que l’IA prépare votre dossier, importez d’abord votre CV.",
+    "goProfile": "Compléter mon profil",
+    "search": {
+      "title": "Trouver des offres",
+      "query": "Poste ou mots-clés",
+      "queryPlaceholder": "Ex. directeur d’hôtel, revenue manager",
+      "where": "Lieu",
+      "collect": "Rechercher",
+      "sources": "Ouvrir la recherche sur chaque site",
+      "tagGeneral": "Généraliste",
+      "tagHospitality": "Hôtellerie",
+      "tagPublic": "Service public",
+      "viaWeb": "via recherche web",
+      "tos": "Ces sites interdisent la collecte automatique : Cap Emploi ouvre leur recherche, sans copier leurs annonces. La recherche automatique passe par l’API officielle de Jooble.",
+      "disabled": "La recherche automatique n’est pas encore activée (clé API Jooble à demander, gratuite). En attendant, utilisez les liens ci-dessus.",
+      "none": "Aucune offre trouvée pour cette recherche.",
+      "results": "Offres trouvées",
+      "open": "Voir l’offre",
+      "use": "Préparer la candidature"
+    },
+    "brief": {
+      "title": "Analyser une offre ou une entreprise",
+      "offer": "Texte de l’offre",
+      "offerOptional": "facultatif pour une candidature spontanée",
+      "offerPlaceholder": "Collez l’annonce complète : intitulé, missions, profil recherché…",
+      "snippetHint": "Ceci n’est qu’un extrait : ouvrez l’offre et collez son texte complet pour un meilleur dossier.",
+      "hint": "La fiche crée ou complète automatiquement la cible dans votre pipeline.",
+      "cta": "Créer la fiche et la cible",
+      "busy": "Analyse en cours…",
+      "noCompany": "Le nom de l’entreprise n’apparaît pas dans l’offre : indiquez-le dans le champ Entreprise.",
+      "orPick": "Ou reprendre une cible existante",
+      "sheet": "Fiche entreprise",
+      "inPipeline": "Voir dans le pipeline",
+      "empty": "Pas encore de fiche pour cette cible : analysez une offre ou son nom ci-dessus.",
+      "expectations": "Attentes probables",
+      "toCheck": "Points à vérifier avant l’envoi",
+      "digital": "Idée d’outil digital à proposer :",
+      "disclaimer": "Fiche préparée par l’IA sans accès au web : vérifiez les informations avant de les utiliser."
+    },
+    "dossier": {
+      "title": "Générer le dossier complet",
+      "needTarget": "Analysez d’abord une offre ou choisissez une cible.",
+      "fromOffer": "Le dossier s’appuie sur l’offre analysée et sur les faits de votre profil.",
+      "spontaneous": "Candidature spontanée : le dossier s’appuie sur la fiche entreprise et sur les faits de votre profil.",
+      "lang": "Langue du dossier",
+      "cta": "Générer le dossier",
+      "busy": "Rédaction en cours…",
+      "busyHint": "Comptez environ une minute : e-mail, lettre, CV adapté et présentation.",
+      "remaining": "{n} dossier(s) gratuit(s) restant(s) ce mois-ci sur {max}.",
+      "noInvention": "L’IA n’utilise que les faits de votre profil."
+    },
+    "pieces": {
+      "email": "E-mail",
+      "letter": "Lettre",
+      "cv": "CV",
+      "pitch": "Présentation"
+    },
+    "sent": {
+      "title": "Envoyer",
+      "intro": "Envoyez le dossier vous-même (e-mail, site de l’entreprise ou du recruteur), puis confirmez ici. La relance sera proposée dans {n} jours.",
+      "cta": "J’ai envoyé",
+      "done": "Candidature à {company} comptée, cible passée en « Contacté ». Relance prévue le {date}."
+    },
+    "untitled": "Dossier sans titre",
+    "gapsTitle": "Points de l’offre absents de votre profil",
+    "gapsHint": "Ils n’ont pas été ajoutés. Si vous avez cette expérience, complétez votre profil puis régénérez.",
+    "review": "Relisez et modifiez librement avant tout envoi.",
+    "word": "Word",
+    "pdf": "PDF",
+    "allWord": "Dossier complet en Word",
+    "allPdf": "Dossier complet en PDF",
+    "popupBlocked": "Votre navigateur a bloqué la fenêtre d’impression. Autorisez les fenêtres pour ce site.",
+    "confirmDelete": "Supprimer ce dossier ?",
+    "history": "Dossiers générés",
+    "emptyTitle": "Aucun dossier pour l’instant",
+    "emptyHint": "Analysez une offre puis générez votre premier dossier.",
+    "dossierName": "Dossier de candidature"
   }
 }

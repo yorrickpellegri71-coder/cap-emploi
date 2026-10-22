@@ -14,18 +14,22 @@
     "optional": "optional",
     "language": "Sprache der Oberfläche"
   },
-  "langs": { "fr": "Französisch", "en": "Englisch", "de": "Deutsch" },
+  "langs": {
+    "fr": "Französisch",
+    "en": "Englisch",
+    "de": "Deutsch"
+  },
   "nav": {
     "main": "Hauptnavigation",
     "skip": "Zum Inhalt springen",
     "week": "Woche",
     "targets": "Ziele",
     "messages": "Nachrichten",
-    "documents": "Lebensläufe und Briefe",
     "profile": "Profil",
     "account": "Mein Konto",
     "privacy": "Datenschutz",
-    "signout": "Abmelden"
+    "signout": "Abmelden",
+    "apply": "Bewerben"
   },
   "errors": {
     "network": "Keine Verbindung zum Server. Prüfen Sie Ihr Netzwerk und versuchen Sie es erneut.",
@@ -46,7 +50,13 @@
       "ai_unavailable": "Der KI-Dienst ist vorübergehend nicht verfügbar. Versuchen Sie es später erneut.",
       "server_error": "Serverfehler. Versuchen Sie es gleich noch einmal.",
       "unknown_action": "Unbekannte Aktion.",
-      "network": "Keine Verbindung zum Server. Prüfen Sie Ihr Netzwerk und versuchen Sie es erneut."
+      "network": "Keine Verbindung zum Server. Prüfen Sie Ihr Netzwerk und versuchen Sie es erneut.",
+      "brief_missing": "Geben Sie einen Unternehmensnamen ein oder fügen Sie den Text der Anzeige ein.",
+      "quota_briefs": "Monatliches Limit für Unternehmensprofile erreicht.",
+      "search_disabled": "Die automatische Stellensuche ist noch nicht aktiviert.",
+      "keywords_missing": "Geben Sie eine Stelle oder Stichwörter ein.",
+      "quota_searches": "Monatliches Limit für automatische Suchen erreicht. Die Links zu den Jobbörsen bleiben verfügbar.",
+      "search_unavailable": "Der Suchdienst antwortet nicht. Nutzen Sie die Links zu den Jobbörsen."
     }
   },
   "auth": {
@@ -95,9 +105,18 @@
     "cta": "Weiter"
   },
   "trades": {
-    "general": { "name": "Alle Berufe", "desc": "Allgemeine Branchen und Nachrichten, für jede Stelle geeignet." },
-    "hospitality": { "name": "Hotellerie und Gastronomie", "desc": "Hotels, Restaurants, Hotelgruppen, Casinos, Caterer." },
-    "events": { "name": "Veranstaltungen", "desc": "Agenturen, Veranstaltungsorte, Kongresse, Messen, Festivals." }
+    "general": {
+      "name": "Alle Berufe",
+      "desc": "Allgemeine Branchen und Nachrichten, für jede Stelle geeignet."
+    },
+    "hospitality": {
+      "name": "Hotellerie und Gastronomie",
+      "desc": "Hotels, Restaurants, Hotelgruppen, Casinos, Caterer."
+    },
+    "events": {
+      "name": "Veranstaltungen",
+      "desc": "Agenturen, Veranstaltungsorte, Kongresse, Messen, Festivals."
+    }
   },
   "counters": {
     "contacts": "Direktkontakte",
@@ -123,7 +142,11 @@
     "jobboard": "Jobbörse",
     "other": "Sonstiges"
   },
-  "priorities": { "A": "A – höchste Priorität", "B": "B – interessant", "C": "C – im Blick behalten" },
+  "priorities": {
+    "A": "A – höchste Priorität",
+    "B": "B – interessant",
+    "C": "C – im Blick behalten"
+  },
   "week": {
     "eyebrow": "Woche {n} · {year}",
     "title": "Wochenrhythmus",
@@ -162,7 +185,7 @@
     "notes": "Notizen",
     "noContact": "Entscheider noch zu ermitteln",
     "confirmDelete": "Dieses Ziel löschen?",
-    "tailor": "Lebenslauf und Brief für dieses Ziel",
+    "tailor": "Bewerbung vorbereiten",
     "next": {
       "todo": "Kontaktiert",
       "contacted": "Nachgefasst",
@@ -173,7 +196,11 @@
   "messages": {
     "eyebrow": "Zum Kopieren bereit",
     "title": "Nachrichten",
-    "kinds": { "first_contact": "Erstkontakt", "followup": "Nachfassen", "thanks": "Dank" },
+    "kinds": {
+      "first_contact": "Erstkontakt",
+      "followup": "Nachfassen",
+      "thanks": "Dank"
+    },
     "target": "Ziel",
     "noTarget": "Kein Ziel ausgewählt",
     "lang": "Sprache der Nachricht",
@@ -181,34 +208,6 @@
     "body": "Nachricht",
     "copyBody": "Nachricht kopieren",
     "missing": "Vor dem Senden ergänzen: {list}. Wählen Sie ein Ziel oder vervollständigen Sie Ihr Profil."
-  },
-  "documents": {
-    "eyebrow": "Künstliche Intelligenz",
-    "title": "Maßgeschneiderter Lebenslauf und Brief",
-    "needProfile": "Damit die KI Ihre Unterlagen anpassen kann, importieren Sie zuerst Ihren Lebenslauf.",
-    "goProfile": "Profil vervollständigen",
-    "offer": "Text der Stellenanzeige",
-    "offerPlaceholder": "Fügen Sie hier die vollständige Anzeige ein: Titel, Aufgaben, gesuchtes Profil…",
-    "target": "Zugehöriges Ziel",
-    "lang": "Sprache der Unterlagen",
-    "remaining": "Noch {n} kostenlose(s) Dokument(e) diesen Monat von {max}.",
-    "noInvention": "Die KI verwendet nur die Fakten aus Ihrem Profil.",
-    "generate": "Lebenslauf und Brief erstellen",
-    "generating": "Wird verfasst…",
-    "generatingHint": "Rechnen Sie mit etwa einer Minute: Die KI liest die Anzeige und wählt Ihre passendsten Erfahrungen aus.",
-    "cv": "Lebenslauf",
-    "letter": "Brief",
-    "untitled": "Dokument ohne Titel",
-    "gapsTitle": "Punkte der Anzeige, die in Ihrem Profil fehlen",
-    "gapsHint": "Sie wurden nicht hinzugefügt. Wenn Sie diese Erfahrung haben, ergänzen Sie Ihr Profil und erstellen Sie neu.",
-    "review": "Vor dem Versand frei lesen und bearbeiten.",
-    "word": "Word",
-    "pdf": "PDF",
-    "popupBlocked": "Ihr Browser hat das Druckfenster blockiert. Erlauben Sie Pop-ups für diese Seite.",
-    "confirmDelete": "Dieses Dokument löschen?",
-    "history": "Erstellte Dokumente",
-    "emptyTitle": "Noch keine Dokumente",
-    "emptyHint": "Fügen Sie oben eine Anzeige ein, um einen passenden Lebenslauf und Brief zu erhalten."
   },
   "profile": {
     "eyebrow": "Ihre Angaben",
@@ -257,12 +256,112 @@
   },
   "privacy": {
     "title": "Datenschutzerklärung",
-    "who": { "h": "Verantwortlicher", "p": "Cap Emploi wird von Yorrick Pellegri, Luxemburg, herausgegeben. Dies ist eine Startversion, die vor der öffentlichen Freigabe geprüft werden muss." },
-    "data": { "h": "Verarbeitete Daten", "p": "E-Mail-Adresse, verschlüsseltes Passwort, Bewerberprofil und Lebenslauf, Ziele und Notizen, Wochenzähler und erstellte Dokumente. Sie dienen ausschließlich dem Betrieb Ihres Bereichs." },
-    "ai": { "h": "Künstliche Intelligenz", "p": "Zur Erstellung Ihrer Unterlagen werden Ihr Profil und die Anzeige über eine Serverfunktion an das Modell Claude von Anthropic übermittelt. Sie dienen nur zur Erstellung Ihrer Unterlagen und werden nicht zum Training des Modells verwendet." },
-    "where": { "h": "Hosting und Sicherheit", "p": "Konten und Datenbank werden von Supabase in der Europäischen Union gehostet. Jede Person sieht nur ihre eigenen Daten, abgesichert durch Sicherheitsregeln auf Datenbankebene." },
-    "rights": { "h": "Ihre Rechte", "p": "In Ihrem Profil können Sie alle Ihre Daten herunterladen oder Ihr Konto löschen, wodurch alle Ihre Daten endgültig gelöscht werden." },
-    "contact": { "h": "Kontakt", "p": "Bei Fragen zu Ihren Daten wenden Sie sich an den Projektträger." },
+    "who": {
+      "h": "Verantwortlicher",
+      "p": "Cap Emploi wird von Yorrick Pellegri, Luxemburg, herausgegeben. Dies ist eine Startversion, die vor der öffentlichen Freigabe geprüft werden muss."
+    },
+    "data": {
+      "h": "Verarbeitete Daten",
+      "p": "E-Mail-Adresse, verschlüsseltes Passwort, Bewerberprofil und Lebenslauf, Ziele und Notizen, Wochenzähler und erstellte Dokumente. Sie dienen ausschließlich dem Betrieb Ihres Bereichs."
+    },
+    "ai": {
+      "h": "Künstliche Intelligenz",
+      "p": "Zur Erstellung Ihrer Unterlagen werden Ihr Profil und die Anzeige über eine Serverfunktion an das Modell Claude von Anthropic übermittelt. Sie dienen nur zur Erstellung Ihrer Unterlagen und werden nicht zum Training des Modells verwendet."
+    },
+    "where": {
+      "h": "Hosting und Sicherheit",
+      "p": "Konten und Datenbank werden von Supabase in der Europäischen Union gehostet. Jede Person sieht nur ihre eigenen Daten, abgesichert durch Sicherheitsregeln auf Datenbankebene."
+    },
+    "rights": {
+      "h": "Ihre Rechte",
+      "p": "In Ihrem Profil können Sie alle Ihre Daten herunterladen oder Ihr Konto löschen, wodurch alle Ihre Daten endgültig gelöscht werden."
+    },
+    "contact": {
+      "h": "Kontakt",
+      "p": "Bei Fragen zu Ihren Daten wenden Sie sich an den Projektträger."
+    },
     "updated": "Fassung vom 22. Oktober 2026."
+  },
+  "apply": {
+    "eyebrow": "Direkt bewerben",
+    "title": "Von der Anzeige bis zum Versand",
+    "intro": "Finden Sie eine Anzeige, erhalten Sie ein Unternehmensprofil, erstellen Sie Ihre vollständigen Unterlagen und senden Sie sie selbst.",
+    "needProfile": "Damit die KI Ihre Unterlagen vorbereiten kann, importieren Sie zuerst Ihren Lebenslauf.",
+    "goProfile": "Profil vervollständigen",
+    "search": {
+      "title": "Stellen finden",
+      "query": "Stelle oder Stichwörter",
+      "queryPlaceholder": "Z. B. Hoteldirektor, Revenue Manager",
+      "where": "Ort",
+      "collect": "Suchen",
+      "sources": "Suche auf jeder Website öffnen",
+      "tagGeneral": "Allgemein",
+      "tagHospitality": "Hotellerie",
+      "tagPublic": "Öffentlicher Dienst",
+      "viaWeb": "über Websuche",
+      "tos": "Diese Websites untersagen das automatische Auslesen: Cap Emploi öffnet ihre Suche, ohne Anzeigen zu kopieren. Die automatische Suche nutzt die offizielle API von Jooble.",
+      "disabled": "Die automatische Suche ist noch nicht aktiviert (kostenloser Jooble-API-Schlüssel anzufragen). Nutzen Sie bis dahin die Links oben.",
+      "none": "Keine Anzeigen für diese Suche gefunden.",
+      "results": "Gefundene Anzeigen",
+      "open": "Anzeige ansehen",
+      "use": "Bewerbung vorbereiten"
+    },
+    "brief": {
+      "title": "Anzeige oder Unternehmen analysieren",
+      "offer": "Text der Anzeige",
+      "offerOptional": "optional bei einer Initiativbewerbung",
+      "offerPlaceholder": "Fügen Sie die vollständige Anzeige ein: Titel, Aufgaben, gesuchtes Profil…",
+      "snippetHint": "Dies ist nur ein Auszug: Öffnen Sie die Anzeige und fügen Sie den vollständigen Text ein.",
+      "hint": "Das Profil legt das Ziel in Ihrer Pipeline automatisch an oder ergänzt es.",
+      "cta": "Profil und Ziel erstellen",
+      "busy": "Wird analysiert…",
+      "noCompany": "Der Unternehmensname steht nicht in der Anzeige: Tragen Sie ihn im Feld Unternehmen ein.",
+      "orPick": "Oder ein bestehendes Ziel fortsetzen",
+      "sheet": "Unternehmensprofil",
+      "inPipeline": "In der Pipeline ansehen",
+      "empty": "Noch kein Profil für dieses Ziel: Analysieren Sie oben eine Anzeige oder den Namen.",
+      "expectations": "Wahrscheinliche Erwartungen",
+      "toCheck": "Vor dem Versand zu prüfen",
+      "digital": "Idee für ein digitales Werkzeug:",
+      "disclaimer": "Von der KI ohne Webzugang erstellt: Prüfen Sie die Angaben vor der Verwendung."
+    },
+    "dossier": {
+      "title": "Vollständige Unterlagen erstellen",
+      "needTarget": "Analysieren Sie zuerst eine Anzeige oder wählen Sie ein Ziel.",
+      "fromOffer": "Die Unterlagen stützen sich auf die analysierte Anzeige und die Fakten Ihres Profils.",
+      "spontaneous": "Initiativbewerbung: Die Unterlagen stützen sich auf das Unternehmensprofil und die Fakten Ihres Profils.",
+      "lang": "Sprache der Unterlagen",
+      "cta": "Unterlagen erstellen",
+      "busy": "Wird verfasst…",
+      "busyHint": "Rechnen Sie mit etwa einer Minute: E-Mail, Brief, angepasster Lebenslauf und Kurzvorstellung.",
+      "remaining": "Noch {n} kostenlose Unterlage(n) diesen Monat von {max}.",
+      "noInvention": "Die KI verwendet nur die Fakten aus Ihrem Profil."
+    },
+    "pieces": {
+      "email": "E-Mail",
+      "letter": "Brief",
+      "cv": "Lebenslauf",
+      "pitch": "Kurzvorstellung"
+    },
+    "sent": {
+      "title": "Senden",
+      "intro": "Senden Sie die Unterlagen selbst (E-Mail, Website des Unternehmens oder Personalvermittlers) und bestätigen Sie dann hier. Das Nachfassen wird in {n} Tagen vorgeschlagen.",
+      "cta": "Ich habe gesendet",
+      "done": "Bewerbung bei {company} gezählt, Ziel auf „Kontaktiert“ gesetzt. Nachfassen am {date}."
+    },
+    "untitled": "Unterlagen ohne Titel",
+    "gapsTitle": "Punkte der Anzeige, die in Ihrem Profil fehlen",
+    "gapsHint": "Sie wurden nicht hinzugefügt. Wenn Sie diese Erfahrung haben, ergänzen Sie Ihr Profil und erstellen Sie neu.",
+    "review": "Vor dem Versand frei lesen und bearbeiten.",
+    "word": "Word",
+    "pdf": "PDF",
+    "allWord": "Alle Unterlagen als Word",
+    "allPdf": "Alle Unterlagen als PDF",
+    "popupBlocked": "Ihr Browser hat das Druckfenster blockiert. Erlauben Sie Pop-ups für diese Seite.",
+    "confirmDelete": "Diese Unterlagen löschen?",
+    "history": "Erstellte Unterlagen",
+    "emptyTitle": "Noch keine Unterlagen",
+    "emptyHint": "Analysieren Sie eine Anzeige und erstellen Sie Ihre ersten Unterlagen.",
+    "dossierName": "Bewerbungsunterlagen"
   }
 }

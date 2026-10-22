@@ -42,6 +42,21 @@ export interface Profile {
   plan: 'free' | 'premium';
 }
 
+export interface CompanyBrief {
+  company?: string;
+  job_title?: string;
+  sector?: string;
+  location?: string;
+  contact_name?: string;
+  contact_role?: string;
+  summary?: string;
+  expectations?: string[];
+  digital_idea?: string;
+  to_check?: string[];
+  offer_text?: string;
+  created_at?: string;
+}
+
 export interface Target {
   id: string;
   company: string;
@@ -54,6 +69,7 @@ export interface Target {
   last_contact_on: string | null;
   job_url: string;
   notes: string;
+  brief: CompanyBrief;
   created_at: string;
   updated_at: string;
 }
@@ -67,9 +83,14 @@ export interface DocumentRow {
   offer_text: string;
   cv: string;
   letter: string;
+  email_subject: string;
+  email_body: string;
+  pitch: string;
   gaps: string[];
   created_at: string;
 }
+
+export interface JobResult { title: string; company: string; location: string; snippet: string; source: string; link: string; updated: string; salary: string }
 
 export type MessageKind = 'first_contact' | 'followup' | 'thanks';
 export type MessageTemplates = Record<MessageKind, { subject: string; body: string }>;

@@ -14,18 +14,22 @@
     "optional": "optional",
     "language": "Interface language"
   },
-  "langs": { "fr": "French", "en": "English", "de": "German" },
+  "langs": {
+    "fr": "French",
+    "en": "English",
+    "de": "German"
+  },
   "nav": {
     "main": "Main navigation",
     "skip": "Skip to content",
     "week": "Week",
     "targets": "Targets",
     "messages": "Messages",
-    "documents": "CVs and letters",
     "profile": "Profile",
     "account": "My account",
     "privacy": "Privacy",
-    "signout": "Sign out"
+    "signout": "Sign out",
+    "apply": "Apply"
   },
   "errors": {
     "network": "Cannot reach the server. Check your connection and try again.",
@@ -46,7 +50,13 @@
       "ai_unavailable": "The AI service is temporarily unavailable. Try again later.",
       "server_error": "Server error. Try again in a moment.",
       "unknown_action": "Unknown action.",
-      "network": "Cannot reach the server. Check your connection and try again."
+      "network": "Cannot reach the server. Check your connection and try again.",
+      "brief_missing": "Enter a company name or paste the job ad text.",
+      "quota_briefs": "Monthly company brief limit reached.",
+      "search_disabled": "Automatic job collection is not enabled yet.",
+      "keywords_missing": "Enter a job title or keywords.",
+      "quota_searches": "Monthly automatic search limit reached. The links to the job sites remain available.",
+      "search_unavailable": "The job search service is not responding. Use the links to the job sites."
     }
   },
   "auth": {
@@ -95,9 +105,18 @@
     "cta": "Continue"
   },
   "trades": {
-    "general": { "name": "All fields", "desc": "General sectors and messages, suitable for any role." },
-    "hospitality": { "name": "Hospitality and restaurants", "desc": "Hotels, restaurants, hotel groups, casinos, caterers." },
-    "events": { "name": "Events", "desc": "Agencies, venues, conventions, trade fairs, festivals." }
+    "general": {
+      "name": "All fields",
+      "desc": "General sectors and messages, suitable for any role."
+    },
+    "hospitality": {
+      "name": "Hospitality and restaurants",
+      "desc": "Hotels, restaurants, hotel groups, casinos, caterers."
+    },
+    "events": {
+      "name": "Events",
+      "desc": "Agencies, venues, conventions, trade fairs, festivals."
+    }
   },
   "counters": {
     "contacts": "Direct contacts",
@@ -123,7 +142,11 @@
     "jobboard": "Job board",
     "other": "Other"
   },
-  "priorities": { "A": "A – top priority", "B": "B – interesting", "C": "C – keep in mind" },
+  "priorities": {
+    "A": "A – top priority",
+    "B": "B – interesting",
+    "C": "C – keep in mind"
+  },
   "week": {
     "eyebrow": "Week {n} · {year}",
     "title": "Weekly rhythm",
@@ -162,7 +185,7 @@
     "notes": "Notes",
     "noContact": "Decision-maker to identify",
     "confirmDelete": "Delete this target?",
-    "tailor": "CV and letter for this target",
+    "tailor": "Prepare the application",
     "next": {
       "todo": "Contacted",
       "contacted": "Followed up",
@@ -173,7 +196,11 @@
   "messages": {
     "eyebrow": "Ready to copy",
     "title": "Messages",
-    "kinds": { "first_contact": "First contact", "followup": "Follow-up", "thanks": "Thank you" },
+    "kinds": {
+      "first_contact": "First contact",
+      "followup": "Follow-up",
+      "thanks": "Thank you"
+    },
     "target": "Target",
     "noTarget": "No target selected",
     "lang": "Message language",
@@ -181,34 +208,6 @@
     "body": "Message",
     "copyBody": "Copy the message",
     "missing": "To complete before sending: {list}. Choose a target or complete your profile."
-  },
-  "documents": {
-    "eyebrow": "Artificial intelligence",
-    "title": "Tailored CV and letter",
-    "needProfile": "For the AI to tailor your documents, import your CV first.",
-    "goProfile": "Complete my profile",
-    "offer": "Job ad text",
-    "offerPlaceholder": "Paste the full job ad here: title, duties, required profile…",
-    "target": "Linked target",
-    "lang": "Document language",
-    "remaining": "{n} free document(s) left this month out of {max}.",
-    "noInvention": "The AI only uses the facts in your profile.",
-    "generate": "Generate CV and letter",
-    "generating": "Writing…",
-    "generatingHint": "Allow about a minute: the AI reads the ad and selects your most relevant experience.",
-    "cv": "CV",
-    "letter": "Letter",
-    "untitled": "Untitled document",
-    "gapsTitle": "Points in the ad missing from your profile",
-    "gapsHint": "They were not added. If you have this experience, complete your profile and generate again.",
-    "review": "Review and edit freely before sending anything.",
-    "word": "Word",
-    "pdf": "PDF",
-    "popupBlocked": "Your browser blocked the print window. Allow pop-ups for this site.",
-    "confirmDelete": "Delete this document?",
-    "history": "Generated documents",
-    "emptyTitle": "No documents yet",
-    "emptyHint": "Paste a job ad above to get a tailored CV and letter."
   },
   "profile": {
     "eyebrow": "Your information",
@@ -257,12 +256,112 @@
   },
   "privacy": {
     "title": "Privacy policy",
-    "who": { "h": "Controller", "p": "Cap Emploi is published by Yorrick Pellegri, Luxembourg. This is a launch version, to be reviewed before opening to the public." },
-    "data": { "h": "Data processed", "p": "Email address, encrypted password, candidate profile and CV, targets and notes, weekly counters and generated documents. They are used only to run your space." },
-    "ai": { "h": "Artificial intelligence", "p": "To produce your documents, your profile and the job ad are sent to Anthropic’s Claude model through a server function. They are only used to produce your documents and are not used to train the model." },
-    "where": { "h": "Hosting and security", "p": "Accounts and database are hosted by Supabase in the European Union. Each user can only access their own data, enforced by database-level security rules." },
-    "rights": { "h": "Your rights", "p": "From your profile you can download all your data or delete your account, which permanently erases all of your data." },
-    "contact": { "h": "Contact", "p": "For any question about your data, write to the project owner." },
+    "who": {
+      "h": "Controller",
+      "p": "Cap Emploi is published by Yorrick Pellegri, Luxembourg. This is a launch version, to be reviewed before opening to the public."
+    },
+    "data": {
+      "h": "Data processed",
+      "p": "Email address, encrypted password, candidate profile and CV, targets and notes, weekly counters and generated documents. They are used only to run your space."
+    },
+    "ai": {
+      "h": "Artificial intelligence",
+      "p": "To produce your documents, your profile and the job ad are sent to Anthropic’s Claude model through a server function. They are only used to produce your documents and are not used to train the model."
+    },
+    "where": {
+      "h": "Hosting and security",
+      "p": "Accounts and database are hosted by Supabase in the European Union. Each user can only access their own data, enforced by database-level security rules."
+    },
+    "rights": {
+      "h": "Your rights",
+      "p": "From your profile you can download all your data or delete your account, which permanently erases all of your data."
+    },
+    "contact": {
+      "h": "Contact",
+      "p": "For any question about your data, write to the project owner."
+    },
     "updated": "Version of 22 October 2026."
+  },
+  "apply": {
+    "eyebrow": "Apply directly",
+    "title": "From job ad to sending",
+    "intro": "Find a job ad, get a company brief, generate your complete application pack, then send it yourself.",
+    "needProfile": "For the AI to prepare your pack, import your CV first.",
+    "goProfile": "Complete my profile",
+    "search": {
+      "title": "Find job ads",
+      "query": "Job title or keywords",
+      "queryPlaceholder": "E.g. hotel manager, revenue manager",
+      "where": "Location",
+      "collect": "Search",
+      "sources": "Open the search on each site",
+      "tagGeneral": "General",
+      "tagHospitality": "Hospitality",
+      "tagPublic": "Public service",
+      "viaWeb": "via web search",
+      "tos": "These sites forbid automated collection: Cap Emploi opens their search without copying their ads. Automatic search uses Jooble’s official API.",
+      "disabled": "Automatic search is not enabled yet (free Jooble API key to request). Meanwhile, use the links above.",
+      "none": "No job ads found for this search.",
+      "results": "Job ads found",
+      "open": "View ad",
+      "use": "Prepare the application"
+    },
+    "brief": {
+      "title": "Analyse a job ad or a company",
+      "offer": "Job ad text",
+      "offerOptional": "optional for a speculative application",
+      "offerPlaceholder": "Paste the full ad: title, duties, required profile…",
+      "snippetHint": "This is only an excerpt: open the ad and paste its full text for a better pack.",
+      "hint": "The brief automatically creates or completes the target in your pipeline.",
+      "cta": "Create brief and target",
+      "busy": "Analysing…",
+      "noCompany": "The company name does not appear in the ad: enter it in the Company field.",
+      "orPick": "Or continue with an existing target",
+      "sheet": "Company brief",
+      "inPipeline": "See in the pipeline",
+      "empty": "No brief for this target yet: analyse an ad or its name above.",
+      "expectations": "Likely expectations",
+      "toCheck": "Points to check before sending",
+      "digital": "Digital tool idea to propose:",
+      "disclaimer": "Brief prepared by the AI without web access: check the information before using it."
+    },
+    "dossier": {
+      "title": "Generate the complete pack",
+      "needTarget": "Analyse a job ad or choose a target first.",
+      "fromOffer": "The pack is based on the analysed ad and the facts in your profile.",
+      "spontaneous": "Speculative application: the pack is based on the company brief and the facts in your profile.",
+      "lang": "Pack language",
+      "cta": "Generate the pack",
+      "busy": "Writing…",
+      "busyHint": "Allow about a minute: email, letter, tailored CV and introduction.",
+      "remaining": "{n} free pack(s) left this month out of {max}.",
+      "noInvention": "The AI only uses the facts in your profile."
+    },
+    "pieces": {
+      "email": "Email",
+      "letter": "Letter",
+      "cv": "CV",
+      "pitch": "Introduction"
+    },
+    "sent": {
+      "title": "Send",
+      "intro": "Send the pack yourself (email, company or recruiter website), then confirm here. A follow-up will be suggested in {n} days.",
+      "cta": "I have sent it",
+      "done": "Application to {company} counted, target moved to “Contacted”. Follow-up due on {date}."
+    },
+    "untitled": "Untitled pack",
+    "gapsTitle": "Points in the ad missing from your profile",
+    "gapsHint": "They were not added. If you have this experience, complete your profile and generate again.",
+    "review": "Review and edit freely before sending anything.",
+    "word": "Word",
+    "pdf": "PDF",
+    "allWord": "Complete pack in Word",
+    "allPdf": "Complete pack in PDF",
+    "popupBlocked": "Your browser blocked the print window. Allow pop-ups for this site.",
+    "confirmDelete": "Delete this pack?",
+    "history": "Generated packs",
+    "emptyTitle": "No packs yet",
+    "emptyHint": "Analyse a job ad, then generate your first pack.",
+    "dossierName": "Application pack"
   }
 }
