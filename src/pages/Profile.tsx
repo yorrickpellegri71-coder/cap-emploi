@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import { Notice, errorMessage } from '../components/ui';
 import { useI18n } from '../i18n';
 import { AiError, deleteMyAccount, exportMyData, extractProfile } from '../lib/api';
+import { aiEnabled } from '../lib/ai';
 import { useApp } from '../lib/session';
 import { COUNTERS, LANGS, TRADES, type Counters, type Experience, type Lang, type ProfileData } from '../lib/types';
 
@@ -148,14 +149,19 @@ export function Profile() {
     if (file.size > 8 * 1024 * 1024) { setNotice({ tone: 'error', text: t('errors.ai.file_too_large') }); return; }
     try {
       const name = file.name.toLowerCase();
-      if (name.endsWith('.pdf')) return void (await runExtract({ pdf_base64: toBase64(await file.arrayBuffer()) }));
+      if (name.endsWith('.pdf')) {
+        // Sans IA, un PDF ne peut pas être lu ici : on demande un .docx ou le texte collé.
+        if (!aiEnabled()) { setNotice({ tone: 'info', text: t('free.pdfOff') }); return; }
+        return void (await runExtract({ pdf_base64: toBase64(await file.arrayBuffer()) }));
+      }
       let text: string;
       if (name.endsWith('.docx')) {
         const mammoth = await import('mammoth');
         text = (await mammoth.extractRawText({ arrayBuffer: await file.arrayBuffer() })).value;
       } else text = await file.text();
       setCvText(text);
-      await runExtract({ cv_text: text });
+      if (aiEnabled()) await runExtract({ cv_text: text });
+      else setNotice({ tone: 'ok', text: t('free.cvImported') });
     } catch (err) {
       setNotice({ tone: 'error', text: errorMessage(err, t) });
     }
@@ -206,8 +212,9 @@ export function Profile() {
         <div className="row-end wrap" style={{ justifyContent: 'flex-start' }}>
           <input ref={fileRef} type="file" accept=".pdf,.docx,.txt,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain" hidden onChange={(e) => void onFile(e)} />
           <button type="button" className="btn btn-primary" disabled={extracting} onClick={() => fileRef.current?.click()}>{t('profile.import')}</button>
-          <button type="button" className="btn" disabled={extracting || cvText.trim().length < 50} onClick={() => void runExtract({ cv_text: cvText })}>{t('profile.extract')}</button>
+          {aiEnabled() && <button type="button" className="btn" disabled={extracting || cvText.trim().length < 50} onClick={() => void runExtract({ cv_text: cvText })}>{t('profile.extract')}</button>}
         </div>
+        {!aiEnabled() && <p className="small muted">{t('free.profileHint')}</p>}
         <details>
           <summary className="small">{t('profile.cvText')}</summary>
           <textarea className="input" rows={12} aria-label={t('profile.cvText')} value={cvText} onChange={(e) => setCvText(e.target.value)} />

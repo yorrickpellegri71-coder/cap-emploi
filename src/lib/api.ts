@@ -1,7 +1,7 @@
 // Accès aux données. La sécurité par utilisateur est garantie côté base (RLS) : aucune requête ne filtre « à la main ».
 import { stageEffect, isoDay, isoWeek } from './dates';
 import { supabase, unwrap } from './supabase';
-import type { Application, AppStatus, OfferCheck, OfferOrigin, ReceivedOffer, ResponseRow, ResponseType, CompanyBrief, CounterKey, Counters, Digest, DocumentRow, JobResult, Lang, MessageTemplates, Opportunity, OppStatus, ProfileData, Stage, Target } from './types';
+import type { Profile, Application, AppStatus, OfferCheck, OfferOrigin, ReceivedOffer, ResponseRow, ResponseType, CompanyBrief, CounterKey, Counters, Digest, DocumentRow, JobResult, Lang, MessageTemplates, Opportunity, OppStatus, ProfileData, Stage, Target } from './types';
 
 export async function fetchTargets(): Promise<Target[]> {
   return unwrap(await supabase.from('targets').select('*').order('updated_at', { ascending: false })) as Target[];
@@ -63,6 +63,17 @@ export async function markApplied(target: Target, info: AppliedInfo): Promise<Ta
   }).select('id').single()) as { id: string };
   await bumpCounter('applications', 1);
   return { ...row, application_id: app.id };
+}
+
+/** Dossier sans IA (mode gratuit) : assemblé à partir du profil, enregistré comme un dossier ordinaire. */
+export async function createTemplateDocument(target: Target, profile: Profile, lang: Lang, jobTitle: string, offerText: string): Promise<DocumentRow> {
+  const { buildDossier } = await import('./templateDossier');
+  const pieces = buildDossier({
+    company: target.company, jobTitle, contact: target.contact_name, lang, profile: profile.profile_data, displayName: profile.display_name,
+  });
+  return unwrap(await supabase.from('documents').insert({
+    target_id: target.id, company: target.company, job_title: jobTitle.slice(0, 200), lang, offer_text: offerText.slice(0, 30000), ...pieces,
+  }).select().single()) as DocumentRow;
 }
 
 // ───────────── Offres reçues ─────────────

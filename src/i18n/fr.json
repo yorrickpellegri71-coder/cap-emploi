@@ -64,7 +64,8 @@
       "quota_discoveries": "Limite mensuelle de recherches d’opportunités atteinte.",
       "quota_analyses": "Limite mensuelle d’analyses d’offres atteinte.",
       "quota_alerts": "Limite mensuelle de relevés d’alertes atteinte.",
-      "offer_missing": "Offre introuvable."
+      "offer_missing": "Offre introuvable.",
+      "ai_disabled": "Les fonctions IA ne sont pas activées sur ce site."
     }
   },
   "auth": {
@@ -374,7 +375,14 @@
     "history": "Dossiers générés",
     "emptyTitle": "Aucun dossier pour l’instant",
     "emptyHint": "Analysez une offre puis générez votre premier dossier.",
-    "dossierName": "Dossier de candidature"
+    "dossierName": "Dossier de candidature",
+    "free": {
+      "companyRequired": "Indiquez le nom de l’entreprise.",
+      "briefHint": "Sans IA : la cible est créée avec ce que vous saisissez. Collez l’offre pour la garder sous la main.",
+      "createTarget": "Créer la cible",
+      "dossierHint": "Sans IA, le dossier est un modèle construit à partir de votre profil : personnalisez la lettre avant l’envoi.",
+      "noBrief": "Fiche entreprise automatique non disponible sans IA. Notez vos recherches dans la cible."
+    }
   },
   "opps": {
     "eyebrow": "Opportunités pour moi",
@@ -599,5 +607,13 @@
         "popup": "Votre navigateur a bloqué la fenêtre de connexion. Autorisez les fenêtres pour ce site."
       }
     }
+  },
+  "free": {
+    "oppsOff": "La notation automatique des opportunités utilise l’IA, qui n’est pas activée. Ajoutez vos offres dans « Offres reçues » ou utilisez « Postuler ».",
+    "pdfOff": "Sans IA, un PDF ne peut pas être lu automatiquement : importez votre CV en .docx ou en .txt, ou collez son texte, puis remplissez les champs.",
+    "cvImported": "Texte du CV importé. Remplissez maintenant les champs ci-dessous à partir de ce texte.",
+    "profileHint": "L’IA n’est pas activée : le texte du CV est importé, et vous remplissez vous-même les champs du profil.",
+    "analyzeOff": "L’analyse automatique utilise l’IA, qui n’est pas activée. Lisez l’offre attentivement : poste, contrat, lieu, salaire, langues et exigences.",
+    "mailOff": "Le relevé des alertes e-mail utilise l’IA pour extraire les offres ; il n’est pas activé. Ajoutez les offres à la main."
   }
 }

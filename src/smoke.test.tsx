@@ -67,8 +67,10 @@ const ROUTES = ['/', '/opportunites', '/cibles', '/messages?cible=t1&type=follow
 
 afterEach(cleanup);
 
-describe.each(['fr', 'en', 'de'])('écrans (%s)', (lang) => {
+// Chaque écran dans les trois langues sans IA (mode gratuit), et en français avec l'IA activée.
+describe.each([['fr', 'false'], ['en', 'false'], ['de', 'false'], ['fr', 'true']])('écrans (%s, IA %s)', (lang, ai) => {
   it.each(ROUTES)('%s se rend sans erreur', async (path) => {
+    vi.stubEnv('VITE_AI_ENABLED', ai);
     localStorage.setItem('cap.lang', lang);
     tables.profiles[0] = { ...(tables.profiles[0] as object), ui_lang: lang };
     window.scrollTo = () => undefined;
@@ -85,6 +87,6 @@ describe.each(['fr', 'en', 'de'])('écrans (%s)', (lang) => {
     spy.mockRestore();
     expect(errors).toEqual([]);
     // Aucune clé de traduction brute ne doit apparaître à l'écran.
-    expect(container.textContent).not.toMatch(/\b(week|targets|profile|apply|opps|messages|common|errors)\.[a-z]/);
+    expect(container.textContent).not.toMatch(/\b(week|targets|profile|apply|opps|messages|common|errors|free|offers|history)\.[a-z]/);
   });
 });

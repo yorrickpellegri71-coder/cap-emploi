@@ -7,6 +7,7 @@ import {
   AiError, discoverOpportunities, fetchDocument, fetchLatestDigest, fetchOpportunities, mailtoLink, markApplied,
   prepareOpportunity, setOpportunityStatus,
 } from '../lib/api';
+import { aiEnabled } from '../lib/ai';
 import { isoDay } from '../lib/dates';
 import { useApp } from '../lib/session';
 import type { Digest, DocumentRow, Opportunity, OppStatus } from '../lib/types';
@@ -225,9 +226,10 @@ export function Opportunities() {
           <h1 className="h1">{t('opps.title')}</h1>
           <p className="muted small">{t('opps.intro')}</p>
         </div>
-        <button type="button" className="btn btn-primary" disabled={!!running || !hasProfile} onClick={() => void discover()}>{running ? t('common.wait') : t('opps.run')}</button>
+        <button type="button" className="btn btn-primary" disabled={!!running || !hasProfile || !aiEnabled()} onClick={() => void discover()}>{running ? t('common.wait') : t('opps.run')}</button>
       </header>
 
+      {!aiEnabled() && <Notice tone="info">{t('free.oppsOff')} <Link to="/offres">{t('nav.offers')} →</Link></Notice>}
       {!hasProfile && <Notice tone="warn">{t('apply.needProfile')} <Link to="/profil">{t('apply.goProfile')} →</Link></Notice>}
       {running && <Notice tone="info">{running}</Notice>}
       {notice && <Notice tone={notice.tone}>{notice.text}</Notice>}

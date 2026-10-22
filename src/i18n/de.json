@@ -64,7 +64,8 @@
       "quota_discoveries": "Monatliches Limit für die Suche nach Chancen erreicht.",
       "quota_analyses": "Monatliches Limit für Angebotsanalysen erreicht.",
       "quota_alerts": "Monatliches Limit für Benachrichtigungsabrufe erreicht.",
-      "offer_missing": "Angebot nicht gefunden."
+      "offer_missing": "Angebot nicht gefunden.",
+      "ai_disabled": "KI-Funktionen sind auf dieser Website nicht aktiviert."
     }
   },
   "auth": {
@@ -374,7 +375,14 @@
     "history": "Erstellte Unterlagen",
     "emptyTitle": "Noch keine Unterlagen",
     "emptyHint": "Analysieren Sie eine Anzeige und erstellen Sie Ihre ersten Unterlagen.",
-    "dossierName": "Bewerbungsunterlagen"
+    "dossierName": "Bewerbungsunterlagen",
+    "free": {
+      "companyRequired": "Geben Sie den Namen des Unternehmens an.",
+      "briefHint": "Ohne KI: Das Ziel wird aus Ihren Angaben erstellt. Fügen Sie das Angebot ein, um es griffbereit zu haben.",
+      "createTarget": "Ziel erstellen",
+      "dossierHint": "Ohne KI sind die Unterlagen eine Vorlage aus Ihrem Profil: Passen Sie das Anschreiben vor dem Versand an.",
+      "noBrief": "Automatisches Unternehmensprofil ohne KI nicht verfügbar. Notieren Sie Ihre Recherche im Ziel."
+    }
   },
   "opps": {
     "eyebrow": "Chancen für mich",
@@ -599,5 +607,13 @@
         "popup": "Ihr Browser hat das Anmeldefenster blockiert. Erlauben Sie Pop-ups für diese Website."
       }
     }
+  },
+  "free": {
+    "oppsOff": "Die automatische Bewertung von Chancen nutzt KI, die nicht aktiviert ist. Erfassen Sie Ihre Angebote unter „Erhaltene Angebote“ oder nutzen Sie „Bewerben“.",
+    "pdfOff": "Ohne KI kann ein PDF nicht automatisch gelesen werden: Importieren Sie Ihren Lebenslauf als .docx oder .txt oder fügen Sie den Text ein und füllen Sie dann die Felder aus.",
+    "cvImported": "Lebenslauftext importiert. Füllen Sie jetzt die Felder unten anhand dieses Textes aus.",
+    "profileHint": "KI ist nicht aktiviert: Der Lebenslauftext wird importiert, die Profilfelder füllen Sie selbst aus.",
+    "analyzeOff": "Die automatische Analyse nutzt KI, die nicht aktiviert ist. Lesen Sie das Angebot sorgfältig: Stelle, Vertrag, Ort, Gehalt, Sprachen und Anforderungen.",
+    "mailOff": "Der Abruf der E-Mail-Benachrichtigungen nutzt KI, um die Angebote zu extrahieren; er ist nicht aktiviert. Erfassen Sie Angebote manuell."
   }
 }

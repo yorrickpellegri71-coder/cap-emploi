@@ -40,7 +40,13 @@ class Fail extends Error {
   constructor(public code: string, public status = 400) { super(code); }
 }
 
-const anthropic = new Anthropic({ apiKey: Deno.env.get('CAP_ANTHROPIC_API_KEY') });
+// L'IA est facultative : sans clé, les actions IA répondent ai_disabled et le reste de l'application fonctionne.
+let client: Anthropic | null = null;
+function anthropic(): Anthropic {
+  const apiKey = Deno.env.get('CAP_ANTHROPIC_API_KEY');
+  if (!apiKey) throw new Fail('ai_disabled', 501);
+  return (client ??= new Anthropic({ apiKey }));
+}
 // Schéma de Cap Emploi dans le projet hôte.
 const SCHEMA = Deno.env.get('CAP_SCHEMA') ?? 'cap_emploi';
 // deno-lint-ignore no-explicit-any
@@ -245,7 +251,7 @@ async function recordUsage(admin: Db, userId: string, field: UsageField, usage?:
 
 /** Appel Claude avec sortie JSON contrainte par schéma. */
 async function callClaude(system: string, content: Anthropic.Beta.BetaContentBlockParam[], schema: Record<string, unknown>) {
-  const message = await anthropic.beta.messages.stream({
+  const message = await anthropic().beta.messages.stream({
     model: MODEL,
     max_tokens: 32000,
     betas: ['server-side-fallback-2026-07-01'],

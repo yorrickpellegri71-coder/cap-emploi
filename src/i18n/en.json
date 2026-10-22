@@ -64,7 +64,8 @@
       "quota_discoveries": "Monthly opportunity search limit reached.",
       "quota_analyses": "Monthly limit of offer analyses reached.",
       "quota_alerts": "Monthly limit of alert checks reached.",
-      "offer_missing": "Offer not found."
+      "offer_missing": "Offer not found.",
+      "ai_disabled": "AI features are not enabled on this site."
     }
   },
   "auth": {
@@ -374,7 +375,14 @@
     "history": "Generated packs",
     "emptyTitle": "No packs yet",
     "emptyHint": "Analyse a job ad, then generate your first pack.",
-    "dossierName": "Application pack"
+    "dossierName": "Application pack",
+    "free": {
+      "companyRequired": "Enter the company name.",
+      "briefHint": "Without AI: the target is created from what you enter. Paste the offer to keep it at hand.",
+      "createTarget": "Create the target",
+      "dossierHint": "Without AI, the pack is a template built from your profile: personalise the letter before sending.",
+      "noBrief": "Automatic company brief not available without AI. Note your research in the target."
+    }
   },
   "opps": {
     "eyebrow": "Opportunities for me",
@@ -599,5 +607,13 @@
         "popup": "Your browser blocked the sign-in window. Allow pop-ups for this site."
       }
     }
+  },
+  "free": {
+    "oppsOff": "Automatic scoring of opportunities uses AI, which is not enabled. Add your offers in “Received offers” or use “Apply”.",
+    "pdfOff": "Without AI, a PDF cannot be read automatically: import your CV as .docx or .txt, or paste its text, then fill in the fields.",
+    "cvImported": "CV text imported. Now fill in the fields below from this text.",
+    "profileHint": "AI is not enabled: the CV text is imported and you fill in the profile fields yourself.",
+    "analyzeOff": "Automatic analysis uses AI, which is not enabled. Read the offer carefully: position, contract, location, salary, languages and requirements.",
+    "mailOff": "Checking email alerts uses AI to extract the offers; it is not enabled. Add offers manually."
   }
 }

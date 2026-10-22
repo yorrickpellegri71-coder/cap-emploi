@@ -18,6 +18,14 @@ Même socle que GeoMarket Live : React 19 + TypeScript + Vite, publié sur GitHu
 - IA sans invention de faits : les exigences non couvertes par le profil sont signalées, jamais inventées.
 - RGPD : export de toutes ses données, suppression du compte.
 
+## Gratuit par défaut, IA facultative
+
+Sans IA, l’application fonctionne entièrement à 0 € : comptes, profil (rempli à la main, texte du CV importé depuis un .docx ou un .txt), pipeline, relances, semaine, messages, Postuler (cible créée à partir de la saisie, dossier modèle construit à partir du profil, sans rien inventer, export Word et PDF), Offres reçues (ajout manuel, liste de vérification), historiques et export Excel.
+
+L’IA (analyse de CV et d’offres, fiche entreprise, dossier sur mesure, opportunités notées, relevé des alertes e-mail) s’active avec `VITE_AI_ENABLED=true` et le secret `CAP_ANTHROPIC_API_KEY` de la fonction serveur. L’API Claude est facturée à l’usage par Anthropic.
+
+Hébergement gratuit : GitHub Pages et un projet Supabase sur le plan gratuit (500 Mo de base, mis en pause après 7 jours sans activité, relancé d’un clic).
+
 ## Lancer en local
 
 ```bash
@@ -58,7 +66,7 @@ Points à régler côté projet hôte, car ils sont communs à tout le projet :
 
 Les secrets d’une fonction sont communs à tout le projet : ceux de Cap Emploi sont préfixés `CAP_`.
 
-- Obligatoire : `CAP_ANTHROPIC_API_KEY`.
+- Pour activer l’IA : `CAP_ANTHROPIC_API_KEY` (sans elle, les actions IA répondent `ai_disabled`).
 - Facultatifs : `CAP_CLAUDE_MODEL` (défaut `claude-opus-5-5`), `CAP_FREE_DOCS_PER_MONTH` (défaut 3), `CAP_ALLOWED_ORIGIN` (adresse du site), `CAP_SCHEMA` (défaut `cap_emploi`), `CAP_JOOBLE_API_KEY` et `CAP_JOOBLE_HOST` (collecte d’offres), `CAP_CRON_SECRET` (tâche quotidienne, voir `supabase/cron/daily.sql`), `CAP_RESEND_API_KEY`, `CAP_DIGEST_FROM`, `CAP_APP_URL` (e-mail du résumé quotidien).
 
 ## Alertes e-mail (option)
@@ -73,7 +81,7 @@ Sans ces variables, les boutons de relevé restent désactivés ; l’ajout manu
 ## Mise en ligne
 
 1. Projet Supabase : appliquer les migrations, exposer le schéma `cap_emploi`, déployer la fonction `cap-emploi-ai` (avec `verify_jwt = false`, voir `supabase/config.toml`), définir les secrets `CAP_…`, ajouter l’adresse du site aux Redirect URLs.
-2. Dépôt GitHub : variables `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY`, et en option `VITE_SUPABASE_SCHEMA`, `VITE_GOOGLE_CLIENT_ID`, `VITE_MS_CLIENT_ID` ; Settings → Pages → Source : GitHub Actions. Chaque push sur `main` teste, construit et publie.
+2. Dépôt GitHub : variables `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY`, et en option `VITE_AI_ENABLED`, `VITE_SUPABASE_SCHEMA`, `VITE_GOOGLE_CLIENT_ID`, `VITE_MS_CLIENT_ID` ; Settings → Pages → Source : GitHub Actions. Chaque push sur `main` teste, construit et publie.
 
 ## Hors MVP (feuille de route du PRD)
 

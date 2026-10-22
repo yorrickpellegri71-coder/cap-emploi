@@ -3,7 +3,8 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { DossierEditor } from '../components/DossierEditor';
 import { Empty, ErrorState, Notice, errorMessage, fmtDate } from '../components/ui';
 import { useI18n } from '../i18n';
-import { AiError, companyBrief, fetchDocuments, fetchUsage, markApplied, searchJobs, tailorDocuments, upsertTargetFromBrief } from '../lib/api';
+import { aiEnabled } from '../lib/ai';
+import { AiError, companyBrief, createTemplateDocument, fetchDocuments, fetchUsage, markApplied, searchJobs, tailorDocuments, upsertTargetFromBrief } from '../lib/api';
 import { isoDay } from '../lib/dates';
 import { sourcesFor, sourceUrl } from '../lib/jobSources';
 import { useApp } from '../lib/session';
@@ -159,9 +160,10 @@ export function Apply() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [targetId, docs === null]);
 
+  const ai = aiEnabled();
   const aiText = (e: unknown) => (e instanceof AiError ? t(`errors.ai.${e.code}`) : errorMessage(e, t));
   const hasProfile = Object.keys(profile.profile_data).length > 0 || profile.cv_text.trim().length > 0;
-  const remaining = profile.plan === 'free' && usage !== null ? Math.max(FREE_DOCS - usage, 0) : null;
+  const remaining = ai && profile.plan === 'free' && usage !== null ? Math.max(FREE_DOCS - usage, 0) : null;
 
   const useJob = (j: JobResult) => {
     setCompany(j.company);
@@ -175,10 +177,12 @@ export function Apply() {
   const analyse = async (e: FormEvent) => {
     e.preventDefault();
     setBriefError(null);
+    if (!ai && !company.trim()) { setBriefError(t('apply.free.companyRequired')); return; }
     if (!company.trim() && offer.trim().length < 80) { setBriefError(t('errors.ai.brief_missing')); return; }
     setBriefBusy(true);
     try {
-      const { brief } = await companyBrief({ company: company.trim() || undefined, offer_text: offer.trim() || undefined, job_url: jobUrl.trim() || undefined, lang: uiLang });
+      // Sans IA, la cible est créée directement à partir de ce que l'utilisateur a saisi.
+      const { brief } = !ai ? { brief: { company: company.trim() } } : await companyBrief({ company: company.trim() || undefined, offer_text: offer.trim() || undefined, job_url: jobUrl.trim() || undefined, lang: uiLang });
       if (!brief.company?.trim()) { setBriefError(t('apply.brief.noCompany')); return; }
       const row = await upsertTargetFromBrief({ ...brief, offer_text: offer.trim(), created_at: new Date().toISOString() }, targets, jobUrl.trim());
       setTargets((list) => (list.some((x) => x.id === row.id) ? list.map((x) => (x.id === row.id ? row : x)) : [row, ...list]));
@@ -197,6 +201,13 @@ export function Apply() {
     setGenBusy(true);
     try {
       const offerText = target.brief.offer_text?.trim() || spontaneousOffer(target, profile.profile_data.headline ?? '');
+      if (!ai) {
+        const doc = await createTemplateDocument(target, profile, lang, target.brief.job_title ?? '', target.brief.offer_text ?? '');
+        setCurrent(doc);
+        setDocs((d) => [doc, ...(d ?? [])]);
+        scrollTo('doc-h');
+        return;
+      }
       const res = await tailorDocuments({ offer_text: offerText, lang, target_id: target.id });
       setCurrent(res.document);
       setDocs((d) => [res.document, ...(d ?? [])]);
@@ -254,8 +265,8 @@ export function Apply() {
           </div>
           {briefError && <Notice tone="error">{briefError}</Notice>}
           <div className="row-between wrap">
-            <span className="small muted">{t('apply.brief.hint')}</span>
-            <button type="submit" className="btn btn-primary" disabled={briefBusy}>{briefBusy ? t('apply.brief.busy') : t('apply.brief.cta')}</button>
+            <span className="small muted">{ai ? t('apply.brief.hint') : t('apply.free.briefHint')}</span>
+            <button type="submit" className="btn btn-primary" disabled={briefBusy}>{briefBusy ? t('apply.brief.busy') : ai ? t('apply.brief.cta') : t('apply.free.createTarget')}</button>
           </div>
         </form>
         <div className="field">
@@ -277,7 +288,7 @@ export function Apply() {
             </div>
             <Link className="small" to="/cibles">{t('apply.brief.inPipeline')} →</Link>
           </div>
-          {Object.keys(b).length === 0 ? <p className="small muted">{t('apply.brief.empty')}</p> : (
+          {!b.summary && !b.expectations?.length ? <p className="small muted">{ai ? t('apply.brief.empty') : t('apply.free.noBrief')}</p> : (
             <>
               {b.summary && <p>{b.summary}</p>}
               <div className="grid-2">
@@ -311,8 +322,8 @@ export function Apply() {
                 {genBusy ? t('apply.dossier.busy') : t('apply.dossier.cta')}
               </button>
             </div>
-            <span className="small muted">{remaining !== null ? t('apply.dossier.remaining', { n: remaining, max: FREE_DOCS }) : ''} {t('apply.dossier.noInvention')}</span>
-            {genBusy && <p className="small muted" role="status">{t('apply.dossier.busyHint')}</p>}
+            <span className="small muted">{ai ? <>{remaining !== null ? t('apply.dossier.remaining', { n: remaining, max: FREE_DOCS }) : ''} {t('apply.dossier.noInvention')}</> : t('apply.free.dossierHint')}</span>
+            {genBusy && ai && <p className="small muted" role="status">{t('apply.dossier.busyHint')}</p>}
             {genError && <Notice tone="error">{genError}</Notice>}
           </>
         )}

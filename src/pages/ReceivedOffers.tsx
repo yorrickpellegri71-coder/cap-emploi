@@ -5,8 +5,9 @@ import { Empty, ErrorState, Loading, Modal, Notice, errorMessage, fmtDate } from
 import { useI18n } from '../i18n';
 import {
   AiError, addManualOffer, analyzeOffer, fetchDocument, fetchReceivedOffers, importAlerts, mailtoLink, markApplied,
-  setOfferCheck, tailorDocuments, updateReceivedOffer, upsertTargetFromBrief, type ManualOffer,
+  createTemplateDocument, setOfferCheck, tailorDocuments, updateReceivedOffer, upsertTargetFromBrief, type ManualOffer,
 } from '../lib/api';
+import { aiEnabled } from '../lib/ai';
 import { isoDay } from '../lib/dates';
 import { fetchAlertEmails, mailConfigured, type MailProvider } from '../lib/mailAlerts';
 import { useApp } from '../lib/session';
@@ -145,9 +146,11 @@ function OfferDetail({ offer, onChange, onClose }: { offer: ReceivedOffer; onCha
         company: a.company || offer.company || offer.title, job_title: a.job_title || offer.title, location: a.location || offer.location, offer_text: offerText,
       }, targets, offer.link);
       if (!target) setTargets((l) => (l.some((x) => x.id === row.id) ? l.map((x) => (x.id === row.id ? row : x)) : [row, ...l]));
-      const res = await tailorDocuments({ offer_text: offerText.padEnd(80, ' '), lang, target_id: row.id });
-      setDoc(res.document);
-      current = await updateReceivedOffer(offer.id, { status: 'ready', target_id: row.id, document_id: res.document.id });
+      const document = aiEnabled()
+        ? (await tailorDocuments({ offer_text: offerText.padEnd(80, ' '), lang, target_id: row.id })).document
+        : await createTemplateDocument(row, profile, lang, a.job_title || offer.title, offerText);
+      setDoc(document);
+      current = await updateReceivedOffer(offer.id, { status: 'ready', target_id: row.id, document_id: document.id });
       onChange(current);
     } catch (e) {
       onChange(await updateReceivedOffer(offer.id, { status: analyzed ? 'analyzed' : 'new' }).catch(() => offer));
@@ -199,11 +202,13 @@ function OfferDetail({ offer, onChange, onClose }: { offer: ReceivedOffer; onCha
       <section className="card stack-lg" aria-labelledby="st-ai">
         <div className="row-between wrap">
           <h3 id="st-ai" className="h2"><span className="step">2</span> {t('offers.steps.analyze')}</h3>
-          <button type="button" className={analyzed ? 'btn btn-sm' : 'btn btn-primary'} disabled={!!busy || text.trim() !== offer.offer_text} onClick={() => void analyze()}>
-            {busy === 'analyze' ? t('common.wait') : analyzed ? t('offers.reanalyze') : t('offers.analyze')}
-          </button>
+          {aiEnabled() && (
+            <button type="button" className={analyzed ? 'btn btn-sm' : 'btn btn-primary'} disabled={!!busy || text.trim() !== offer.offer_text} onClick={() => void analyze()}>
+              {busy === 'analyze' ? t('common.wait') : analyzed ? t('offers.reanalyze') : t('offers.analyze')}
+            </button>
+          )}
         </div>
-        {!analyzed ? <p className="small muted">{t('offers.analyzeHint')}</p> : (
+        {!analyzed ? <p className="small muted">{aiEnabled() ? t('offers.analyzeHint') : t('free.analyzeOff')}</p> : (
           <div className="stack-lg">
             <div className="row-between wrap analysis-head">
               <div className="row-end" style={{ justifyContent: 'flex-start' }}>
@@ -342,13 +347,14 @@ export function ReceivedOffers() {
         <p className="small muted">{t('offers.mail.intro')}</p>
         <div className="row-end wrap" style={{ justifyContent: 'flex-start' }}>
           {(['gmail', 'outlook'] as const).map((p) => (
-            <button key={p} type="button" className="btn btn-sm" disabled={!mailConfigured(p) || !!mailBusy} onClick={() => void readMail(p)}
+            <button key={p} type="button" className="btn btn-sm" disabled={!aiEnabled() || !mailConfigured(p) || !!mailBusy} onClick={() => void readMail(p)}
               title={mailConfigured(p) ? undefined : t('offers.mail.notConfigured')}>
               {mailBusy === p ? t('common.wait') : t(`offers.mail.read_${p}`)}
             </button>
           ))}
         </div>
-        {!mailConfigured('gmail') && !mailConfigured('outlook') && <p className="xs muted">{t('offers.mail.notConfigured')}</p>}
+        {!aiEnabled() ? <p className="xs muted">{t('free.mailOff')}</p>
+          : !mailConfigured('gmail') && !mailConfigured('outlook') && <p className="xs muted">{t('offers.mail.notConfigured')}</p>}
         <p className="xs muted">{t('offers.mail.privacy')}</p>
       </section>
       {note && <Notice tone={note.tone}>{note.text}</Notice>}
