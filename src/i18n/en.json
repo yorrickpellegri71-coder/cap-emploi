@@ -31,7 +31,9 @@
     "signout": "Sign out",
     "apply": "Apply",
     "opps": "Opportunities",
-    "history": "History"
+    "history": "History",
+    "offers": "Received offers",
+    "offersShort": "Offers"
   },
   "errors": {
     "network": "Cannot reach the server. Check your connection and try again.",
@@ -59,7 +61,10 @@
       "keywords_missing": "Enter a job title or keywords.",
       "quota_searches": "Monthly automatic search limit reached. The links to the job sites remain available.",
       "search_unavailable": "The job search service is not responding. Use the links to the job sites.",
-      "quota_discoveries": "Monthly opportunity search limit reached."
+      "quota_discoveries": "Monthly opportunity search limit reached.",
+      "quota_analyses": "Monthly limit of offer analyses reached.",
+      "quota_alerts": "Monthly limit of alert checks reached.",
+      "offer_missing": "Offer not found."
     }
   },
   "auth": {
@@ -283,7 +288,11 @@
       "h": "Contact",
       "p": "For any question about your data, write to the project owner."
     },
-    "updated": "Version of 22 October 2026."
+    "updated": "Version of 22 October 2026.",
+    "mail": {
+      "h": "Email alerts (optional)",
+      "p": "If you check your Gmail or Outlook alerts, access is read-only, from your browser and only while checking. Only emails from job sites over the last 14 days are read and sent to the AI to extract the offers; only the offers are kept."
+    }
   },
   "apply": {
     "eyebrow": "Apply directly",
@@ -484,5 +493,111 @@
       "emptyHint": "Log every reply from an employer here, even a rejection: it helps you see what works."
     },
     "see": "See history"
+  },
+  "offers": {
+    "eyebrow": "Alerts",
+    "title": "Received offers",
+    "intro": "Offers from your email alerts, from the daily search, or added by you. Read each offer and have it analysed before applying.",
+    "new": "New",
+    "newCount": "{n} new offer(s)",
+    "alert": "{n} new offer(s) received.",
+    "alertHint": "Open them to read and analyse them.",
+    "alertWeek": "{n} new offer(s) received to read.",
+    "see": "See offers",
+    "empty": "No offers received yet.",
+    "emptyHint": "Add an offer manually, check your email alerts, or run the search in “Opportunities”.",
+    "emptyView": "No offers in this view.",
+    "views": {
+      "new": "New",
+      "todo": "To process",
+      "sent": "Sent",
+      "all": "All"
+    },
+    "origins": {
+      "gmail": "Gmail alert",
+      "outlook": "Outlook alert",
+      "collected": "Daily search",
+      "manual": "Added manually"
+    },
+    "statuses": {
+      "new": "New",
+      "analyzed": "Analysed",
+      "preparing": "Preparing…",
+      "ready": "Pack ready",
+      "sent": "Sent",
+      "dismissed": "Dismissed"
+    },
+    "location": "Location",
+    "link": "Ad link",
+    "text": "Offer text",
+    "textHint": "Paste the full text of the ad here.",
+    "textHelp": "An alert often contains only an excerpt: open the ad and paste the full text for a reliable analysis.",
+    "read": "Read the offer",
+    "view": "View",
+    "dismiss": "Dismiss",
+    "back": "All offers",
+    "openAd": "Open the ad",
+    "steps": {
+      "read": "Read the offer",
+      "analyze": "Detailed analysis",
+      "prepare": "Check, then prepare the documents",
+      "send": "Review, then send"
+    },
+    "analyze": "Analyse the offer with AI",
+    "reanalyze": "Run the analysis again",
+    "analyzeHint": "The AI details the position, company, location, contract, salary, languages, tasks and requirements, then compares them with your profile.",
+    "notStated": "Not stated in the offer",
+    "aiNote": "AI-generated analysis based on the offer text and your profile: check the key points in the ad.",
+    "fields": {
+      "job_title": "Position",
+      "company": "Company",
+      "location": "Location",
+      "contract": "Contract",
+      "salary": "Salary",
+      "languages": "Languages",
+      "missions": "Tasks",
+      "requirements": "Requirements",
+      "strengths": "Your strengths",
+      "gaps": "Gaps"
+    },
+    "reco": {
+      "apply": "Recommended: apply",
+      "apply_with_care": "Consider carefully before applying",
+      "skip": "Not recommended"
+    },
+    "checks": {
+      "offer_read": "I have read the whole offer",
+      "conditions_ok": "I accept the conditions (contract, location, hours, salary)",
+      "docs_reviewed": "I have reviewed the documents and corrected what was needed"
+    },
+    "prepareHint": "Tick both boxes to approve preparing the email, letter, tailored CV and introduction.",
+    "prepare": "Approve and prepare the documents",
+    "prepareLocked": "Both boxes must be ticked before preparing.",
+    "sendHint": "Send the pack yourself (email or employer’s website). Nothing is sent automatically.",
+    "sendLocked": "Tick the document review to be able to send.",
+    "sentDone": "Application recorded. Follow-up planned on {date}.",
+    "add": {
+      "title": "Add an offer",
+      "cta": "Add",
+      "required": "Enter at least the position or the company.",
+      "badLink": "The link must start with http:// or https://."
+    },
+    "mail": {
+      "title": "Job-site email alerts",
+      "intro": "Check the alerts received over the last 14 days (jobs.lu, Moovijob, LinkedIn, Indeed…): the offers they contain are added here.",
+      "read_gmail": "Check Gmail",
+      "read_outlook": "Check Outlook",
+      "notConfigured": "Mailbox connection not configured yet for this site.",
+      "privacy": "Read-only access, only while checking. Only job-site alerts are read; they are sent to the AI to extract the offers and are not kept.",
+      "none": "No job alerts found in the last 14 days.",
+      "done": "{n} new offer(s) found in {emails} alert(s).",
+      "errors": {
+        "denied": "Mailbox connection refused or interrupted.",
+        "failed": "The mailbox did not respond. Try again later.",
+        "unavailable": "Mailbox connection unavailable.",
+        "script": "Could not load the Google sign-in. Check your network.",
+        "popup": "Your browser blocked the sign-in window. Allow pop-ups for this site."
+      }
+    }
   }
 }

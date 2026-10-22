@@ -15,7 +15,7 @@ type View = 'to_validate' | 'validated' | 'all' | 'sent';
 const VIEWS: View[] = ['to_validate', 'validated', 'all', 'sent'];
 const inView = (o: Opportunity, v: View) => (v === 'all' ? ['new', 'preparing'].includes(o.status) : o.status === v);
 
-function Score({ value }: { value: number }) {
+export function Score({ value }: { value: number }) {
   const { t } = useI18n();
   const tone = value >= 80 ? 'high' : value >= 60 ? 'mid' : 'low';
   return <span className={`score score-${tone}`} title={t('opps.scoreTitle')}>{value}</span>;

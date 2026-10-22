@@ -1,7 +1,7 @@
 // Accès aux données. La sécurité par utilisateur est garantie côté base (RLS) : aucune requête ne filtre « à la main ».
 import { stageEffect, isoDay, isoWeek } from './dates';
 import { supabase, unwrap } from './supabase';
-import type { Application, AppStatus, ResponseRow, ResponseType, CompanyBrief, CounterKey, Counters, Digest, DocumentRow, JobResult, Lang, MessageTemplates, Opportunity, OppStatus, ProfileData, Stage, Target } from './types';
+import type { Application, AppStatus, OfferCheck, OfferOrigin, ReceivedOffer, ResponseRow, ResponseType, CompanyBrief, CounterKey, Counters, Digest, DocumentRow, JobResult, Lang, MessageTemplates, Opportunity, OppStatus, ProfileData, Stage, Target } from './types';
 
 export async function fetchTargets(): Promise<Target[]> {
   return unwrap(await supabase.from('targets').select('*').order('updated_at', { ascending: false })) as Target[];
@@ -47,7 +47,7 @@ export const piecesOf = (d?: DocumentRow | null) =>
   d ? (['email', 'letter', 'cv', 'pitch'] as const).filter((k) => (k === 'email' ? d.email_body : d[k]).trim()) : [];
 
 /** « J'ai envoyé » : la cible passe en « Contacté », la candidature est comptée et inscrite à l'historique, la relance part du jour. */
-export async function markApplied(target: Target, info: AppliedInfo): Promise<Target> {
+export async function markApplied(target: Target, info: AppliedInfo): Promise<Target & { application_id: string }> {
   const stage: Stage = ['todo', 'contacted', 'followed_up'].includes(target.stage) ? 'contacted' : target.stage;
   const today = isoDay();
   const row = unwrap(await supabase.from('targets').update({ stage, last_contact_on: today }).eq('id', target.id).select().single()) as Target;
@@ -55,15 +55,52 @@ export async function markApplied(target: Target, info: AppliedInfo): Promise<Ta
   follow.setDate(follow.getDate() + info.followupDays);
   let source = info.source ?? '';
   if (!source && target.job_url) { try { source = new URL(target.job_url).hostname.replace(/^www\./, ''); } catch { /* lien invalide */ } }
-  unwrap(await supabase.from('applications').insert({
+  const app = unwrap(await supabase.from('applications').insert({
     target_id: target.id, document_id: info.document?.id ?? null, opportunity_id: info.opportunityId ?? null, applied_on: today,
     company: target.company, job_title: info.jobTitle ?? info.document?.job_title ?? target.brief?.job_title ?? '',
     source: source || `channel:${target.channel}`, lang: info.document?.lang ?? 'fr', documents: piecesOf(info.document),
     status: 'sent', followup_on: isoDay(follow),
-  }).select('id'));
+  }).select('id').single()) as { id: string };
   await bumpCounter('applications', 1);
-  return row;
+  return { ...row, application_id: app.id };
 }
+
+// ───────────── Offres reçues ─────────────
+
+export async function fetchReceivedOffers(): Promise<ReceivedOffer[]> {
+  return unwrap(await supabase.from('received_offers').select('*').neq('status', 'dismissed').order('received_at', { ascending: false }).limit(300)) as ReceivedOffer[];
+}
+
+/** Nombre d'offres reçues pas encore ouvertes (alerte et compteur). */
+export async function countNewOffers(): Promise<number> {
+  const { count, error } = await supabase.from('received_offers').select('id', { count: 'exact', head: true }).is('seen_at', null).neq('status', 'dismissed');
+  if (error) throw new Error(error.message);
+  return count ?? 0;
+}
+
+export interface ManualOffer { title: string; company: string; location: string; link: string; source: string; offer_text: string }
+export async function addManualOffer(o: ManualOffer): Promise<ReceivedOffer> {
+  const norm = (s: string) => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
+  const dedupe_key = o.link ? `link:${o.link.split('#')[0]}` : `text:${norm(`${o.title} ${o.company}`)} ${Date.now()}`;
+  return unwrap(await supabase.from('received_offers').insert({ ...o, origin: 'manual', dedupe_key }).select().single()) as ReceivedOffer;
+}
+
+export async function updateReceivedOffer(id: string, patch: Partial<ReceivedOffer>): Promise<ReceivedOffer> {
+  return unwrap(await supabase.from('received_offers').update(patch).eq('id', id).select().single()) as ReceivedOffer;
+}
+
+/** Coche ou décoche une case de la liste de vérification (horodatée). */
+export function setOfferCheck(offer: ReceivedOffer, key: OfferCheck, on: boolean) {
+  const checks = { ...offer.checks };
+  if (on) checks[key] = new Date().toISOString(); else delete checks[key];
+  return updateReceivedOffer(offer.id, { checks });
+}
+
+export const analyzeOffer = (offerId: string, lang?: Lang) => callAi<{ offer: ReceivedOffer }>({ action: 'analyze_offer', offer_id: offerId, lang });
+
+export interface AlertEmail { from: string; subject: string; date: string; text: string }
+export const importAlerts = (origin: Exclude<OfferOrigin, 'collected' | 'manual'>, emails: AlertEmail[]) =>
+  callAi<{ inserted: number }>({ action: 'import_alerts', origin, emails });
 
 // ───────────── Historiques ─────────────
 
@@ -230,7 +267,7 @@ export function mailtoLink(doc: Pick<DocumentRow, 'email_subject' | 'email_body'
 
 /** Export RGPD : toutes les données du compte en JSON. */
 export async function exportMyData(): Promise<Blob> {
-  const [profile, targets, weeks, documents, usage, opportunities, digests, applications, responses] = await Promise.all([
+  const [profile, targets, weeks, documents, usage, opportunities, digests, applications, responses, receivedOffers] = await Promise.all([
     supabase.from('profiles').select('*').maybeSingle(),
     supabase.from('targets').select('*'),
     supabase.from('weeks').select('*'),
@@ -240,11 +277,12 @@ export async function exportMyData(): Promise<Blob> {
     supabase.from('digests').select('*'),
     supabase.from('applications').select('*'),
     supabase.from('responses').select('*'),
+    supabase.from('received_offers').select('*'),
   ]);
   const data = {
     exported_at: new Date().toISOString(), profile: unwrap(profile), targets: unwrap(targets), weeks: unwrap(weeks), documents: unwrap(documents),
     ai_usage: unwrap(usage), opportunities: unwrap(opportunities), digests: unwrap(digests),
-    applications: unwrap(applications), responses: unwrap(responses),
+    applications: unwrap(applications), responses: unwrap(responses), received_offers: unwrap(receivedOffers),
   };
   return new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
 }

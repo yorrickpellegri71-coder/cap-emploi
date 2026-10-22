@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Empty, ErrorState, Notice, errorMessage, fmtDate } from '../components/ui';
 import { useI18n } from '../i18n';
-import { bumpCounter, fetchWeek, moveTarget } from '../lib/api';
+import { bumpCounter, countNewOffers, fetchWeek, moveTarget } from '../lib/api';
 import { daysBetween, dueFollowups, isoDay, isoWeek, shiftWeek, weekMonday } from '../lib/dates';
 import { useApp } from '../lib/session';
 import { COUNTERS, STAGES, type CounterKey, type Counters, type Target } from '../lib/types';
@@ -31,6 +31,8 @@ export function Week() {
     try { setCounters(await fetchWeek(week)); } catch (e) { setError(e); }
   }, [week]);
   useEffect(() => { void load(); }, [load]);
+  const [fresh, setFresh] = useState(0);
+  useEffect(() => { countNewOffers().then(setFresh).catch(() => undefined); }, []);
 
   const bump = async (key: CounterKey, delta: number) => {
     setActionError(null);
@@ -68,6 +70,11 @@ export function Week() {
         </div>
       </header>
 
+      {fresh > 0 && (
+        <Notice tone="warn">
+          <span className="alert-banner"><strong>🔔 {t('offers.alertWeek', { n: fresh })}</strong> <Link className="btn btn-sm" to="/offres">{t('offers.see')}</Link></span>
+        </Notice>
+      )}
       {actionError != null && <Notice tone="error">{errorMessage(actionError, t)}</Notice>}
 
       <section aria-labelledby="goals-h" className="stack">

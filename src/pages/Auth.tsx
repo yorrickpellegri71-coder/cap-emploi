@@ -245,7 +245,7 @@ export function Privacy() {
     <div className="page page-narrow stack-lg">
       <Brand to={session ? '/' : '/connexion'} />
       <h1 className="h1">{t('privacy.title')}</h1>
-      {['who', 'data', 'ai', 'where', 'rights', 'contact'].map((k) => (
+      {['who', 'data', 'ai', 'mail', 'where', 'rights', 'contact'].map((k) => (
         <section key={k} className="stack">
           <h2 className="h2">{t(`privacy.${k}.h`)}</h2>
           <p>{t(`privacy.${k}.p`)}</p>

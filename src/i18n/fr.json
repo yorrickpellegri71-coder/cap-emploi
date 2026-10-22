@@ -31,7 +31,9 @@
     "signout": "Se déconnecter",
     "apply": "Postuler",
     "opps": "Opportunités",
-    "history": "Historique"
+    "history": "Historique",
+    "offers": "Offres reçues",
+    "offersShort": "Offres"
   },
   "errors": {
     "network": "Connexion au serveur impossible. Vérifiez votre réseau puis réessayez.",
@@ -59,7 +61,10 @@
       "keywords_missing": "Saisissez un poste ou des mots-clés.",
       "quota_searches": "Limite mensuelle de recherches automatiques atteinte. Les liens vers les sites restent disponibles.",
       "search_unavailable": "Le service de recherche d’offres ne répond pas. Utilisez les liens vers les sites.",
-      "quota_discoveries": "Limite mensuelle de recherches d’opportunités atteinte."
+      "quota_discoveries": "Limite mensuelle de recherches d’opportunités atteinte.",
+      "quota_analyses": "Limite mensuelle d’analyses d’offres atteinte.",
+      "quota_alerts": "Limite mensuelle de relevés d’alertes atteinte.",
+      "offer_missing": "Offre introuvable."
     }
   },
   "auth": {
@@ -283,7 +288,11 @@
       "h": "Contact",
       "p": "Pour toute question sur vos données, écrivez au porteur du projet."
     },
-    "updated": "Version du 22 octobre 2026."
+    "updated": "Version du 22 octobre 2026.",
+    "mail": {
+      "h": "Alertes e-mail (option)",
+      "p": "Si vous relevez vos alertes Gmail ou Outlook, l’accès se fait en lecture seule, depuis votre navigateur et le temps du relevé. Seuls les e-mails des sites d’emploi des 14 derniers jours sont lus et transmis à l’IA pour en extraire les offres ; seules les offres sont conservées."
+    }
   },
   "apply": {
     "eyebrow": "Postuler en direct",
@@ -484,5 +493,111 @@
       "emptyHint": "Notez ici chaque retour d’un employeur, même un refus : cela aide à repérer ce qui fonctionne."
     },
     "see": "Voir l’historique"
+  },
+  "offers": {
+    "eyebrow": "Alertes",
+    "title": "Offres reçues",
+    "intro": "Les offres arrivées par vos alertes e-mail, par la recherche quotidienne ou ajoutées par vous. Lisez chaque offre et faites-la analyser avant de postuler.",
+    "new": "Nouvelle",
+    "newCount": "{n} nouvelle(s) offre(s)",
+    "alert": "{n} nouvelle(s) offre(s) reçue(s).",
+    "alertHint": "Ouvrez-les pour les lire et les faire analyser.",
+    "alertWeek": "{n} nouvelle(s) offre(s) reçue(s) à lire.",
+    "see": "Voir les offres",
+    "empty": "Aucune offre reçue pour l’instant.",
+    "emptyHint": "Ajoutez une offre à la main, relevez vos alertes e-mail ou lancez la recherche dans « Opportunités ».",
+    "emptyView": "Aucune offre dans cette vue.",
+    "views": {
+      "new": "Nouvelles",
+      "todo": "À traiter",
+      "sent": "Envoyées",
+      "all": "Toutes"
+    },
+    "origins": {
+      "gmail": "Alerte Gmail",
+      "outlook": "Alerte Outlook",
+      "collected": "Recherche quotidienne",
+      "manual": "Ajout manuel"
+    },
+    "statuses": {
+      "new": "Nouvelle",
+      "analyzed": "Analysée",
+      "preparing": "Préparation…",
+      "ready": "Dossier prêt",
+      "sent": "Envoyée",
+      "dismissed": "Écartée"
+    },
+    "location": "Lieu",
+    "link": "Lien de l’annonce",
+    "text": "Texte de l’offre",
+    "textHint": "Collez ici le texte complet de l’annonce.",
+    "textHelp": "Une alerte ne contient souvent qu’un extrait : ouvrez l’annonce et collez le texte complet pour une analyse fiable.",
+    "read": "Lire l’offre",
+    "view": "Voir",
+    "dismiss": "Écarter",
+    "back": "Toutes les offres",
+    "openAd": "Ouvrir l’annonce",
+    "steps": {
+      "read": "Lire l’offre",
+      "analyze": "Analyse détaillée",
+      "prepare": "Vérifier, puis préparer les documents",
+      "send": "Relire, puis envoyer"
+    },
+    "analyze": "Analyser l’offre avec l’IA",
+    "reanalyze": "Relancer l’analyse",
+    "analyzeHint": "L’IA détaille le poste, l’entreprise, le lieu, le contrat, le salaire, les langues, les missions et les exigences, puis compare avec votre profil.",
+    "notStated": "Non précisé dans l’offre",
+    "aiNote": "Analyse produite par IA à partir du texte de l’offre et de votre profil : vérifiez les points importants dans l’annonce.",
+    "fields": {
+      "job_title": "Poste",
+      "company": "Entreprise",
+      "location": "Lieu",
+      "contract": "Contrat",
+      "salary": "Salaire",
+      "languages": "Langues",
+      "missions": "Missions",
+      "requirements": "Exigences",
+      "strengths": "Vos points forts",
+      "gaps": "Manques"
+    },
+    "reco": {
+      "apply": "Recommandé : postuler",
+      "apply_with_care": "À étudier avant de postuler",
+      "skip": "Déconseillé"
+    },
+    "checks": {
+      "offer_read": "J’ai lu l’offre en entier",
+      "conditions_ok": "J’accepte les conditions (contrat, lieu, horaires, salaire)",
+      "docs_reviewed": "J’ai relu les documents et corrigé ce qui devait l’être"
+    },
+    "prepareHint": "Cochez les deux cases pour valider la préparation de l’e-mail, de la lettre, du CV adapté et de la présentation.",
+    "prepare": "Valider et préparer les documents",
+    "prepareLocked": "Les deux cases doivent être cochées avant la préparation.",
+    "sendHint": "Envoyez le dossier vous-même (e-mail ou site de l’employeur). Rien n’est envoyé automatiquement.",
+    "sendLocked": "Cochez la relecture des documents pour pouvoir envoyer.",
+    "sentDone": "Candidature enregistrée. Relance prévue le {date}.",
+    "add": {
+      "title": "Ajouter une offre",
+      "cta": "Ajouter",
+      "required": "Indiquez au moins le poste ou l’entreprise.",
+      "badLink": "Le lien doit commencer par http:// ou https://."
+    },
+    "mail": {
+      "title": "Alertes e-mail des sites d’emploi",
+      "intro": "Relevez les alertes reçues ces 14 derniers jours (jobs.lu, Moovijob, LinkedIn, Indeed…) : les offres qu’elles contiennent sont ajoutées ici.",
+      "read_gmail": "Relever Gmail",
+      "read_outlook": "Relever Outlook",
+      "notConfigured": "Connexion de messagerie pas encore configurée pour ce site.",
+      "privacy": "Accès en lecture seule, le temps du relevé. Seules les alertes des sites d’emploi sont lues ; elles sont transmises à l’IA pour en extraire les offres, puis ne sont pas conservées.",
+      "none": "Aucune alerte d’emploi trouvée ces 14 derniers jours.",
+      "done": "{n} nouvelle(s) offre(s) trouvée(s) dans {emails} alerte(s).",
+      "errors": {
+        "denied": "Connexion à la messagerie refusée ou interrompue.",
+        "failed": "La messagerie n’a pas répondu. Réessayez plus tard.",
+        "unavailable": "Connexion de messagerie indisponible.",
+        "script": "Impossible de charger la connexion Google. Vérifiez votre réseau.",
+        "popup": "Votre navigateur a bloqué la fenêtre de connexion. Autorisez les fenêtres pour ce site."
+      }
+    }
   }
 }

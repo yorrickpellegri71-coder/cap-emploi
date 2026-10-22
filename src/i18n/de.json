@@ -31,7 +31,9 @@
     "signout": "Abmelden",
     "apply": "Bewerben",
     "opps": "Chancen",
-    "history": "Verlauf"
+    "history": "Verlauf",
+    "offers": "Erhaltene Angebote",
+    "offersShort": "Angebote"
   },
   "errors": {
     "network": "Keine Verbindung zum Server. Prüfen Sie Ihr Netzwerk und versuchen Sie es erneut.",
@@ -59,7 +61,10 @@
       "keywords_missing": "Geben Sie eine Stelle oder Stichwörter ein.",
       "quota_searches": "Monatliches Limit für automatische Suchen erreicht. Die Links zu den Jobbörsen bleiben verfügbar.",
       "search_unavailable": "Der Suchdienst antwortet nicht. Nutzen Sie die Links zu den Jobbörsen.",
-      "quota_discoveries": "Monatliches Limit für die Suche nach Chancen erreicht."
+      "quota_discoveries": "Monatliches Limit für die Suche nach Chancen erreicht.",
+      "quota_analyses": "Monatliches Limit für Angebotsanalysen erreicht.",
+      "quota_alerts": "Monatliches Limit für Benachrichtigungsabrufe erreicht.",
+      "offer_missing": "Angebot nicht gefunden."
     }
   },
   "auth": {
@@ -283,7 +288,11 @@
       "h": "Kontakt",
       "p": "Bei Fragen zu Ihren Daten wenden Sie sich an den Projektträger."
     },
-    "updated": "Fassung vom 22. Oktober 2026."
+    "updated": "Fassung vom 22. Oktober 2026.",
+    "mail": {
+      "h": "E-Mail-Benachrichtigungen (optional)",
+      "p": "Wenn Sie Ihre Gmail- oder Outlook-Benachrichtigungen abrufen, erfolgt der Zugriff nur lesend, über Ihren Browser und nur während des Abrufs. Nur E-Mails von Jobportalen der letzten 14 Tage werden gelesen und der KI übermittelt, um die Angebote zu extrahieren; nur die Angebote werden gespeichert."
+    }
   },
   "apply": {
     "eyebrow": "Direkt bewerben",
@@ -484,5 +493,111 @@
       "emptyHint": "Erfassen Sie hier jede Rückmeldung eines Arbeitgebers, auch Absagen: So sehen Sie, was funktioniert."
     },
     "see": "Verlauf ansehen"
+  },
+  "offers": {
+    "eyebrow": "Benachrichtigungen",
+    "title": "Erhaltene Angebote",
+    "intro": "Angebote aus Ihren E-Mail-Benachrichtigungen, aus der täglichen Suche oder von Ihnen hinzugefügt. Lesen Sie jedes Angebot und lassen Sie es analysieren, bevor Sie sich bewerben.",
+    "new": "Neu",
+    "newCount": "{n} neue(s) Angebot(e)",
+    "alert": "{n} neue(s) Angebot(e) erhalten.",
+    "alertHint": "Öffnen Sie sie, um sie zu lesen und analysieren zu lassen.",
+    "alertWeek": "{n} neue(s) Angebot(e) zu lesen.",
+    "see": "Angebote ansehen",
+    "empty": "Noch keine Angebote erhalten.",
+    "emptyHint": "Fügen Sie ein Angebot manuell hinzu, rufen Sie Ihre E-Mail-Benachrichtigungen ab oder starten Sie die Suche unter „Chancen“.",
+    "emptyView": "Keine Angebote in dieser Ansicht.",
+    "views": {
+      "new": "Neu",
+      "todo": "Zu bearbeiten",
+      "sent": "Gesendet",
+      "all": "Alle"
+    },
+    "origins": {
+      "gmail": "Gmail-Benachrichtigung",
+      "outlook": "Outlook-Benachrichtigung",
+      "collected": "Tägliche Suche",
+      "manual": "Manuell hinzugefügt"
+    },
+    "statuses": {
+      "new": "Neu",
+      "analyzed": "Analysiert",
+      "preparing": "Wird vorbereitet…",
+      "ready": "Unterlagen bereit",
+      "sent": "Gesendet",
+      "dismissed": "Verworfen"
+    },
+    "location": "Ort",
+    "link": "Link zur Anzeige",
+    "text": "Text des Angebots",
+    "textHint": "Fügen Sie hier den vollständigen Anzeigentext ein.",
+    "textHelp": "Eine Benachrichtigung enthält oft nur einen Auszug: Öffnen Sie die Anzeige und fügen Sie den vollständigen Text ein, um eine zuverlässige Analyse zu erhalten.",
+    "read": "Angebot lesen",
+    "view": "Ansehen",
+    "dismiss": "Verwerfen",
+    "back": "Alle Angebote",
+    "openAd": "Anzeige öffnen",
+    "steps": {
+      "read": "Angebot lesen",
+      "analyze": "Detaillierte Analyse",
+      "prepare": "Prüfen, dann Unterlagen vorbereiten",
+      "send": "Gegenlesen, dann senden"
+    },
+    "analyze": "Angebot mit KI analysieren",
+    "reanalyze": "Analyse erneut starten",
+    "analyzeHint": "Die KI beschreibt Stelle, Unternehmen, Ort, Vertrag, Gehalt, Sprachen, Aufgaben und Anforderungen und vergleicht sie mit Ihrem Profil.",
+    "notStated": "Im Angebot nicht angegeben",
+    "aiNote": "KI-Analyse auf Grundlage des Angebotstextes und Ihres Profils: Prüfen Sie die wichtigen Punkte in der Anzeige.",
+    "fields": {
+      "job_title": "Stelle",
+      "company": "Unternehmen",
+      "location": "Ort",
+      "contract": "Vertrag",
+      "salary": "Gehalt",
+      "languages": "Sprachen",
+      "missions": "Aufgaben",
+      "requirements": "Anforderungen",
+      "strengths": "Ihre Stärken",
+      "gaps": "Lücken"
+    },
+    "reco": {
+      "apply": "Empfohlen: bewerben",
+      "apply_with_care": "Vor der Bewerbung genau prüfen",
+      "skip": "Nicht empfohlen"
+    },
+    "checks": {
+      "offer_read": "Ich habe das ganze Angebot gelesen",
+      "conditions_ok": "Ich akzeptiere die Bedingungen (Vertrag, Ort, Arbeitszeiten, Gehalt)",
+      "docs_reviewed": "Ich habe die Unterlagen gegengelesen und Nötiges korrigiert"
+    },
+    "prepareHint": "Haken Sie beide Kästchen an, um die Vorbereitung von E-Mail, Anschreiben, angepasstem Lebenslauf und Kurzvorstellung freizugeben.",
+    "prepare": "Freigeben und Unterlagen vorbereiten",
+    "prepareLocked": "Vor der Vorbereitung müssen beide Kästchen angehakt sein.",
+    "sendHint": "Senden Sie die Unterlagen selbst (E-Mail oder Website des Arbeitgebers). Nichts wird automatisch gesendet.",
+    "sendLocked": "Haken Sie das Gegenlesen der Unterlagen an, um senden zu können.",
+    "sentDone": "Bewerbung erfasst. Nachfassen geplant am {date}.",
+    "add": {
+      "title": "Angebot hinzufügen",
+      "cta": "Hinzufügen",
+      "required": "Geben Sie mindestens die Stelle oder das Unternehmen an.",
+      "badLink": "Der Link muss mit http:// oder https:// beginnen."
+    },
+    "mail": {
+      "title": "E-Mail-Benachrichtigungen der Jobportale",
+      "intro": "Rufen Sie die Benachrichtigungen der letzten 14 Tage ab (jobs.lu, Moovijob, LinkedIn, Indeed…): Die enthaltenen Angebote werden hier hinzugefügt.",
+      "read_gmail": "Gmail abrufen",
+      "read_outlook": "Outlook abrufen",
+      "notConfigured": "Postfachverbindung für diese Website noch nicht eingerichtet.",
+      "privacy": "Nur Lesezugriff, nur während des Abrufs. Es werden nur Benachrichtigungen von Jobportalen gelesen; sie werden der KI übermittelt, um die Angebote zu extrahieren, und nicht gespeichert.",
+      "none": "Keine Job-Benachrichtigungen in den letzten 14 Tagen gefunden.",
+      "done": "{n} neue(s) Angebot(e) in {emails} Benachrichtigung(en) gefunden.",
+      "errors": {
+        "denied": "Verbindung zum Postfach abgelehnt oder unterbrochen.",
+        "failed": "Das Postfach hat nicht geantwortet. Versuchen Sie es später erneut.",
+        "unavailable": "Postfachverbindung nicht verfügbar.",
+        "script": "Google-Anmeldung konnte nicht geladen werden. Prüfen Sie Ihre Verbindung.",
+        "popup": "Ihr Browser hat das Anmeldefenster blockiert. Erlauben Sie Pop-ups für diese Website."
+      }
+    }
   }
 }

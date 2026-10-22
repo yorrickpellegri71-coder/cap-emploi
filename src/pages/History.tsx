@@ -39,7 +39,7 @@ function SortableTable<R extends { id: string }>({ rows, columns, sort, onSort, 
         <tbody>
           {rows.map((r) => (
             <tr key={r.id}>
-              {columns.map((c) => <td key={c.key} data-label={c.label}>{c.render ? c.render(r) : (c.value(r) ?? '—')}</td>)}
+              {columns.map((c) => <td key={c.key} data-label={c.label} className={c.date ? 'nowrap' : undefined}>{c.render ? c.render(r) : (c.value(r) ?? '—')}</td>)}
               <td className="row-actions">{actions(r)}</td>
             </tr>
           ))}
@@ -218,7 +218,7 @@ function Applications({ apps, setApps, onRespond }: { apps: Application[]; setAp
     <section className="stack-lg" aria-labelledby="apps-h">
       <div className="row-between wrap">
         <h2 id="apps-h" className="h2">{t('history.apps.title')} <span className="muted small">({sorted.length}/{apps.length})</span></h2>
-        <div className="row-end">
+        <div className="row-end wrap">
           <button type="button" className="btn" onClick={() => setEditing('new')}>+ {t('history.apps.new')}</button>
           <button type="button" className="btn btn-primary" disabled={!sorted.length}
             onClick={() => void toExcel(t('history.apps.title'), columns, sorted, t('history.apps.file')).catch(setError)}>{t('history.export')}</button>
@@ -390,7 +390,7 @@ function Responses({ resps, setResps, onNew, onEdit }: {
     <section className="stack-lg" aria-labelledby="resps-h">
       <div className="row-between wrap">
         <h2 id="resps-h" className="h2">{t('history.resps.title')} <span className="muted small">({sorted.length}/{resps.length})</span></h2>
-        <div className="row-end">
+        <div className="row-end wrap">
           <button type="button" className="btn" onClick={onNew}>+ {t('history.resps.new')}</button>
           <button type="button" className="btn btn-primary" disabled={!sorted.length}
             onClick={() => void toExcel(t('history.resps.title'), columns, sorted, t('history.resps.file')).catch(setError)}>{t('history.export')}</button>
@@ -446,7 +446,7 @@ export function History() {
   const setTab = (v: 'apps' | 'resps') => setParams(v === 'resps' ? { vue: 'reponses' } : {}, { replace: true });
 
   return (
-    <div className="page stack-xl">
+    <div className="page page-wide stack-xl">
       <header className="page-head">
         <div>
           <p className="eyebrow">{t('history.eyebrow')}</p>

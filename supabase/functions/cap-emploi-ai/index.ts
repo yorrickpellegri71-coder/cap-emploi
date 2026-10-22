@@ -97,6 +97,52 @@ const PROFILE_SCHEMA = {
   },
 };
 
+const ANALYZE_SCHEMA = {
+  type: 'object',
+  additionalProperties: false,
+  required: ['job_title', 'company', 'location', 'contract', 'salary', 'languages', 'missions', 'requirements', 'strengths', 'gaps', 'score', 'recommendation', 'recommendation_reason'],
+  properties: {
+    job_title: { type: 'string' },
+    company: { type: 'string' },
+    location: { type: 'string' },
+    contract: { type: 'string', description: 'Contract type and working time as written in the offer, or empty' },
+    salary: { type: 'string', description: 'Salary as written in the offer, or empty' },
+    languages: { type: 'array', items: { type: 'string' } },
+    missions: { type: 'array', items: { type: 'string' } },
+    requirements: { type: 'array', items: { type: 'string' } },
+    strengths: { type: 'array', items: { type: 'string' } },
+    gaps: { type: 'array', items: { type: 'string' } },
+    score: { type: 'integer', description: 'Fit between 0 and 100' },
+    recommendation: { type: 'string', enum: ['apply', 'apply_with_care', 'skip'] },
+    recommendation_reason: { type: 'string' },
+  },
+};
+
+const ALERTS_SCHEMA = {
+  type: 'object',
+  additionalProperties: false,
+  required: ['offers'],
+  properties: {
+    offers: {
+      type: 'array',
+      items: {
+        type: 'object',
+        additionalProperties: false,
+        required: ['email_index', 'title', 'company', 'location', 'link', 'source', 'summary'],
+        properties: {
+          email_index: { type: 'integer' },
+          title: { type: 'string' },
+          company: { type: 'string' },
+          location: { type: 'string' },
+          link: { type: 'string', description: 'URL of the ad exactly as it appears in the email, or empty' },
+          source: { type: 'string', description: 'Job site that sent the alert' },
+          summary: { type: 'string', description: 'Text about this offer copied from the email' },
+        },
+      },
+    },
+  },
+};
+
 const TAILOR_SCHEMA = {
   type: 'object',
   additionalProperties: false,
@@ -131,6 +177,16 @@ const BRIEF_SCHEMA = {
   },
 };
 
+const ANALYZE_SYSTEM = `You help a job seeker in Luxembourg and the Greater Region read a job offer carefully before applying.
+Report only what the offer says for job_title, company, location, contract, salary, languages, missions and requirements; use an empty string or an empty list when the offer does not say it. Never guess a salary or a contract type.
+strengths: the candidate's facts from the profile that match the offer, each tied to a requirement. gaps: requirements the profile does not show. Never invent anything about the candidate.
+score: honest fit from 0 to 100, based on the requirements met. recommendation: apply, apply_with_care (worth it, but gaps or conditions to check) or skip; recommendation_reason: two or three sentences.
+Write every text field in the requested output language.`;
+
+const ALERTS_SYSTEM = `You read job-alert emails that a job seeker received from job sites, and list the individual job offers they contain.
+Copy titles, companies, locations and links exactly as written; never invent an offer, a company or a link. Ignore advertising, tips, newsletters and anything that is not a job offer. If an email contains no offer, return nothing for it.
+summary: the text about the offer copied from the email, without rewording.`;
+
 const EXTRACT_SYSTEM = `You extract a candidate profile from a CV for a job-search assistant.
 Copy facts exactly as written: names, dates, employers, figures, degrees, languages. Never infer, round, embellish or add anything that is not in the CV. If a field is absent, use an empty string or an empty list.
 Keep the CV's own language for every field. Achievements are short bullet sentences taken from the CV, keeping every number it gives.
@@ -164,10 +220,10 @@ const monthKey = () => new Date().toISOString().slice(0, 7);
 async function usageRow(admin: Db, userId: string) {
   const { data, error } = await admin.from('ai_usage').select('*').eq('user_id', userId).eq('month', monthKey()).maybeSingle();
   if (error) throw error;
-  return data ?? { documents: 0, extractions: 0, briefs: 0, searches: 0, discoveries: 0, input_tokens: 0, output_tokens: 0 };
+  return data ?? { documents: 0, extractions: 0, briefs: 0, searches: 0, discoveries: 0, analyses: 0, alert_imports: 0, input_tokens: 0, output_tokens: 0 };
 }
 
-type UsageField = 'documents' | 'extractions' | 'briefs' | 'searches' | 'discoveries';
+type UsageField = 'documents' | 'extractions' | 'briefs' | 'searches' | 'discoveries' | 'analyses' | 'alert_imports';
 
 async function recordUsage(admin: Db, userId: string, field: UsageField, usage?: Anthropic.Beta.BetaUsage) {
   const row = await usageRow(admin, userId);
@@ -179,6 +235,8 @@ async function recordUsage(admin: Db, userId: string, field: UsageField, usage?:
     briefs: (row.briefs ?? 0) + (field === 'briefs' ? 1 : 0),
     searches: (row.searches ?? 0) + (field === 'searches' ? 1 : 0),
     discoveries: (row.discoveries ?? 0) + (field === 'discoveries' ? 1 : 0),
+    analyses: (row.analyses ?? 0) + (field === 'analyses' ? 1 : 0),
+    alert_imports: (row.alert_imports ?? 0) + (field === 'alert_imports' ? 1 : 0),
     input_tokens: Number(row.input_tokens) + (usage?.input_tokens ?? 0),
     output_tokens: Number(row.output_tokens) + (usage?.output_tokens ?? 0),
   });
@@ -375,9 +433,11 @@ type Profile = {
   display_name: string; ui_lang: string; doc_lang: string; trade: string; plan: string; cv_text: string;
   profile_data: Record<string, unknown>; opp_auto_prepare: boolean; opp_min_score: number;
 };
-type Opportunity = { id: string; kind: string; title: string; company: string; location: string; sector: string; link: string; snippet: string; score: number; reason: string; status: string; target_id: string | null };
+type Opportunity = { id: string; kind: string; title: string; company: string; location: string; sector: string; source: string; link: string; snippet: string; score: number; reason: string; status: string; target_id: string | null };
 
 const norm = (s: string) => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
+
+const offerKey = (link: string, title: string, company: string) => (link ? `link:${link.split('#')[0]}` : `text:${norm(`${title} ${company}`)}`);
 
 async function loadProfile(db: Db, userId: string): Promise<Profile> {
   const { data, error } = await db.from('profiles')
@@ -458,6 +518,12 @@ async function discoverFor(db: Db, admin: Db, userId: string) {
     const { data, error } = await db.from('opportunities').upsert(rows, { onConflict: 'user_id,dedupe_key', ignoreDuplicates: true }).select();
     if (error) throw error;
     inserted = (data ?? []) as Opportunity[];
+    // Les offres retenues arrivent aussi dans « Offres reçues », pour être lues et analysées avant de postuler.
+    const offers = inserted.filter((o) => o.kind === 'job').map((o) => ({
+      user_id: userId, origin: 'collected', source: o.source, title: o.title, company: o.company,
+      location: o.location, link: o.link, offer_text: o.snippet, dedupe_key: offerKey(o.link, o.title, o.company),
+    }));
+    if (offers.length) await db.from('received_offers').upsert(offers, { onConflict: 'user_id,dedupe_key', ignoreDuplicates: true });
   }
   await admin.from('profiles').update({ opp_last_run: new Date().toISOString() }).eq('id', userId);
 
@@ -584,6 +650,71 @@ async function daily(admin: Db) {
   return { processed: done.length };
 }
 
+// ───────────────────────── Offres reçues ─────────────────────────
+
+const MAX_ANALYSES = 60;
+const MAX_ALERT_IMPORTS = 60;
+
+/** Analyse détaillée d'une offre reçue au regard du profil, enregistrée sur l'offre. */
+async function analyzeOffer(body: Record<string, unknown>, userId: string, db: Db, admin: Db) {
+  if (typeof body.offer_id !== 'string') throw new Fail('offer_missing');
+  const { data: offer, error } = await db.from('received_offers').select('*').eq('id', body.offer_id).eq('user_id', userId).single();
+  if (error) throw error;
+  const text = [offer.title, [offer.company, offer.location].filter(Boolean).join(' – '), offer.offer_text].filter(Boolean).join('\n');
+  if (text.trim().length < 80) throw new Fail('offer_too_short');
+  const profile = await loadProfile(db, userId);
+  const facts = Object.keys(profile.profile_data ?? {}).length ? JSON.stringify(profile.profile_data, null, 1) : profile.cv_text.slice(0, MAX_CV_CHARS);
+  if (!facts.trim()) throw new Fail('profile_empty');
+  const usage = await usageRow(admin, userId);
+  if ((usage.analyses ?? 0) >= MAX_ANALYSES) throw new Fail('quota_analyses', 429);
+  const lang = typeof body.lang === 'string' && body.lang in LANG_NAMES ? body.lang : profile.ui_lang;
+
+  const { result, usage: tokens } = await callClaude(ANALYZE_SYSTEM, [{ type: 'text', text: [
+    `<candidate_profile>\n${facts}\n</candidate_profile>`,
+    `<job_offer>\n${text.slice(0, MAX_OFFER_CHARS)}\n</job_offer>`,
+    `Output language: ${LANG_NAMES[lang] ?? 'French'}.`,
+  ].join('\n\n') }], ANALYZE_SCHEMA);
+  await recordUsage(admin, userId, 'analyses', tokens);
+  result.score = Math.max(0, Math.min(100, Math.round(Number(result.score) || 0)));
+  result.analyzed_at = new Date().toISOString();
+  const patch: Record<string, unknown> = { analysis: result, status: offer.status === 'new' ? 'analyzed' : offer.status, seen_at: offer.seen_at ?? new Date().toISOString() };
+  if (!offer.title && result.job_title) patch.title = String(result.job_title).slice(0, 200);
+  if (!offer.company && result.company) patch.company = String(result.company).slice(0, 200);
+  if (!offer.location && result.location) patch.location = String(result.location).slice(0, 120);
+  const { data: updated, error: upErr } = await db.from('received_offers').update(patch).eq('id', offer.id).eq('user_id', userId).select().single();
+  if (upErr) throw upErr;
+  return { offer: updated };
+}
+
+/** Lit des alertes e-mail des sites d'emploi (relevées par le navigateur de l'utilisateur) et enregistre les offres qu'elles contiennent. */
+async function importAlerts(body: Record<string, unknown>, userId: string, db: Db, admin: Db) {
+  const origin = body.origin === 'outlook' ? 'outlook' : 'gmail';
+  const emails = (Array.isArray(body.emails) ? body.emails : []).slice(0, 15) as { from?: string; subject?: string; date?: string; text?: string }[];
+  if (!emails.length) return { inserted: 0 };
+  const usage = await usageRow(admin, userId);
+  if ((usage.alert_imports ?? 0) >= MAX_ALERT_IMPORTS) throw new Fail('quota_alerts', 429);
+  const text = emails.map((e, i) => `<email index="${i}">\nFrom: ${String(e.from ?? '').slice(0, 200)}\nSubject: ${String(e.subject ?? '').slice(0, 300)}\nDate: ${String(e.date ?? '').slice(0, 60)}\n\n${String(e.text ?? '').slice(0, 12000)}\n</email>`).join('\n\n');
+  const { result, usage: tokens } = await callClaude(ALERTS_SYSTEM, [{ type: 'text', text }], ALERTS_SCHEMA);
+  await recordUsage(admin, userId, 'alert_imports', tokens);
+
+  const rows = new Map<string, Record<string, unknown>>();
+  for (const o of (result.offers as { email_index: number; title: string; company: string; location: string; link: string; source: string; summary: string }[]) ?? []) {
+    if (!o.title.trim() && !o.company.trim()) continue;
+    const link = /^https?:\/\//.test(o.link) ? o.link.slice(0, 1000) : '';
+    const key = offerKey(link, o.title, o.company);
+    const date = Date.parse(String(emails[o.email_index]?.date ?? ''));
+    rows.set(key, {
+      user_id: userId, origin, source: o.source.slice(0, 120), title: o.title.slice(0, 200), company: o.company.slice(0, 200),
+      location: o.location.slice(0, 120), link, offer_text: o.summary.slice(0, 4000), dedupe_key: key,
+      received_at: Number.isFinite(date) ? new Date(date).toISOString() : new Date().toISOString(),
+    });
+  }
+  if (!rows.size) return { inserted: 0 };
+  const { data, error } = await db.from('received_offers').upsert([...rows.values()], { onConflict: 'user_id,dedupe_key', ignoreDuplicates: true }).select('id');
+  if (error) throw error;
+  return { inserted: (data ?? []).length };
+}
+
 // ───────────────────────── Point d'entrée ─────────────────────────
 
 Deno.serve(async (req) => {
@@ -615,6 +746,8 @@ Deno.serve(async (req) => {
       await recordDigest(admin, user.id, inserted, 0);
       return json({ inserted: inserted.length, toPrepare, jobsEnabled });
     }
+    if (body.action === 'analyze_offer') return json(await analyzeOffer(body, user.id, db, admin));
+    if (body.action === 'import_alerts') return json(await importAlerts(body, user.id, db, admin));
     if (body.action === 'prepare' && typeof body.opportunity_id === 'string') {
       const lang = typeof body.lang === 'string' && body.lang in LANG_NAMES ? body.lang : undefined;
       return json(await prepareOpportunity(db, admin, user.id, body.opportunity_id, lang));

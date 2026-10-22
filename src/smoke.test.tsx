@@ -27,6 +27,10 @@ const tables: Record<string, unknown[]> = {
     { id: 'a2', target_id: null, document_id: null, opportunity_id: null, applied_on: '2026-10-12', company: 'Traiteur B', job_title: '', source: 'channel:linkedin', lang: 'en', documents: ['email'], status: 'interview', followup_on: null, notes: 'RDV' },
   ],
   responses: [{ id: 'r1', application_id: 'a2', target_id: null, received_on: '2026-10-15', company: 'Traiteur B', job_title: '', type: 'interview', next_step: 'Entretien', next_step_on: '2026-10-25', notes: '' }],
+  received_offers: [
+    { id: 'ro1', origin: 'gmail', source: 'jobs.lu', title: 'Chef de rang', company: 'Hôtel D', location: 'Luxembourg', link: 'https://www.jobs.lu/x', offer_text: 'Nous recherchons un chef de rang expérimenté, français et anglais, CDI temps plein.', received_at: '2026-10-21T08:00:00Z', seen_at: null, status: 'new', analysis: {}, checks: {}, target_id: null, document_id: null, application_id: null },
+    { id: 'ro2', origin: 'manual', source: '', title: 'Maître d’hôtel', company: 'Hôtel A', location: '', link: '', offer_text: 'x', received_at: '2026-10-19T08:00:00Z', seen_at: '2026-10-19T09:00:00Z', status: 'ready', analysis: { analyzed_at: '2026-10-19', job_title: 'Maître d’hôtel', company: 'Hôtel A', location: 'Luxembourg', contract: 'CDI', salary: '', languages: ['français'], missions: ['Accueil'], requirements: ['3 ans'], strengths: ['5 ans en salle'], gaps: ['allemand'], score: 82, recommendation: 'apply', recommendation_reason: 'Bon profil.' }, checks: { offer_read: 'x', conditions_ok: 'x' }, target_id: 't1', document_id: 'd1', application_id: null },
+  ],
   digests: [{ day: '2026-10-22', new_jobs: 1, new_companies: 1, prepared: 1, top: [{ id: 'o1', kind: 'job', title: 'Directeur', company: 'Hôtel C', score: 86, reason: 'x' }] }],
 };
 
@@ -59,7 +63,7 @@ vi.mock('./lib/supabase', () => {
   };
 });
 
-const ROUTES = ['/', '/opportunites', '/cibles', '/messages?cible=t1&type=followup', '/postuler', '/postuler?cible=t1', '/postuler?cible=t2', '/documents?cible=t1', '/profil', '/historique', '/historique?vue=reponses', '/confidentialite', '/inconnu'];
+const ROUTES = ['/', '/opportunites', '/cibles', '/messages?cible=t1&type=followup', '/postuler', '/postuler?cible=t1', '/postuler?cible=t2', '/documents?cible=t1', '/profil', '/historique', '/historique?vue=reponses', '/offres', '/offres?offre=ro1', '/offres?offre=ro2', '/confidentialite', '/inconnu'];
 
 afterEach(cleanup);
 

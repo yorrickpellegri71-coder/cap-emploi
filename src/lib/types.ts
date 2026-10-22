@@ -149,5 +149,45 @@ export interface ResponseRow {
   notes: string;
 }
 
+export const OFFER_ORIGINS = ['gmail', 'outlook', 'collected', 'manual'] as const;
+export type OfferOrigin = (typeof OFFER_ORIGINS)[number];
+export type OfferStatus = 'new' | 'analyzed' | 'preparing' | 'ready' | 'sent' | 'dismissed';
+export const OFFER_CHECKS = ['offer_read', 'conditions_ok', 'docs_reviewed'] as const;
+export type OfferCheck = (typeof OFFER_CHECKS)[number];
+export interface OfferAnalysis {
+  job_title?: string;
+  company?: string;
+  location?: string;
+  contract?: string;
+  salary?: string;
+  languages?: string[];
+  missions?: string[];
+  requirements?: string[];
+  strengths?: string[];
+  gaps?: string[];
+  score?: number;
+  recommendation?: 'apply' | 'apply_with_care' | 'skip';
+  recommendation_reason?: string;
+  analyzed_at?: string;
+}
+export interface ReceivedOffer {
+  id: string;
+  origin: OfferOrigin;
+  source: string;
+  title: string;
+  company: string;
+  location: string;
+  link: string;
+  offer_text: string;
+  received_at: string;
+  seen_at: string | null;
+  status: OfferStatus;
+  analysis: OfferAnalysis;
+  checks: Partial<Record<OfferCheck, string>>;
+  target_id: string | null;
+  document_id: string | null;
+  application_id: string | null;
+}
+
 export type MessageKind = 'first_contact' | 'followup' | 'thanks';
 export type MessageTemplates = Record<MessageKind, { subject: string; body: string }>;

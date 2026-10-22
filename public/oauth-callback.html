@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="fr">
+<head><meta charset="utf-8"><title>Cap Emploi</title><meta name="robots" content="noindex"></head>
+<body>
+<p>Connexion terminée, vous pouvez fermer cette fenêtre.</p>
+<script>
+  // Renvoie le code d'autorisation à la page Cap Emploi qui a ouvert cette fenêtre (même origine uniquement).
+  if (window.opener) window.opener.postMessage({ type: 'cap-oauth', search: window.location.search }, window.location.origin);
+  window.close();
+</script>
+</body>
+</html>
