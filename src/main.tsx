@@ -4,6 +4,8 @@ import { BrowserRouter } from 'react-router-dom';
 import { App } from './App';
 import { I18nProvider } from './i18n';
 import { SessionProvider } from './lib/session';
+import '@fontsource-variable/inter';
+import '@fontsource-variable/sora';
 import './styles.css';
 
 // GitHub Pages : 404.html (copie de index.html) sert toutes les adresses ; le routeur prend le relais.
