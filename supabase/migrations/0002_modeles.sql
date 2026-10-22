@@ -1,5 +1,5 @@
 -- Modèles par métier et par langue. Fichier généré par scripts/build-seed.mjs : modifier scripts/modeles.json.
-insert into public.modeles (trade, lang, kind, content) values
+insert into cap_emploi.modeles (trade, lang, kind, content) values
 ('general', 'fr', 'sectors', '["Industrie","Services","Commerce et distribution","Finance et assurance","Informatique et numérique","Santé et social","Public et institutions","Conseil","Logistique et transport","Autre"]'::jsonb),
 ('general', 'en', 'sectors', '["Industry","Services","Retail and distribution","Finance and insurance","IT and digital","Health and social care","Public sector and institutions","Consulting","Logistics and transport","Other"]'::jsonb),
 ('general', 'de', 'sectors', '["Industrie","Dienstleistungen","Handel und Vertrieb","Finanzen und Versicherung","IT und Digitales","Gesundheit und Soziales","Öffentlicher Dienst und Institutionen","Beratung","Logistik und Transport","Sonstiges"]'::jsonb),

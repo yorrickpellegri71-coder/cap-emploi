@@ -59,7 +59,7 @@ function AuthPage({ mode }: { mode: 'login' | 'signup' }) {
         const { data, error: err } = await supabase.auth.signUp({
           email: email.trim(),
           password,
-          options: { data: { display_name: name.trim(), ui_lang: lang, consent: 'true' }, emailRedirectTo: appUrl() },
+          options: { data: { app: 'cap_emploi', display_name: name.trim(), ui_lang: lang, consent: 'true' }, emailRedirectTo: appUrl() },
         });
         if (err) throw err;
         if (!data.session) setSent(true);

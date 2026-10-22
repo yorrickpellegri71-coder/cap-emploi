@@ -1,9 +1,19 @@
 -- Cap Emploi — schéma et sécurité par utilisateur (RLS)
 -- Règle de base : chaque ligne porte user_id et n'est visible que par son propriétaire.
+-- Tout vit dans le schéma cap_emploi, pour partager un projet Supabase existant sans toucher à ses tables.
+-- Aucun déclencheur n'est posé sur auth.users : le profil est créé à la première connexion (ensure_profile).
+
+create schema if not exists cap_emploi;
+grant usage on schema cap_emploi to anon, authenticated, service_role;
+alter default privileges in schema cap_emploi grant select, insert, update, delete on tables to authenticated;
+alter default privileges in schema cap_emploi grant all on tables to service_role;
+alter default privileges in schema cap_emploi grant usage, select on sequences to authenticated, service_role;
+alter default privileges in schema cap_emploi revoke execute on functions from public;
+alter default privileges in schema cap_emploi grant execute on functions to service_role;
 
 -- ───────────────────────── Profils ─────────────────────────
 
-create table public.profiles (
+create table cap_emploi.profiles (
   id uuid primary key references auth.users (id) on delete cascade,
   display_name text not null default '',
   ui_lang text not null default 'fr' check (ui_lang in ('fr', 'en', 'de')),
@@ -19,38 +29,40 @@ create table public.profiles (
   created_at timestamptz not null default now()
 );
 
-alter table public.profiles enable row level security;
-create policy "profil : lecture" on public.profiles for select to authenticated using (id = (select auth.uid()));
-create policy "profil : modification" on public.profiles for update to authenticated using (id = (select auth.uid())) with check (id = (select auth.uid()));
+alter table cap_emploi.profiles enable row level security;
+create policy "profil : lecture" on cap_emploi.profiles for select to authenticated using (id = (select auth.uid()));
+create policy "profil : modification" on cap_emploi.profiles for update to authenticated using (id = (select auth.uid())) with check (id = (select auth.uid()));
 
 -- Le plan et le consentement ne sont modifiables que côté serveur : mise à jour limitée aux colonnes listées.
-revoke update on public.profiles from authenticated, anon;
+revoke update on cap_emploi.profiles from authenticated, anon;
 grant update (display_name, ui_lang, doc_lang, trade, goals, followup_days, cv_text, profile_data, onboarded)
-  on public.profiles to authenticated;
+  on cap_emploi.profiles to authenticated;
 
--- Création automatique du profil à l'inscription (nom, langue et consentement transmis par le formulaire).
-create function public.handle_new_user() returns trigger
+-- Création du profil à la première connexion (nom, langue et consentement transmis par le formulaire d'inscription).
+-- Remplace un déclencheur sur auth.users, que le projet hôte partage avec d'autres applications.
+create function cap_emploi.ensure_profile() returns cap_emploi.profiles
 language plpgsql security definer set search_path = '' as $$
 declare
-  lang text := coalesce(new.raw_user_meta_data ->> 'ui_lang', 'fr');
+  meta jsonb;
+  lang text;
+  row cap_emploi.profiles;
 begin
+  if auth.uid() is null then raise exception 'Non connecté'; end if;
+  select * into row from cap_emploi.profiles where id = auth.uid();
+  if found then return row; end if;
+  select coalesce(raw_user_meta_data, '{}') into meta from auth.users where id = auth.uid();
+  lang := coalesce(meta ->> 'ui_lang', 'fr');
   if lang not in ('fr', 'en', 'de') then lang := 'fr'; end if;
-  insert into public.profiles (id, display_name, ui_lang, doc_lang, consent_at)
-  values (
-    new.id,
-    coalesce(new.raw_user_meta_data ->> 'display_name', ''),
-    lang, lang,
-    case when (new.raw_user_meta_data ->> 'consent') = 'true' then now() end
-  );
-  return new;
+  insert into cap_emploi.profiles (id, display_name, ui_lang, doc_lang, consent_at)
+  values (auth.uid(), coalesce(meta ->> 'display_name', ''), lang, lang, case when (meta ->> 'consent') = 'true' then now() end)
+  on conflict (id) do nothing;
+  select * into row from cap_emploi.profiles where id = auth.uid();
+  return row;
 end $$;
-
-create trigger on_auth_user_created after insert on auth.users
-  for each row execute function public.handle_new_user();
 
 -- ───────────────────────── Cibles et pipeline ─────────────────────────
 
-create table public.targets (
+create table cap_emploi.targets (
   id uuid primary key default gen_random_uuid(),
   user_id uuid not null default auth.uid() references auth.users (id) on delete cascade,
   company text not null check (length(company) between 1 and 200),
@@ -66,32 +78,32 @@ create table public.targets (
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
-create index targets_user_idx on public.targets (user_id, stage);
+create index targets_user_idx on cap_emploi.targets (user_id, stage);
 
-alter table public.targets enable row level security;
-create policy "cibles : tout sur les siennes" on public.targets for all to authenticated
+alter table cap_emploi.targets enable row level security;
+create policy "cibles : tout sur les siennes" on cap_emploi.targets for all to authenticated
   using (user_id = (select auth.uid())) with check (user_id = (select auth.uid()));
 
-create function public.touch_updated_at() returns trigger language plpgsql set search_path = '' as $$
+create function cap_emploi.touch_updated_at() returns trigger language plpgsql set search_path = '' as $$
 begin new.updated_at := now(); return new; end $$;
-create trigger targets_touch before update on public.targets for each row execute function public.touch_updated_at();
+create trigger targets_touch before update on cap_emploi.targets for each row execute function cap_emploi.touch_updated_at();
 
 -- ───────────────────────── Rythme de la semaine ─────────────────────────
 
 -- week : semaine ISO, au format 2026-W43.
-create table public.weeks (
+create table cap_emploi.weeks (
   user_id uuid not null default auth.uid() references auth.users (id) on delete cascade,
   week text not null check (week ~ '^\d{4}-W\d{2}$'),
   counters jsonb not null default '{}',
   primary key (user_id, week)
 );
 
-alter table public.weeks enable row level security;
-create policy "semaines : tout sur les siennes" on public.weeks for all to authenticated
+alter table cap_emploi.weeks enable row level security;
+create policy "semaines : tout sur les siennes" on cap_emploi.weeks for all to authenticated
   using (user_id = (select auth.uid())) with check (user_id = (select auth.uid()));
 
 -- Ajoute delta à un compteur, sans descendre sous zéro ; renvoie les compteurs de la semaine.
-create function public.bump_counter(p_week text, p_key text, p_delta int) returns jsonb
+create function cap_emploi.bump_counter(p_week text, p_key text, p_delta int) returns jsonb
 language plpgsql security invoker set search_path = '' as $$
 declare
   result jsonb;
@@ -99,21 +111,21 @@ begin
   if p_key not in ('contacts', 'applications', 'followups', 'posts', 'training', 'network') then
     raise exception 'Compteur inconnu : %', p_key;
   end if;
-  insert into public.weeks (user_id, week, counters)
+  insert into cap_emploi.weeks (user_id, week, counters)
   values (auth.uid(), p_week, jsonb_build_object(p_key, greatest(p_delta, 0)))
   on conflict (user_id, week) do update
-    set counters = public.weeks.counters
-      || jsonb_build_object(p_key, greatest(coalesce((public.weeks.counters ->> p_key)::int, 0) + p_delta, 0))
+    set counters = cap_emploi.weeks.counters
+      || jsonb_build_object(p_key, greatest(coalesce((cap_emploi.weeks.counters ->> p_key)::int, 0) + p_delta, 0))
   returning counters into result;
   return result;
 end $$;
 
 -- ───────────────────────── Documents générés ─────────────────────────
 
-create table public.documents (
+create table cap_emploi.documents (
   id uuid primary key default gen_random_uuid(),
   user_id uuid not null default auth.uid() references auth.users (id) on delete cascade,
-  target_id uuid references public.targets (id) on delete set null,
+  target_id uuid references cap_emploi.targets (id) on delete set null,
   company text not null default '',
   job_title text not null default '',
   lang text not null check (lang in ('fr', 'en', 'de')),
@@ -123,16 +135,16 @@ create table public.documents (
   gaps jsonb not null default '[]',
   created_at timestamptz not null default now()
 );
-create index documents_user_idx on public.documents (user_id, created_at desc);
+create index documents_user_idx on cap_emploi.documents (user_id, created_at desc);
 
-alter table public.documents enable row level security;
-create policy "documents : tout sur les siens" on public.documents for all to authenticated
+alter table cap_emploi.documents enable row level security;
+create policy "documents : tout sur les siens" on cap_emploi.documents for all to authenticated
   using (user_id = (select auth.uid())) with check (user_id = (select auth.uid()));
 
 -- ───────────────────────── Consommation IA ─────────────────────────
 
 -- Écrite uniquement par la fonction serveur (clé de service) ; lisible par l'utilisateur.
-create table public.ai_usage (
+create table cap_emploi.ai_usage (
   user_id uuid not null references auth.users (id) on delete cascade,
   month text not null check (month ~ '^\d{4}-\d{2}$'),
   documents int not null default 0,
@@ -142,13 +154,13 @@ create table public.ai_usage (
   primary key (user_id, month)
 );
 
-alter table public.ai_usage enable row level security;
-create policy "usage : lecture" on public.ai_usage for select to authenticated using (user_id = (select auth.uid()));
+alter table cap_emploi.ai_usage enable row level security;
+create policy "usage : lecture" on cap_emploi.ai_usage for select to authenticated using (user_id = (select auth.uid()));
 
 -- ───────────────────────── Modèles par métier et par langue ─────────────────────────
 
 -- trade '*' : modèle commun à tous les métiers. kind : sectors | messages.
-create table public.modeles (
+create table cap_emploi.modeles (
   trade text not null,
   lang text not null check (lang in ('fr', 'en', 'de')),
   kind text not null check (kind in ('sectors', 'messages')),
@@ -156,20 +168,33 @@ create table public.modeles (
   primary key (trade, lang, kind)
 );
 
-alter table public.modeles enable row level security;
-create policy "modèles : lecture" on public.modeles for select to anon, authenticated using (true);
+alter table cap_emploi.modeles enable row level security;
+create policy "modèles : lecture" on cap_emploi.modeles for select to anon, authenticated using (true);
+grant select on cap_emploi.modeles to anon;
 
 -- ───────────────────────── RGPD : suppression du compte ─────────────────────────
 
--- Supprime le compte de l'appelant ; toutes ses données suivent par cascade.
-create function public.delete_my_account() returns void
+-- Supprime toutes les données Cap Emploi de l'appelant. Le compte de connexion n'est supprimé que s'il a été
+-- créé par Cap Emploi (métadonnée app = cap_emploi), pour ne jamais toucher un compte de l'application hôte.
+create function cap_emploi.delete_my_account() returns void
 language plpgsql security definer set search_path = '' as $$
+declare
+  uid uuid := auth.uid();
+  t text;
 begin
-  if auth.uid() is null then raise exception 'Non connecté'; end if;
-  delete from auth.users where id = auth.uid();
+  if uid is null then raise exception 'Non connecté'; end if;
+  foreach t in array array['responses', 'applications', 'opportunities', 'digests', 'documents', 'weeks', 'targets', 'ai_usage'] loop
+    if to_regclass('cap_emploi.' || t) is not null then
+      execute format('delete from cap_emploi.%I where user_id = $1', t) using uid;
+    end if;
+  end loop;
+  delete from cap_emploi.profiles where id = uid;
+  delete from auth.users where id = uid and raw_user_meta_data ->> 'app' = 'cap_emploi';
 end $$;
 
-revoke execute on function public.delete_my_account() from public, anon;
-grant execute on function public.delete_my_account() to authenticated;
-revoke execute on function public.bump_counter(text, text, int) from public, anon;
-grant execute on function public.bump_counter(text, text, int) to authenticated;
+revoke execute on function cap_emploi.ensure_profile() from public, anon;
+grant execute on function cap_emploi.ensure_profile() to authenticated;
+revoke execute on function cap_emploi.delete_my_account() from public, anon;
+grant execute on function cap_emploi.delete_my_account() to authenticated;
+revoke execute on function cap_emploi.bump_counter(text, text, int) from public, anon;
+grant execute on function cap_emploi.bump_counter(text, text, int) to authenticated;

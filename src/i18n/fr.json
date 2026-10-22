@@ -30,7 +30,8 @@
     "privacy": "Confidentialité",
     "signout": "Se déconnecter",
     "apply": "Postuler",
-    "opps": "Opportunités"
+    "opps": "Opportunités",
+    "history": "Historique"
   },
   "errors": {
     "network": "Connexion au serveur impossible. Vérifiez votre réseau puis réessayez.",
@@ -421,5 +422,67 @@
       "email": "Recevoir le résumé quotidien par e-mail",
       "note": "Le résumé quotidien est toujours visible ici. L’e-mail nécessite l’activation d’un service d’envoi au lancement."
     }
+  },
+  "history": {
+    "eyebrow": "Suivi",
+    "title": "Historique",
+    "intro": "Toutes vos candidatures et les réponses reçues. Filtrez, triez en cliquant sur une colonne, exportez vers Excel.",
+    "date": "Date",
+    "job": "Poste",
+    "source": "Source de l’offre",
+    "lang": "Langue",
+    "documents": "Documents envoyés",
+    "status": "Statut",
+    "followup": "Date de relance",
+    "notes": "Notes",
+    "actions": "Actions",
+    "edit": "Modifier",
+    "export": "Exporter vers Excel",
+    "all": "Tous",
+    "reset": "Effacer les filtres",
+    "from": "Du",
+    "to": "Au",
+    "searchHint": "Entreprise, poste, notes…",
+    "noMatch": "Aucune ligne ne correspond aux filtres.",
+    "confirmDelete": "Supprimer cette ligne de l’historique ?",
+    "statuses": {
+      "sent": "Envoyée",
+      "followed_up": "Relancée",
+      "interview": "Entretien",
+      "offer": "Offre",
+      "rejected": "Refus",
+      "no_reply": "Sans réponse",
+      "withdrawn": "Retirée"
+    },
+    "types": {
+      "rejection": "Refus",
+      "info_request": "Demande d’informations",
+      "interview": "Entretien",
+      "offer": "Offre",
+      "no_reply": "Sans réponse"
+    },
+    "apps": {
+      "title": "Mes candidatures",
+      "new": "Ajouter une candidature",
+      "file": "mes-candidatures",
+      "respond": "Réponse reçue",
+      "empty": "Aucune candidature pour l’instant.",
+      "emptyHint": "Chaque clic sur « J’ai envoyé » ajoute une ligne ici. Vous pouvez aussi ajouter une candidature envoyée ailleurs."
+    },
+    "resps": {
+      "title": "Réponses reçues",
+      "new": "Ajouter une réponse",
+      "file": "reponses-recues",
+      "type": "Type de réponse",
+      "nextStep": "Prochaine étape",
+      "nextOn": "Date de la prochaine étape",
+      "nextHint": "Ex. : entretien téléphonique, envoyer des références…",
+      "application": "Candidature concernée",
+      "noApplication": "Aucune (saisie libre)",
+      "effect": "Le statut de la candidature et l’étape de la cible seront mis à jour.",
+      "empty": "Aucune réponse enregistrée.",
+      "emptyHint": "Notez ici chaque retour d’un employeur, même un refus : cela aide à repérer ce qui fonctionne."
+    },
+    "see": "Voir l’historique"
   }
 }

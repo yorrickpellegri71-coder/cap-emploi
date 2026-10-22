@@ -10,6 +10,7 @@ const NAV = [
   { to: '/opportunites', key: 'nav.opps', icon: 'M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7.1L12 17.3 5.8 21l1.6-7.1L2 9.2l7.1-.6z' },
   { to: '/postuler', key: 'nav.apply', icon: 'M3 11 21 3l-8 18-2-8-8-2zM11 13l10-10' },
   { to: '/cibles', key: 'nav.targets', icon: 'M3 5h4v14H3zM10 5h4v9h-4zM17 5h4v6h-4z' },
+  { to: '/historique', key: 'nav.history', icon: 'M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5M12 7v5l3 3', desktopOnly: true },
   { to: '/messages', key: 'nav.messages', icon: 'M4 5h16v11H8l-4 4z' },
   { to: '/profil', key: 'nav.profile', icon: 'M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21a8 8 0 0 1 16 0' },
 ];
@@ -48,6 +49,7 @@ export function Shell() {
           </button>
           {menu && (
             <div className="popover menu">
+              <Link to="/historique">{t('nav.history')}</Link>
               <Link to="/profil">{t('nav.profile')}</Link>
               <Link to="/confidentialite">{t('nav.privacy')}</Link>
               <button type="button" onClick={() => void signOut()}>{t('nav.signout')}</button>
@@ -59,7 +61,7 @@ export function Shell() {
         <Outlet />
       </main>
       <nav className="tabbar" aria-label={t('nav.main')}>
-        {NAV.map((n) => (
+        {NAV.filter((n) => !n.desktopOnly).map((n) => (
           <NavLink key={n.to} to={n.to} end={n.to === '/'}>
             <Icon d={n.icon} />
             <span>{t(n.key)}</span>

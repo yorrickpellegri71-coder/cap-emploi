@@ -8,15 +8,16 @@
 //   prepare     : prépare le dossier complet d'une opportunité et la place dans la file « À valider » ;
 //   daily       : tâche planifiée (en-tête x-cron-secret) : opportunités du jour et résumé, e-mail facultatif.
 // Rien n'est jamais envoyé à un employeur : l'envoi reste fait par l'utilisateur, après validation.
-// Secrets attendus : ANTHROPIC_API_KEY ; facultatifs : CLAUDE_MODEL, FREE_DOCS_PER_MONTH, ALLOWED_ORIGIN, JOOBLE_API_KEY, JOOBLE_HOST,
-// CRON_SECRET (tâche quotidienne), RESEND_API_KEY + DIGEST_FROM + APP_URL (e-mail du résumé quotidien).
+// Les secrets sont communs à tout le projet hôte : ceux de Cap Emploi sont préfixés CAP_ pour ne jamais se mélanger.
+// Attendu : CAP_ANTHROPIC_API_KEY ; facultatifs : CAP_CLAUDE_MODEL, CAP_FREE_DOCS_PER_MONTH, CAP_ALLOWED_ORIGIN, CAP_JOOBLE_API_KEY,
+// CAP_JOOBLE_HOST, CAP_SCHEMA, CAP_CRON_SECRET (tâche quotidienne), CAP_RESEND_API_KEY + CAP_DIGEST_FROM + CAP_APP_URL (e-mail du résumé).
 // SUPABASE_URL, SUPABASE_ANON_KEY et SUPABASE_SERVICE_ROLE_KEY sont fournis par Supabase.
 
 import Anthropic from 'npm:@anthropic-ai/sdk@1.1.0';
 import { createClient, type SupabaseClient } from 'npm:@supabase/supabase-js@2.118.0';
 
-const MODEL = Deno.env.get('CLAUDE_MODEL') ?? 'claude-opus-5-5';
-const FREE_DOCS = Number(Deno.env.get('FREE_DOCS_PER_MONTH') ?? 3);
+const MODEL = Deno.env.get('CAP_CLAUDE_MODEL') ?? 'claude-opus-5-5';
+const FREE_DOCS = Number(Deno.env.get('CAP_FREE_DOCS_PER_MONTH') ?? 3);
 const MAX_EXTRACTIONS = 20;
 const MAX_BRIEFS = 30;
 const MAX_SEARCHES = 200;
@@ -26,7 +27,7 @@ const MAX_PDF_BYTES = 8 * 1024 * 1024;
 const LANG_NAMES: Record<string, string> = { fr: 'French', en: 'English', de: 'German' };
 
 const cors = {
-  'Access-Control-Allow-Origin': Deno.env.get('ALLOWED_ORIGIN') ?? '*',
+  'Access-Control-Allow-Origin': Deno.env.get('CAP_ALLOWED_ORIGIN') ?? '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
   'Access-Control-Allow-Methods': 'POST, OPTIONS',
 };
@@ -39,7 +40,11 @@ class Fail extends Error {
   constructor(public code: string, public status = 400) { super(code); }
 }
 
-const anthropic = new Anthropic();
+const anthropic = new Anthropic({ apiKey: Deno.env.get('CAP_ANTHROPIC_API_KEY') });
+// Schéma de Cap Emploi dans le projet hôte.
+const SCHEMA = Deno.env.get('CAP_SCHEMA') ?? 'cap_emploi';
+// deno-lint-ignore no-explicit-any
+type Db = SupabaseClient<any, any, any>;
 
 // ───────────────────────── Schémas de sortie ─────────────────────────
 
@@ -156,7 +161,7 @@ Write all documents entirely in the requested output language. "company" and "jo
 
 const monthKey = () => new Date().toISOString().slice(0, 7);
 
-async function usageRow(admin: SupabaseClient, userId: string) {
+async function usageRow(admin: Db, userId: string) {
   const { data, error } = await admin.from('ai_usage').select('*').eq('user_id', userId).eq('month', monthKey()).maybeSingle();
   if (error) throw error;
   return data ?? { documents: 0, extractions: 0, briefs: 0, searches: 0, discoveries: 0, input_tokens: 0, output_tokens: 0 };
@@ -164,7 +169,7 @@ async function usageRow(admin: SupabaseClient, userId: string) {
 
 type UsageField = 'documents' | 'extractions' | 'briefs' | 'searches' | 'discoveries';
 
-async function recordUsage(admin: SupabaseClient, userId: string, field: UsageField, usage?: Anthropic.Beta.BetaUsage) {
+async function recordUsage(admin: Db, userId: string, field: UsageField, usage?: Anthropic.Beta.BetaUsage) {
   const row = await usageRow(admin, userId);
   const { error } = await admin.from('ai_usage').upsert({
     user_id: userId,
@@ -199,7 +204,7 @@ async function callClaude(system: string, content: Anthropic.Beta.BetaContentBlo
 
 // ───────────────────────── Actions ─────────────────────────
 
-async function extract(body: Record<string, unknown>, userId: string, admin: SupabaseClient) {
+async function extract(body: Record<string, unknown>, userId: string, admin: Db) {
   const row = await usageRow(admin, userId);
   if (row.extractions >= MAX_EXTRACTIONS) throw new Fail('quota_extract', 429);
 
@@ -221,7 +226,7 @@ async function extract(body: Record<string, unknown>, userId: string, admin: Sup
 
 // Les fonctions métier reçoivent un client et l'identifiant de l'utilisateur, et filtrent toujours par utilisateur :
 // elles servent aussi bien au client de l'utilisateur (RLS) qu'au client de service de la tâche quotidienne.
-async function tailor(body: Record<string, unknown>, userId: string, db: SupabaseClient, admin: SupabaseClient) {
+async function tailor(body: Record<string, unknown>, userId: string, db: Db, admin: Db) {
   const offer = typeof body.offer_text === 'string' ? body.offer_text.trim() : '';
   if (offer.length < 80) throw new Fail('offer_too_short');
   const lang = typeof body.lang === 'string' && body.lang in LANG_NAMES ? body.lang : 'fr';
@@ -273,7 +278,7 @@ async function tailor(body: Record<string, unknown>, userId: string, db: Supabas
   return { document: doc, remaining: profile.plan === 'free' ? Math.max(FREE_DOCS - row.documents - 1, 0) : null };
 }
 
-async function companyBrief(body: Record<string, unknown>, userId: string, admin: SupabaseClient) {
+async function companyBrief(body: Record<string, unknown>, userId: string, admin: Db) {
   const company = typeof body.company === 'string' ? body.company.trim().slice(0, 200) : '';
   const offer = typeof body.offer_text === 'string' ? body.offer_text.trim().slice(0, MAX_OFFER_CHARS) : '';
   if (!company && offer.length < 80) throw new Fail('brief_missing');
@@ -294,8 +299,8 @@ async function companyBrief(body: Record<string, unknown>, userId: string, admin
 }
 
 /** Recherche d'offres par l'API officielle de Jooble (agrégateur qui autorise cet usage avec une clé). */
-async function searchJobs(body: Record<string, unknown>, userId: string, admin: SupabaseClient) {
-  const key = Deno.env.get('JOOBLE_API_KEY');
+async function searchJobs(body: Record<string, unknown>, userId: string, admin: Db) {
+  const key = Deno.env.get('CAP_JOOBLE_API_KEY');
   if (!key) throw new Fail('search_disabled', 501);
   const keywords = typeof body.keywords === 'string' ? body.keywords.trim().slice(0, 200) : '';
   if (!keywords) throw new Fail('keywords_missing');
@@ -312,7 +317,7 @@ async function searchJobs(body: Record<string, unknown>, userId: string, admin: 
 type Job = { title: string; company: string; location: string; snippet: string; source: string; link: string; updated: string; salary: string };
 
 async function jooble(key: string, keywords: string, location: string, page = 1): Promise<{ total: number; jobs: Job[] }> {
-  const res = await fetch(`https://${Deno.env.get('JOOBLE_HOST') ?? 'jooble.org'}/api/${key}`, {
+  const res = await fetch(`https://${Deno.env.get('CAP_JOOBLE_HOST') ?? 'jooble.org'}/api/${key}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ keywords, location, page: String(page) }),
@@ -374,7 +379,7 @@ type Opportunity = { id: string; kind: string; title: string; company: string; l
 
 const norm = (s: string) => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
 
-async function loadProfile(db: SupabaseClient, userId: string): Promise<Profile> {
+async function loadProfile(db: Db, userId: string): Promise<Profile> {
   const { data, error } = await db.from('profiles')
     .select('display_name, ui_lang, doc_lang, trade, plan, cv_text, profile_data, opp_auto_prepare, opp_min_score').eq('id', userId).single();
   if (error) throw error;
@@ -388,7 +393,7 @@ function profileQueries(p: Profile): string[] {
   return [...new Set(list.map((x) => x.slice(0, 80)))].slice(0, 2);
 }
 
-async function discoverFor(db: SupabaseClient, admin: SupabaseClient, userId: string) {
+async function discoverFor(db: Db, admin: Db, userId: string) {
   const profile = await loadProfile(db, userId);
   const facts = Object.keys(profile.profile_data ?? {}).length ? JSON.stringify(profile.profile_data, null, 1) : profile.cv_text.slice(0, MAX_CV_CHARS);
   if (!facts.trim()) throw new Fail('profile_empty');
@@ -403,7 +408,7 @@ async function discoverFor(db: SupabaseClient, admin: SupabaseClient, userId: st
   const knownCompanies = [...new Set((targets ?? []).map((t: { company: string }) => t.company))];
 
   // 1. Offres collectées par l'API officielle de Jooble, nouvelles uniquement.
-  const key = Deno.env.get('JOOBLE_API_KEY');
+  const key = Deno.env.get('CAP_JOOBLE_API_KEY');
   let jobs: Job[] = [];
   if (key) {
     for (const q of profileQueries(profile)) {
@@ -465,7 +470,7 @@ async function discoverFor(db: SupabaseClient, admin: SupabaseClient, userId: st
 }
 
 /** Prépare le dossier d'une opportunité : cible créée ou retrouvée, dossier complet, passage en « À valider ». */
-async function prepareOpportunity(db: SupabaseClient, admin: SupabaseClient, userId: string, oppId: string, langOverride?: string) {
+async function prepareOpportunity(db: Db, admin: Db, userId: string, oppId: string, langOverride?: string) {
   const { data: opp, error } = await db.from('opportunities').select('*').eq('id', oppId).eq('user_id', userId).single();
   if (error) throw error;
   const o = opp as Opportunity;
@@ -504,7 +509,7 @@ async function prepareOpportunity(db: SupabaseClient, admin: SupabaseClient, use
   }
 }
 
-async function recordDigest(admin: SupabaseClient, userId: string, inserted: Opportunity[], prepared: number) {
+async function recordDigest(admin: Db, userId: string, inserted: Opportunity[], prepared: number) {
   const day = new Date().toISOString().slice(0, 10);
   const { data: prev } = await admin.from('digests').select('*').eq('user_id', userId).eq('day', day).maybeSingle();
   const top = [...inserted].sort((a, b) => b.score - a.score).slice(0, 5)
@@ -526,15 +531,15 @@ const DIGEST_TEXT: Record<string, { subject: string; intro: (j: number, c: numbe
 const escHtml = (s: string) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!);
 
 /** E-mail du résumé quotidien, seulement si RESEND_API_KEY est défini et que l'utilisateur l'a demandé. */
-async function emailDigest(admin: SupabaseClient, userId: string, lang: string, inserted: Opportunity[], prepared: number) {
-  const key = Deno.env.get('RESEND_API_KEY');
-  const from = Deno.env.get('DIGEST_FROM');
+async function emailDigest(admin: Db, userId: string, lang: string, inserted: Opportunity[], prepared: number) {
+  const key = Deno.env.get('CAP_RESEND_API_KEY');
+  const from = Deno.env.get('CAP_DIGEST_FROM');
   if (!key || !from || !inserted.length) return false;
   const { data } = await admin.auth.admin.getUserById(userId);
   const to = data.user?.email;
   if (!to) return false;
   const t = DIGEST_TEXT[lang] ?? DIGEST_TEXT.fr;
-  const url = `${Deno.env.get('APP_URL') ?? ''}/opportunites`;
+  const url = `${Deno.env.get('CAP_APP_URL') ?? ''}/opportunites`;
   const items = [...inserted].sort((a, b) => b.score - a.score).slice(0, 5)
     .map((o) => `<li><strong>${o.score}</strong> · ${escHtml(o.title ? `${o.title} – ${o.company}` : o.company)}<br><small>${escHtml(o.reason)}</small></li>`).join('');
   const html = `<p>${escHtml(t.intro(inserted.filter((o) => o.kind === 'job').length, inserted.filter((o) => o.kind === 'company').length, prepared))}</p><ul>${items}</ul><p><a href="${escHtml(url)}">${t.cta}</a></p><p><small>${t.note}</small></p>`;
@@ -548,7 +553,7 @@ async function emailDigest(admin: SupabaseClient, userId: string, lang: string, 
 }
 
 /** Tâche quotidienne : traite un utilisateur à la fois et s'arrête avant la limite de durée ; relancée toutes les 10 minutes le matin. */
-async function daily(admin: SupabaseClient) {
+async function daily(admin: Db) {
   const started = Date.now();
   const since = new Date(Date.now() - 20 * 3600 * 1000).toISOString();
   const { data: users, error } = await admin.from('profiles').select('id, ui_lang, opp_daily_email')
@@ -589,16 +594,16 @@ Deno.serve(async (req) => {
     const authHeader = req.headers.get('Authorization') ?? '';
     const url = Deno.env.get('SUPABASE_URL')!;
     // Tâche planifiée : authentifiée par un secret partagé, sans session utilisateur.
-    const cronSecret = Deno.env.get('CRON_SECRET');
+    const cronSecret = Deno.env.get('CAP_CRON_SECRET');
     if (cronSecret && req.headers.get('x-cron-secret') === cronSecret) {
-      return json(await daily(createClient(url, Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!)));
+      return json(await daily(createClient(url, Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!, { db: { schema: SCHEMA } })));
     }
     // Client au nom de l'utilisateur : la sécurité par ligne (RLS) s'applique.
-    const db = createClient(url, Deno.env.get('SUPABASE_ANON_KEY')!, { global: { headers: { Authorization: authHeader } } });
+    const db = createClient(url, Deno.env.get('SUPABASE_ANON_KEY')!, { db: { schema: SCHEMA }, global: { headers: { Authorization: authHeader } } });
     const { data: { user } } = await db.auth.getUser(authHeader.replace(/^Bearer\s+/i, ''));
     if (!user) throw new Fail('unauthorized', 401);
     // Client de service : uniquement pour le compteur de consommation.
-    const admin = createClient(url, Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!);
+    const admin = createClient(url, Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!, { db: { schema: SCHEMA } });
 
     const body = await req.json().catch(() => ({})) as Record<string, unknown>;
     if (body.action === 'extract') return json(await extract(body, user.id, admin));

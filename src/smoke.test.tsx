@@ -22,6 +22,11 @@ const tables: Record<string, unknown[]> = {
     { id: 'o1', kind: 'job', title: 'Directeur', company: 'Hôtel C', location: 'Luxembourg', sector: 'Hôtel de luxe', source: 'jobs.lu', link: 'https://example.org', snippet: 'x', score: 86, reason: 'Expérience équivalente', status: 'to_validate', target_id: 't1', document_id: 'd1', found_at: '2026-10-22T06:00:00Z', updated_at: '' },
     { id: 'o2', kind: 'company', title: '', company: 'Groupe D', location: 'Luxembourg', sector: 'Groupe hôtelier', source: '', link: '', snippet: '', score: 72, reason: 'Secteur proche', status: 'new', target_id: null, document_id: null, found_at: '2026-10-22T06:00:00Z', updated_at: '' },
   ],
+  applications: [
+    { id: 'a1', target_id: 't1', document_id: null, opportunity_id: null, applied_on: '2026-10-20', company: 'Hôtel A', job_title: 'Chef de rang', source: 'jobs.lu', lang: 'fr', documents: ['email', 'letter', 'cv'], status: 'sent', followup_on: '2026-10-27', notes: '' },
+    { id: 'a2', target_id: null, document_id: null, opportunity_id: null, applied_on: '2026-10-12', company: 'Traiteur B', job_title: '', source: 'channel:linkedin', lang: 'en', documents: ['email'], status: 'interview', followup_on: null, notes: 'RDV' },
+  ],
+  responses: [{ id: 'r1', application_id: 'a2', target_id: null, received_on: '2026-10-15', company: 'Traiteur B', job_title: '', type: 'interview', next_step: 'Entretien', next_step_on: '2026-10-25', notes: '' }],
   digests: [{ day: '2026-10-22', new_jobs: 1, new_companies: 1, prepared: 1, top: [{ id: 'o1', kind: 'job', title: 'Directeur', company: 'Hôtel C', score: 86, reason: 'x' }] }],
 };
 
@@ -43,7 +48,7 @@ vi.mock('./lib/supabase', () => {
     unwrap: (res: { data: unknown; error: { message: string } | null }) => { if (res.error) throw new Error(res.error.message); return res.data; },
     supabase: {
       from: query,
-      rpc: () => Promise.resolve({ data: {}, error: null }),
+      rpc: (fn: string) => (fn === 'ensure_profile' ? query('profiles') : Promise.resolve({ data: {}, error: null })),
       functions: { invoke: () => Promise.resolve({ data: null, error: null }) },
       auth: {
         getSession: () => Promise.resolve({ data: { session } }),
@@ -54,7 +59,7 @@ vi.mock('./lib/supabase', () => {
   };
 });
 
-const ROUTES = ['/', '/opportunites', '/cibles', '/messages?cible=t1&type=followup', '/postuler', '/postuler?cible=t1', '/postuler?cible=t2', '/documents?cible=t1', '/profil', '/confidentialite', '/inconnu'];
+const ROUTES = ['/', '/opportunites', '/cibles', '/messages?cible=t1&type=followup', '/postuler', '/postuler?cible=t1', '/postuler?cible=t2', '/documents?cible=t1', '/profil', '/historique', '/historique?vue=reponses', '/confidentialite', '/inconnu'];
 
 afterEach(cleanup);
 

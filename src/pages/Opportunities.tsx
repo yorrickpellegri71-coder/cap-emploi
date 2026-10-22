@@ -58,7 +58,8 @@ function OppCard({ opp, selected, onSelect, onChange, busy, setBusy }: {
   const sent = () => run(async () => {
     const target = targets.find((x) => x.id === opp.target_id);
     if (target) {
-      const row = await markApplied(target);
+      const d = await ensureDoc();
+      const row = await markApplied(target, { document: d, source: opp.source, jobTitle: opp.kind === 'job' ? opp.title : undefined, opportunityId: opp.id, followupDays: profile.followup_days });
       setTargets((list) => list.map((x) => (x.id === row.id ? row : x)));
     }
     await setOpportunityStatus([opp.id], 'sent');
@@ -85,7 +86,7 @@ function OppCard({ opp, selected, onSelect, onChange, busy, setBusy }: {
         </div>
       </div>
       {error && <Notice tone="error">{error}</Notice>}
-      {sentOn && <Notice tone="ok">{t('opps.sentDone', { date: fmtDate(sentOn, locale) })}</Notice>}
+      {sentOn && <Notice tone="ok">{t('opps.sentDone', { date: fmtDate(sentOn, locale) })} <Link to="/historique">{t('history.see')}</Link></Notice>}
       <div className="row-end wrap">
         {opp.link && <a className="btn btn-sm" href={opp.link} target="_blank" rel="noopener noreferrer">{t('opps.openAd')}</a>}
         {opp.status === 'new' && (

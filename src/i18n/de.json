@@ -30,7 +30,8 @@
     "privacy": "Datenschutz",
     "signout": "Abmelden",
     "apply": "Bewerben",
-    "opps": "Chancen"
+    "opps": "Chancen",
+    "history": "Verlauf"
   },
   "errors": {
     "network": "Keine Verbindung zum Server. Prüfen Sie Ihr Netzwerk und versuchen Sie es erneut.",
@@ -421,5 +422,67 @@
       "email": "Tägliche Zusammenfassung per E-Mail erhalten",
       "note": "Die tägliche Zusammenfassung ist immer hier sichtbar. Für die E-Mail muss beim Start ein Versanddienst aktiviert werden."
     }
+  },
+  "history": {
+    "eyebrow": "Überblick",
+    "title": "Verlauf",
+    "intro": "Alle Ihre Bewerbungen und erhaltenen Antworten. Filtern, per Klick auf eine Spalte sortieren, nach Excel exportieren.",
+    "date": "Datum",
+    "job": "Stelle",
+    "source": "Quelle des Angebots",
+    "lang": "Sprache",
+    "documents": "Gesendete Unterlagen",
+    "status": "Status",
+    "followup": "Nachfassen am",
+    "notes": "Notizen",
+    "actions": "Aktionen",
+    "edit": "Bearbeiten",
+    "export": "Nach Excel exportieren",
+    "all": "Alle",
+    "reset": "Filter zurücksetzen",
+    "from": "Von",
+    "to": "Bis",
+    "searchHint": "Unternehmen, Stelle, Notizen…",
+    "noMatch": "Keine Zeile entspricht den Filtern.",
+    "confirmDelete": "Diese Zeile aus dem Verlauf löschen?",
+    "statuses": {
+      "sent": "Gesendet",
+      "followed_up": "Nachgefasst",
+      "interview": "Vorstellungsgespräch",
+      "offer": "Angebot",
+      "rejected": "Absage",
+      "no_reply": "Keine Antwort",
+      "withdrawn": "Zurückgezogen"
+    },
+    "types": {
+      "rejection": "Absage",
+      "info_request": "Rückfrage",
+      "interview": "Vorstellungsgespräch",
+      "offer": "Angebot",
+      "no_reply": "Keine Antwort"
+    },
+    "apps": {
+      "title": "Meine Bewerbungen",
+      "new": "Bewerbung hinzufügen",
+      "file": "meine-bewerbungen",
+      "respond": "Antwort erhalten",
+      "empty": "Noch keine Bewerbungen.",
+      "emptyHint": "Jeder Klick auf „Ich habe gesendet“ fügt hier eine Zeile hinzu. Sie können auch anderswo gesendete Bewerbungen eintragen."
+    },
+    "resps": {
+      "title": "Erhaltene Antworten",
+      "new": "Antwort hinzufügen",
+      "file": "erhaltene-antworten",
+      "type": "Art der Antwort",
+      "nextStep": "Nächster Schritt",
+      "nextOn": "Datum des nächsten Schritts",
+      "nextHint": "Z. B. Telefoninterview, Referenzen senden…",
+      "application": "Betroffene Bewerbung",
+      "noApplication": "Keine (freie Eingabe)",
+      "effect": "Der Status der Bewerbung und die Phase des Ziels werden aktualisiert.",
+      "empty": "Keine Antworten erfasst.",
+      "emptyHint": "Erfassen Sie hier jede Rückmeldung eines Arbeitgebers, auch Absagen: So sehen Sie, was funktioniert."
+    },
+    "see": "Verlauf ansehen"
   }
 }

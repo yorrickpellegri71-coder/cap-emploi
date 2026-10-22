@@ -116,5 +116,38 @@ export interface Opportunity {
 }
 export interface Digest { day: string; new_jobs: number; new_companies: number; prepared: number; top: { id: string; kind: string; title: string; company: string; score: number; reason: string }[] }
 
+export const APP_STATUSES = ['sent', 'followed_up', 'interview', 'offer', 'rejected', 'no_reply', 'withdrawn'] as const;
+export type AppStatus = (typeof APP_STATUSES)[number];
+export const PIECES = ['email', 'letter', 'cv', 'pitch'] as const;
+export interface Application {
+  id: string;
+  target_id: string | null;
+  document_id: string | null;
+  opportunity_id: string | null;
+  applied_on: string;
+  company: string;
+  job_title: string;
+  source: string;
+  lang: Lang;
+  documents: string[];
+  status: AppStatus;
+  followup_on: string | null;
+  notes: string;
+}
+export const RESPONSE_TYPES = ['rejection', 'info_request', 'interview', 'offer', 'no_reply'] as const;
+export type ResponseType = (typeof RESPONSE_TYPES)[number];
+export interface ResponseRow {
+  id: string;
+  application_id: string | null;
+  target_id: string | null;
+  received_on: string;
+  company: string;
+  job_title: string;
+  type: ResponseType;
+  next_step: string;
+  next_step_on: string | null;
+  notes: string;
+}
+
 export type MessageKind = 'first_contact' | 'followup' | 'thanks';
 export type MessageTemplates = Record<MessageKind, { subject: string; body: string }>;

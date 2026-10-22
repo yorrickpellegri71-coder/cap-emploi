@@ -1,7 +1,7 @@
 // Accès aux données. La sécurité par utilisateur est garantie côté base (RLS) : aucune requête ne filtre « à la main ».
 import { stageEffect, isoDay, isoWeek } from './dates';
 import { supabase, unwrap } from './supabase';
-import type { CompanyBrief, CounterKey, Counters, Digest, DocumentRow, JobResult, Lang, MessageTemplates, Opportunity, OppStatus, ProfileData, Stage, Target } from './types';
+import type { Application, AppStatus, ResponseRow, ResponseType, CompanyBrief, CounterKey, Counters, Digest, DocumentRow, JobResult, Lang, MessageTemplates, Opportunity, OppStatus, ProfileData, Stage, Target } from './types';
 
 export async function fetchTargets(): Promise<Target[]> {
   return unwrap(await supabase.from('targets').select('*').order('updated_at', { ascending: false })) as Target[];
@@ -29,15 +29,95 @@ export async function moveTarget(target: Target, stage: Stage): Promise<Target> 
   if (effect.touch) patch.last_contact_on = isoDay();
   const row = unwrap(await supabase.from('targets').update(patch).eq('id', target.id).select().single()) as Target;
   if (effect.counter) await bumpCounter(effect.counter, 1);
+  // Relance : la dernière candidature de la cible passe en « Relancée ».
+  if (stage === 'followed_up') await syncLatestApplication(target.id, { status: 'followed_up', followup_on: null });
+  if (stage === 'interview' || stage === 'offer' || stage === 'rejected') await syncLatestApplication(target.id, { status: stage });
   return row;
 }
 
-/** « J'ai envoyé » : la cible passe en « Contacté », la candidature est comptée, la relance part du jour. */
-export async function markApplied(target: Target): Promise<Target> {
+async function syncLatestApplication(targetId: string, patch: Partial<Application>) {
+  const latest = unwrap(await supabase.from('applications').select('id').eq('target_id', targetId).order('applied_on', { ascending: false }).limit(1).maybeSingle()) as { id: string } | null;
+  if (latest) unwrap(await supabase.from('applications').update(patch).eq('id', latest.id).select('id'));
+}
+
+export interface AppliedInfo { document?: DocumentRow | null; source?: string; jobTitle?: string; opportunityId?: string; followupDays: number }
+
+/** Pièces réellement présentes dans un dossier. */
+export const piecesOf = (d?: DocumentRow | null) =>
+  d ? (['email', 'letter', 'cv', 'pitch'] as const).filter((k) => (k === 'email' ? d.email_body : d[k]).trim()) : [];
+
+/** « J'ai envoyé » : la cible passe en « Contacté », la candidature est comptée et inscrite à l'historique, la relance part du jour. */
+export async function markApplied(target: Target, info: AppliedInfo): Promise<Target> {
   const stage: Stage = ['todo', 'contacted', 'followed_up'].includes(target.stage) ? 'contacted' : target.stage;
-  const row = unwrap(await supabase.from('targets').update({ stage, last_contact_on: isoDay() }).eq('id', target.id).select().single()) as Target;
+  const today = isoDay();
+  const row = unwrap(await supabase.from('targets').update({ stage, last_contact_on: today }).eq('id', target.id).select().single()) as Target;
+  const follow = new Date(`${today}T12:00:00`);
+  follow.setDate(follow.getDate() + info.followupDays);
+  let source = info.source ?? '';
+  if (!source && target.job_url) { try { source = new URL(target.job_url).hostname.replace(/^www\./, ''); } catch { /* lien invalide */ } }
+  unwrap(await supabase.from('applications').insert({
+    target_id: target.id, document_id: info.document?.id ?? null, opportunity_id: info.opportunityId ?? null, applied_on: today,
+    company: target.company, job_title: info.jobTitle ?? info.document?.job_title ?? target.brief?.job_title ?? '',
+    source: source || `channel:${target.channel}`, lang: info.document?.lang ?? 'fr', documents: piecesOf(info.document),
+    status: 'sent', followup_on: isoDay(follow),
+  }).select('id'));
   await bumpCounter('applications', 1);
   return row;
+}
+
+// ───────────── Historiques ─────────────
+
+export async function fetchApplications(): Promise<Application[]> {
+  return unwrap(await supabase.from('applications').select('*').order('applied_on', { ascending: false }).limit(1000)) as Application[];
+}
+
+export type ApplicationInput = Omit<Application, 'id' | 'document_id' | 'opportunity_id'>;
+export async function saveApplication(input: ApplicationInput, id?: string): Promise<Application> {
+  const q = id ? supabase.from('applications').update(input).eq('id', id) : supabase.from('applications').insert(input);
+  return unwrap(await q.select().single()) as Application;
+}
+
+export async function deleteApplication(id: string): Promise<void> {
+  unwrap(await supabase.from('applications').delete().eq('id', id).select('id'));
+}
+
+export async function fetchResponses(): Promise<ResponseRow[]> {
+  return unwrap(await supabase.from('responses').select('*').order('received_on', { ascending: false }).limit(1000)) as ResponseRow[];
+}
+
+const RESPONSE_EFFECT: Record<ResponseType, { app: AppStatus; stage: Stage | null }> = {
+  rejection: { app: 'rejected', stage: 'rejected' },
+  info_request: { app: 'sent', stage: null },
+  interview: { app: 'interview', stage: 'interview' },
+  offer: { app: 'offer', stage: 'offer' },
+  no_reply: { app: 'no_reply', stage: null },
+};
+
+export type ResponseInput = Omit<ResponseRow, 'id'>;
+/** Enregistre une réponse et met à jour la candidature et l'étape de la cible liées. */
+export async function saveResponse(input: ResponseInput, id?: string): Promise<{ response: ResponseRow; target: Target | null }> {
+  const q = id ? supabase.from('responses').update(input).eq('id', id) : supabase.from('responses').insert(input);
+  const response = unwrap(await q.select().single()) as ResponseRow;
+  const effect = RESPONSE_EFFECT[input.type];
+  if (input.application_id && input.type !== 'info_request') {
+    unwrap(await supabase.from('applications').update({ status: effect.app }).eq('id', input.application_id).select('id'));
+  }
+  let target: Target | null = null;
+  if (input.target_id && effect.stage) {
+    target = unwrap(await supabase.from('targets').update({ stage: effect.stage, last_contact_on: input.received_on }).eq('id', input.target_id).select().single()) as Target;
+  }
+  return { response, target };
+}
+
+export async function deleteResponse(id: string): Promise<void> {
+  unwrap(await supabase.from('responses').delete().eq('id', id).select('id'));
+}
+
+/** Export Excel (.xlsx) : une ligne d'en-têtes puis les lignes affichées. */
+export async function exportXlsx(sheet: string, headers: string[], rows: (string | number | Date | null)[][], fileName: string) {
+  const { default: writeXlsxFile } = await import('write-excel-file/browser');
+  const data = [headers.map((h) => ({ value: h, fontWeight: 'bold' as const })), ...rows.map((r) => r.map((v) => (v === null || v === '' ? null : v)))];
+  await writeXlsxFile(data, { sheet: sheet.slice(0, 31), stickyRowsCount: 1, dateFormat: 'dd/mm/yyyy', columns: headers.map((h) => ({ width: Math.max(12, Math.min(40, h.length + 6)) })) }).toFile(fileName);
 }
 
 /** Crée la cible d'une fiche entreprise, ou met à jour la cible existante du même nom. */
@@ -97,7 +177,7 @@ export class AiError extends Error {
 }
 
 async function callAi<T>(body: Record<string, unknown>): Promise<T> {
-  const { data, error } = await supabase.functions.invoke('ai', { body });
+  const { data, error } = await supabase.functions.invoke('cap-emploi-ai', { body });
   if (error) {
     let code = 'server_error';
     const ctx = (error as { context?: Response }).context;
@@ -150,7 +230,7 @@ export function mailtoLink(doc: Pick<DocumentRow, 'email_subject' | 'email_body'
 
 /** Export RGPD : toutes les données du compte en JSON. */
 export async function exportMyData(): Promise<Blob> {
-  const [profile, targets, weeks, documents, usage, opportunities, digests] = await Promise.all([
+  const [profile, targets, weeks, documents, usage, opportunities, digests, applications, responses] = await Promise.all([
     supabase.from('profiles').select('*').maybeSingle(),
     supabase.from('targets').select('*'),
     supabase.from('weeks').select('*'),
@@ -158,10 +238,13 @@ export async function exportMyData(): Promise<Blob> {
     supabase.from('ai_usage').select('*'),
     supabase.from('opportunities').select('*'),
     supabase.from('digests').select('*'),
+    supabase.from('applications').select('*'),
+    supabase.from('responses').select('*'),
   ]);
   const data = {
     exported_at: new Date().toISOString(), profile: unwrap(profile), targets: unwrap(targets), weeks: unwrap(weeks), documents: unwrap(documents),
     ai_usage: unwrap(usage), opportunities: unwrap(opportunities), digests: unwrap(digests),
+    applications: unwrap(applications), responses: unwrap(responses),
   };
   return new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
 }

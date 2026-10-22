@@ -209,7 +209,7 @@ export function Apply() {
     if (!target) return;
     setSendError(null);
     try {
-      const row = await markApplied(target);
+      const row = await markApplied(target, { document: current, followupDays: profile.followup_days });
       setTargets((list) => list.map((x) => (x.id === row.id ? row : x)));
       setSent(addDays(isoDay(), profile.followup_days));
     } catch (e) { setSendError(e); }
@@ -331,7 +331,7 @@ export function Apply() {
           <p className="small muted">{t('apply.sent.intro', { n: profile.followup_days })}</p>
           {sendError != null && <Notice tone="error">{errorMessage(sendError, t)}</Notice>}
           {sent ? (
-            <Notice tone="ok">{t('apply.sent.done', { company: target.company, date: fmtDate(sent, locale) })}</Notice>
+            <Notice tone="ok">{t('apply.sent.done', { company: target.company, date: fmtDate(sent, locale) })} <Link to="/historique">{t('history.see')}</Link></Notice>
           ) : <div>{sentButton}</div>}
         </section>
       )}

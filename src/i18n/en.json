@@ -30,7 +30,8 @@
     "privacy": "Privacy",
     "signout": "Sign out",
     "apply": "Apply",
-    "opps": "Opportunities"
+    "opps": "Opportunities",
+    "history": "History"
   },
   "errors": {
     "network": "Cannot reach the server. Check your connection and try again.",
@@ -421,5 +422,67 @@
       "email": "Receive the daily summary by email",
       "note": "The daily summary is always shown here. Email requires a sending service to be enabled at launch."
     }
+  },
+  "history": {
+    "eyebrow": "Tracking",
+    "title": "History",
+    "intro": "All your applications and the replies you received. Filter, sort by clicking a column, export to Excel.",
+    "date": "Date",
+    "job": "Position",
+    "source": "Job source",
+    "lang": "Language",
+    "documents": "Documents sent",
+    "status": "Status",
+    "followup": "Follow-up date",
+    "notes": "Notes",
+    "actions": "Actions",
+    "edit": "Edit",
+    "export": "Export to Excel",
+    "all": "All",
+    "reset": "Clear filters",
+    "from": "From",
+    "to": "To",
+    "searchHint": "Company, position, notes…",
+    "noMatch": "No rows match the filters.",
+    "confirmDelete": "Delete this row from the history?",
+    "statuses": {
+      "sent": "Sent",
+      "followed_up": "Followed up",
+      "interview": "Interview",
+      "offer": "Offer",
+      "rejected": "Rejected",
+      "no_reply": "No reply",
+      "withdrawn": "Withdrawn"
+    },
+    "types": {
+      "rejection": "Rejection",
+      "info_request": "Request for information",
+      "interview": "Interview",
+      "offer": "Offer",
+      "no_reply": "No reply"
+    },
+    "apps": {
+      "title": "My applications",
+      "new": "Add an application",
+      "file": "my-applications",
+      "respond": "Reply received",
+      "empty": "No applications yet.",
+      "emptyHint": "Each click on “I sent it” adds a row here. You can also add an application sent elsewhere."
+    },
+    "resps": {
+      "title": "Replies received",
+      "new": "Add a reply",
+      "file": "replies-received",
+      "type": "Reply type",
+      "nextStep": "Next step",
+      "nextOn": "Next step date",
+      "nextHint": "E.g. phone interview, send references…",
+      "application": "Related application",
+      "noApplication": "None (free entry)",
+      "effect": "The application status and the target stage will be updated.",
+      "empty": "No replies recorded.",
+      "emptyHint": "Log every reply from an employer here, even a rejection: it helps you see what works."
+    },
+    "see": "See history"
   }
 }

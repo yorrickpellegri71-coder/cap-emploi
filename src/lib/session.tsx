@@ -59,7 +59,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
     if (!userId) return;
     try {
       setDataError(null);
-      const [p, list] = await Promise.all([supabase.from('profiles').select('*').eq('id', userId).single(), fetchTargets()]);
+      const [p, list] = await Promise.all([supabase.rpc('ensure_profile').single(), fetchTargets()]);
       setProfile(unwrap(p) as Profile);
       setTargetsState(list);
     } catch (e) {

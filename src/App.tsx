@@ -8,6 +8,7 @@ import { Apply } from './pages/Apply';
 import { Messages } from './pages/Messages';
 import { Onboarding } from './pages/Onboarding';
 import { Opportunities } from './pages/Opportunities';
+import { History } from './pages/History';
 import { Profile } from './pages/Profile';
 import { Targets } from './pages/Targets';
 import { Week } from './pages/Week';
@@ -89,6 +90,7 @@ export function App() {
             <Route path="/messages" element={<Messages />} />
             <Route path="/opportunites" element={<Opportunities />} />
             <Route path="/postuler" element={<Apply />} />
+            <Route path="/historique" element={<History />} />
             <Route path="/documents" element={<ToApply />} />
             <Route path="/profil" element={<Profile />} />
             <Route path="*" element={<NotFound />} />
