@@ -4,6 +4,8 @@ import { BrowserRouter } from 'react-router-dom';
 import { App } from './App';
 import { I18nProvider } from './i18n';
 import { SessionProvider } from './lib/session';
+import { isConfigured } from './lib/supabase';
+import { Setup } from './pages/Setup';
 import '@fontsource-variable/inter';
 import '@fontsource-variable/sora';
 import './styles.css';
@@ -12,11 +14,13 @@ import './styles.css';
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <I18nProvider>
-      <BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/$/, '')}>
-        <SessionProvider>
-          <App />
-        </SessionProvider>
-      </BrowserRouter>
+      {isConfigured ? (
+        <BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/$/, '')}>
+          <SessionProvider>
+            <App />
+          </SessionProvider>
+        </BrowserRouter>
+      ) : <Setup />}
     </I18nProvider>
   </StrictMode>,
 );

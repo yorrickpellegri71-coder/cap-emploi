@@ -680,5 +680,9 @@
     "profileHint": "AI is not enabled: the CV text is imported and you fill in the profile fields yourself.",
     "analyzeOff": "Automatic analysis uses AI, which is not enabled. Read the offer carefully: position, contract, location, salary, languages and requirements.",
     "mailOff": "Checking email alerts uses AI to extract the offers; it is not enabled. Add offers manually."
+  },
+  "setup": {
+    "title": "Cap Emploi opens very soon",
+    "body": "The site is online, but accounts are not active yet. Come back in a few days to create your account and prepare your applications in French, English and German."
   }
 }

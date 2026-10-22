@@ -680,5 +680,9 @@
     "profileHint": "KI ist nicht aktiviert: Der Lebenslauftext wird importiert, die Profilfelder füllen Sie selbst aus.",
     "analyzeOff": "Die automatische Analyse nutzt KI, die nicht aktiviert ist. Lesen Sie das Angebot sorgfältig: Stelle, Vertrag, Ort, Gehalt, Sprachen und Anforderungen.",
     "mailOff": "Der Abruf der E-Mail-Benachrichtigungen nutzt KI, um die Angebote zu extrahieren; er ist nicht aktiviert. Erfassen Sie Angebote manuell."
+  },
+  "setup": {
+    "title": "Cap Emploi öffnet in Kürze",
+    "body": "Die Website ist online, aber Konten sind noch nicht aktiviert. Kommen Sie in einigen Tagen wieder, um Ihr Konto anzulegen und Bewerbungen auf Französisch, Englisch und Deutsch vorzubereiten."
   }
 }

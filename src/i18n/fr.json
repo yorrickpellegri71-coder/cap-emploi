@@ -680,5 +680,9 @@
     "profileHint": "L’IA n’est pas activée : le texte du CV est importé, et vous remplissez vous-même les champs du profil.",
     "analyzeOff": "L’analyse automatique utilise l’IA, qui n’est pas activée. Lisez l’offre attentivement : poste, contrat, lieu, salaire, langues et exigences.",
     "mailOff": "Le relevé des alertes e-mail utilise l’IA pour extraire les offres ; il n’est pas activé. Ajoutez les offres à la main."
+  },
+  "setup": {
+    "title": "Cap Emploi ouvre très bientôt",
+    "body": "Le site est en ligne, mais les comptes ne sont pas encore activés. Revenez dans quelques jours pour créer votre compte et préparer vos candidatures en français, anglais et allemand."
   }
 }
