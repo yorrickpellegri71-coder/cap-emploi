@@ -1,0 +1,690 @@
+{
+  "common": {
+    "loading": "A carregar…",
+    "retry": "Tentar novamente",
+    "copy": "Copiar",
+    "copied": "Copiado",
+    "close": "Fechar",
+    "save": "Guardar",
+    "saved": "Guardado",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "search": "Pesquisar",
+    "wait": "Um momento…",
+    "optional": "opcional",
+    "language": "Idioma da interface"
+  },
+  "langs": {
+    "fr": "Francês",
+    "en": "Inglês",
+    "de": "Alemão",
+    "lb": "Luxemburguês",
+    "pt": "Português"
+  },
+  "nav": {
+    "main": "Navegação principal",
+    "skip": "Ir para o conteúdo",
+    "week": "Semana",
+    "targets": "Alvos",
+    "messages": "Mensagens",
+    "profile": "Perfil",
+    "account": "A minha conta",
+    "privacy": "Privacidade",
+    "signout": "Terminar sessão",
+    "apply": "Candidatar",
+    "opps": "Oportunidades",
+    "history": "Histórico",
+    "offers": "Ofertas recebidas",
+    "offersShort": "Ofertas"
+  },
+  "errors": {
+    "network": "Não foi possível ligar ao servidor. Verifique a sua rede e tente novamente.",
+    "expired": "A sua sessão expirou. Inicie sessão novamente.",
+    "load": "Não foi possível carregar os dados.",
+    "notFound": "Página não encontrada",
+    "ai": {
+      "unauthorized": "A sua sessão expirou. Inicie sessão novamente.",
+      "quota_documents": "Já utilizou os seus documentos de IA gratuitos deste mês. São renovados no dia 1 de cada mês.",
+      "quota_extract": "Limite mensal de análises de CV atingido. Pode editar o seu perfil manualmente.",
+      "file_too_large": "Ficheiro demasiado grande: máximo 8 MB.",
+      "cv_missing": "Adicione primeiro o seu CV (ficheiro ou texto).",
+      "offer_too_short": "Cole o texto completo da oferta (pelo menos algumas linhas).",
+      "profile_empty": "O seu perfil está vazio: importe o seu CV no separador Perfil.",
+      "ai_refused": "A IA não conseguiu processar este pedido. Verifique o texto e tente novamente.",
+      "ai_too_long": "O documento pedido é demasiado longo. Encurte a oferta ou o CV.",
+      "ai_busy": "A IA está muito solicitada. Tente novamente dentro de um minuto.",
+      "ai_unavailable": "O serviço de IA está temporariamente indisponível. Tente mais tarde.",
+      "server_error": "Erro do servidor. Tente novamente dentro de instantes.",
+      "unknown_action": "Ação desconhecida.",
+      "network": "Não foi possível ligar ao servidor. Verifique a sua rede e tente novamente.",
+      "brief_missing": "Indique o nome de uma empresa ou cole o texto da oferta.",
+      "quota_briefs": "Limite mensal de fichas de empresa atingido.",
+      "search_disabled": "A recolha automática de ofertas ainda não está ativada.",
+      "keywords_missing": "Introduza um cargo ou palavras-chave.",
+      "quota_searches": "Limite mensal de pesquisas automáticas atingido. As ligações para os sites continuam disponíveis.",
+      "search_unavailable": "O serviço de pesquisa de ofertas não responde. Utilize as ligações para os sites.",
+      "quota_discoveries": "Limite mensal de pesquisas de oportunidades atingido.",
+      "quota_analyses": "Limite mensal de análises de ofertas atingido.",
+      "quota_alerts": "Limite mensal de leituras de alertas atingido.",
+      "offer_missing": "Oferta não encontrada.",
+      "ai_disabled": "As funções de IA não estão ativadas neste site."
+    }
+  },
+  "auth": {
+    "tagline": "A sua procura de emprego organizada: alvos, seguimentos, ritmo e candidaturas à medida.",
+    "loginTitle": "Iniciar sessão",
+    "signupTitle": "Criar conta",
+    "name": "Nome e apelido",
+    "email": "E-mail",
+    "password": "Palavra-passe",
+    "pwdHint": "Mínimo de 8 caracteres.",
+    "confirmPwd": "Confirmar a palavra-passe",
+    "forgot": "Esqueceu-se da palavra-passe?",
+    "consent": "Aceito que os meus dados sejam tratados para o funcionamento do Cap Emploi Luxembourg, de acordo com a política de",
+    "loginCta": "Iniciar sessão",
+    "signupCta": "Criar a minha conta",
+    "haveAccount": "Já tem conta?",
+    "noAccount": "Ainda não tem conta?",
+    "created": "Conta criada.",
+    "checkMail": "Foi enviado um e-mail de confirmação para {email}. Abra a ligação que contém e depois inicie sessão.",
+    "goLogin": "Ir para o início de sessão",
+    "expired": "A sua sessão expirou. Inicie sessão novamente.",
+    "forgotTitle": "Palavra-passe esquecida",
+    "forgotIntro": "Introduza o endereço da sua conta: receberá uma ligação para escolher uma nova palavra-passe.",
+    "sendLink": "Receber a ligação",
+    "resetSent": "Se existir uma conta para {email}, acabou de ser enviada uma ligação de reposição. Verifique também a pasta de spam.",
+    "backLogin": "Voltar ao início de sessão",
+    "newPwdTitle": "Nova palavra-passe",
+    "pwdChanged": "Palavra-passe alterada.",
+    "openApp": "Abrir o Cap Emploi Luxembourg",
+    "linkInvalid": "Ligação inválida ou expirada. Uma ligação de reposição só pode ser usada uma vez.",
+    "err": {
+      "email": "Introduza um endereço de e-mail válido, por exemplo nome@dominio.lu.",
+      "weak": "A palavra-passe deve ter pelo menos 8 caracteres.",
+      "mismatch": "As duas palavras-passe não são iguais.",
+      "consent": "O seu consentimento é necessário para criar uma conta.",
+      "credentials": "E-mail ou palavra-passe incorretos.",
+      "unconfirmed": "Endereço não confirmado: abra a ligação recebida por e-mail e inicie sessão novamente.",
+      "exists": "Já existe uma conta com este endereço. Inicie sessão.",
+      "rate": "Demasiadas tentativas. Aguarde alguns minutos antes de tentar novamente."
+    }
+  },
+  "onboarding": {
+    "title": "Bem-vindo ao Cap Emploi Luxembourg",
+    "intro": "Três definições para adaptar a ferramenta à sua procura. Tudo pode ser alterado depois no seu perfil.",
+    "trade": "As profissões que procura",
+    "cta": "Continuar",
+    "tradeHint": "Escolha várias: a sua experiência transfere-se para outras profissões. A primeira assinalada é usada para os modelos de mensagens."
+  },
+  "trades": {
+    "general": {
+      "name": "Todas as profissões",
+      "desc": "Setores e mensagens gerais, válidos para qualquer cargo.",
+      "skills": "Gestão de equipas, gestão de orçamento e de conta de exploração, orientação para o serviço, organização e línguas."
+    },
+    "hospitality": {
+      "name": "Hotelaria e restauração",
+      "desc": "Hotéis, restaurantes, grupos hoteleiros, casinos, catering.",
+      "skills": "O seu núcleo profissional: exploração, alojamento, restauração, revenue, qualidade de serviço e liderança."
+    },
+    "events": {
+      "name": "Eventos",
+      "desc": "Agências, espaços para eventos, congressos, feiras, festivais.",
+      "skills": "Banquetes e seminários, coordenação de fornecedores, gestão de imprevistos no próprio dia, relação com clientes exigentes."
+    },
+    "operations": {
+      "name": "Direção de operações",
+      "desc": "Exploração de locais ou serviços: restauração coletiva, lazer, serviços às empresas.",
+      "skills": "Gerir um local aberto 7 dias por semana: planeamento, indicadores, conta de exploração, equipas multisserviço e continuidade do serviço."
+    },
+    "facility": {
+      "name": "Facility management",
+      "desc": "Serviços gerais, receção, limpeza, manutenção, sedes e instituições.",
+      "skills": "Técnica e manutenção de edifícios, subcontratados (limpeza, segurança, restauração), contratos de serviço e experiência dos ocupantes."
+    },
+    "property": {
+      "name": "Imobiliário e property management",
+      "desc": "Gestão de edifícios, residências com serviços, escritórios, centros comerciais.",
+      "skills": "Gestão diária de um ativo imobiliário: manutenção, orçamentos, relação com residentes ou inquilinos, serviços associados."
+    },
+    "customer": {
+      "name": "Serviço e experiência do cliente",
+      "desc": "Banca privada, aviação, automóvel premium, seguros, concierge.",
+      "skills": "Cultura de serviço de alta gama, tratamento de reclamações, fidelização, medição da satisfação e formação das equipas de receção."
+    },
+    "luxury_retail": {
+      "name": "Retalho e comércio de luxo",
+      "desc": "Moda, joalharia, relojoaria, grandes armazéns, vinhos e bebidas espirituosas.",
+      "skills": "Clientela internacional exigente, códigos do luxo, gestão de equipas de venda e objetivos de volume de negócios."
+    },
+    "purchasing": {
+      "name": "Compras e aprovisionamento",
+      "desc": "Compras alimentares e gerais, restauração coletiva, distribuição.",
+      "skills": "Negociação com fornecedores, custos de matéria-prima, stocks e concursos, aprendidos na gestão de um hotel e dos seus restaurantes."
+    },
+    "quality": {
+      "name": "Qualidade, higiene e segurança",
+      "desc": "Qualidade, HACCP, saúde e segurança, auditoria e certificação.",
+      "skills": "Normas de marca, HACCP, auditorias e cliente mistério, planos de ação e segurança de clientes e colaboradores."
+    },
+    "project": {
+      "name": "Gestão de projetos",
+      "desc": "Aberturas, renovações, transformação, grandes eventos.",
+      "skills": "Aberturas e renovações, lançamento de novos serviços, coordenação de muitos intervenientes com prazos apertados."
+    },
+    "health_seniors": {
+      "name": "Saúde e residências seniores",
+      "desc": "Residências seniores, lares, hotelaria hospitalar.",
+      "skills": "Alojamento, restauração e acolhimento ao serviço dos residentes, empatia, gestão de equipas e cumprimento das normas."
+    },
+    "consulting": {
+      "name": "Consultoria, formação e transição",
+      "desc": "Gestão interina, consultoria, formação, escolas de hotelaria.",
+      "skills": "Anos de experiência para transmitir: recuperar um estabelecimento, formar equipas, auditar e aconselhar. Missões que procuram perfis experientes."
+    }
+  },
+  "counters": {
+    "contacts": "Contactos diretos",
+    "applications": "Candidaturas",
+    "followups": "Seguimentos",
+    "posts": "Publicações",
+    "training": "Formação",
+    "network": "Encontros de networking"
+  },
+  "stages": {
+    "todo": "A contactar",
+    "contacted": "Contactado",
+    "followed_up": "Seguimento feito",
+    "interview": "Reunião / entrevista",
+    "offer": "Oferta",
+    "rejected": "Não selecionado"
+  },
+  "channels": {
+    "linkedin": "LinkedIn",
+    "email": "E-mail",
+    "phone": "Telefone",
+    "visit": "Visita presencial",
+    "jobboard": "Site de emprego",
+    "other": "Outro"
+  },
+  "priorities": {
+    "A": "A – prioritária",
+    "B": "B – interessante",
+    "C": "C – a ter em mente"
+  },
+  "week": {
+    "eyebrow": "Semana {n} · {year}",
+    "title": "Ritmo da semana",
+    "prev": "Semana anterior",
+    "next": "Semana seguinte",
+    "today": "Esta semana",
+    "goals": "Objetivos",
+    "plus": "Adicionar 1 a",
+    "minus": "Retirar 1 a",
+    "followups": "Seguimentos a fazer",
+    "followupRule": "Sem resposta há {n} dias ou mais",
+    "noFollowups": "Nenhum seguimento pendente",
+    "noFollowupsHint": "Os alvos contactados sem resposta aparecerão aqui automaticamente.",
+    "lastContact": "Último contacto a {date}, há {n} dias",
+    "copyFollowup": "Mensagem de seguimento",
+    "followupSent": "Seguimento enviado",
+    "pipeline": "Pipeline",
+    "seeTargets": "Ver os alvos"
+  },
+  "targets": {
+    "eyebrow": "{n} alvos",
+    "title": "Alvos e pipeline",
+    "new": "Novo alvo",
+    "emptyTitle": "Ainda sem alvos",
+    "emptyHint": "Adicione as empresas que pretende abordar: acompanhará cada contacto até à oferta.",
+    "company": "Empresa",
+    "companyRequired": "Indique o nome da empresa.",
+    "sector": "Setor",
+    "contact": "Decisor",
+    "role": "Função",
+    "channel": "Canal",
+    "priority": "Prioridade",
+    "stage": "Etapa",
+    "lastContact": "Último contacto",
+    "jobUrl": "Ligação da oferta",
+    "notes": "Notas",
+    "noContact": "Decisor a identificar",
+    "confirmDelete": "Eliminar este alvo?",
+    "tailor": "Preparar a candidatura",
+    "next": {
+      "todo": "Contactado",
+      "contacted": "Seguimento feito",
+      "followed_up": "Entrevista",
+      "interview": "Oferta"
+    }
+  },
+  "messages": {
+    "eyebrow": "Prontas a copiar",
+    "title": "Mensagens",
+    "kinds": {
+      "first_contact": "Primeiro contacto",
+      "followup": "Seguimento",
+      "thanks": "Agradecimento"
+    },
+    "target": "Alvo",
+    "noTarget": "Nenhum alvo escolhido",
+    "lang": "Idioma da mensagem",
+    "subject": "Assunto",
+    "body": "Mensagem",
+    "copyBody": "Copiar a mensagem",
+    "missing": "A completar antes do envio: {list}. Escolha um alvo ou complete o seu perfil."
+  },
+  "profile": {
+    "eyebrow": "As suas informações",
+    "title": "Perfil do candidato",
+    "welcome": "Último passo: importe o seu CV. A IA extrai as suas experiências, números e competências, que poderá corrigir.",
+    "cvTitle": "O seu CV",
+    "cvIntro": "Importe um ficheiro PDF, Word (.docx) ou de texto. Serve apenas para produzir os seus próprios documentos.",
+    "import": "Importar o meu CV",
+    "extract": "Analisar o texto com a IA",
+    "cvText": "Texto do CV",
+    "extracting": "A analisar o CV…",
+    "extracted": "Perfil extraído. Verifique cada campo e depois guarde.",
+    "dataTitle": "Perfil extraído",
+    "dataIntro": "Estes factos são a única fonte usada pela IA para os seus CV e cartas. Corrija-os ou complete-os aqui.",
+    "fullName": "Nome completo",
+    "headline": "Título profissional",
+    "location": "Local",
+    "summary": "Resumo",
+    "experiences": "Experiências",
+    "expTitle": "Cargo",
+    "expCompany": "Empresa",
+    "expStart": "Início",
+    "expEnd": "Fim",
+    "achievements": "Realizações e números (uma por linha)",
+    "addExperience": "Adicionar uma experiência",
+    "skills": "Competências",
+    "languages": "Línguas",
+    "education": "Formação",
+    "certifications": "Certificações",
+    "onePerLine": "Uma por linha.",
+    "langFormat": "Uma por linha: Língua – nível.",
+    "eduFormat": "Uma por linha: Diploma – Escola – Ano.",
+    "settings": "Definições",
+    "name": "Nome e apelido",
+    "trade": "Profissões procuradas",
+    "docLang": "Idioma predefinido dos documentos",
+    "docLangHint": "Idioma dos CV, cartas e mensagens; independente do idioma da interface.",
+    "followupDays": "Prazo antes do seguimento (dias)",
+    "goals": "Objetivos da semana",
+    "account": "Conta e dados",
+    "accountIntro": "Os seus dados estão alojados na União Europeia. Pode descarregá-los ou eliminar a sua conta a qualquer momento.",
+    "export": "Descarregar os meus dados",
+    "deleteWord": "ELIMINAR",
+    "deleteLabel": "Para eliminar definitivamente a sua conta e todos os seus dados, escreva {word}",
+    "delete": "Eliminar a minha conta",
+    "tradesHint": "Assinale todas as profissões que lhe interessam: orientam as fontes, as ideias de pesquisa e as oportunidades.",
+    "skillsTitle": "As suas competências transferíveis",
+    "skillsIntro": "O que, num percurso em hotelaria, se transfere para cada profissão procurada. Verifique se o seu perfil o mostra com factos e números.",
+    "senior": {
+      "label": "Destacar a minha experiência (perfil experiente)",
+      "hint": "Os seus CV não mostram idade, data de nascimento nem fotografia; as experiências com mais de 15 anos são resumidas numa linha; as cartas e oportunidades apresentam a sua experiência como uma mais-valia e orientam-no também para empregadores que procuram perfis experientes. Nada é escondido nem inventado: tudo fica no seu perfil.",
+      "law": "No Luxemburgo, a lei proíbe a discriminação com base na idade na contratação (lei de 28 de novembro de 2006 sobre a igualdade de tratamento)."
+    },
+    "mainTrade": "Principal"
+  },
+  "privacy": {
+    "title": "Política de privacidade",
+    "who": {
+      "h": "Responsável",
+      "p": "O Cap Emploi Luxembourg é editado por Yorrick Pellegri, Luxemburgo. Este texto é uma versão de lançamento, a validar antes da abertura ao público."
+    },
+    "data": {
+      "h": "Dados tratados",
+      "p": "Endereço de e-mail, palavra-passe cifrada, perfil do candidato e CV, alvos e notas, contadores semanais e documentos gerados. Servem apenas para o funcionamento do seu espaço."
+    },
+    "ai": {
+      "h": "Inteligência artificial",
+      "p": "Para produzir os seus documentos, o seu perfil e a oferta são enviados ao modelo Claude da Anthropic através de uma função de servidor. Servem apenas para produzir os seus documentos e não são usados para treinar o modelo."
+    },
+    "where": {
+      "h": "Alojamento e segurança",
+      "p": "Contas e base de dados alojadas pela Supabase na União Europeia. Cada utilizador só acede aos seus próprios dados, garantido por regras de segurança ao nível da base de dados."
+    },
+    "rights": {
+      "h": "Os seus direitos",
+      "p": "A partir do seu perfil, pode descarregar todos os seus dados ou eliminar a sua conta, o que apaga definitivamente todos os seus dados."
+    },
+    "contact": {
+      "h": "Contacto",
+      "p": "Para qualquer questão sobre os seus dados, escreva ao responsável do projeto."
+    },
+    "updated": "Versão de 22 de outubro de 2026.",
+    "mail": {
+      "h": "Alertas de e-mail (opção)",
+      "p": "Se ler os seus alertas do Gmail ou do Outlook, o acesso é só de leitura, a partir do seu navegador e apenas durante a leitura. Só os e-mails dos sites de emprego dos últimos 14 dias são lidos e enviados à IA para extrair as ofertas; só as ofertas são guardadas."
+    }
+  },
+  "apply": {
+    "eyebrow": "Candidatar diretamente",
+    "title": "Da oferta ao envio",
+    "intro": "Encontre uma oferta, obtenha a ficha da empresa, gere o seu dossier completo e envie-o você mesmo.",
+    "needProfile": "Para que a IA prepare o seu dossier, importe primeiro o seu CV.",
+    "goProfile": "Completar o meu perfil",
+    "search": {
+      "title": "Encontrar ofertas",
+      "query": "Cargo ou palavras-chave",
+      "queryPlaceholder": "Ex.: diretor de hotel, revenue manager",
+      "where": "Local",
+      "collect": "Pesquisar",
+      "sources": "Abrir a pesquisa em cada site",
+      "tagGeneral": "Generalista",
+      "tagPublic": "Serviço público",
+      "viaWeb": "via pesquisa na web",
+      "tos": "Estes sites proíbem a recolha automática: o Cap Emploi Luxembourg abre a pesquisa deles, sem copiar os anúncios. A pesquisa automática usa a API oficial do Jooble.",
+      "disabled": "A pesquisa automática ainda não está ativada (chave API do Jooble a pedir, gratuita). Entretanto, utilize as ligações acima.",
+      "none": "Nenhuma oferta encontrada para esta pesquisa.",
+      "results": "Ofertas encontradas",
+      "open": "Ver a oferta",
+      "use": "Preparar a candidatura",
+      "ideas": "Ideias de pesquisa para as suas profissões",
+      "tagSpecialized": "Especializado",
+      "tagRecruiter": "Empresa de recrutamento"
+    },
+    "brief": {
+      "title": "Analisar uma oferta ou uma empresa",
+      "offer": "Texto da oferta",
+      "offerOptional": "opcional para uma candidatura espontânea",
+      "offerPlaceholder": "Cole o anúncio completo: título, funções, perfil procurado…",
+      "snippetHint": "Isto é apenas um excerto: abra a oferta e cole o texto completo para um dossier melhor.",
+      "hint": "A ficha cria ou completa automaticamente o alvo no seu pipeline.",
+      "cta": "Criar a ficha e o alvo",
+      "busy": "A analisar…",
+      "noCompany": "O nome da empresa não aparece na oferta: indique-o no campo Empresa.",
+      "orPick": "Ou retomar um alvo existente",
+      "sheet": "Ficha da empresa",
+      "inPipeline": "Ver no pipeline",
+      "empty": "Ainda não há ficha para este alvo: analise uma oferta ou o nome acima.",
+      "expectations": "Expectativas prováveis",
+      "toCheck": "Pontos a verificar antes do envio",
+      "digital": "Ideia de ferramenta digital a propor:",
+      "disclaimer": "Ficha preparada pela IA sem acesso à web: verifique as informações antes de as usar."
+    },
+    "dossier": {
+      "title": "Gerar o dossier completo",
+      "needTarget": "Analise primeiro uma oferta ou escolha um alvo.",
+      "fromOffer": "O dossier baseia-se na oferta analisada e nos factos do seu perfil.",
+      "spontaneous": "Candidatura espontânea: o dossier baseia-se na ficha da empresa e nos factos do seu perfil.",
+      "lang": "Idioma do dossier",
+      "cta": "Gerar o dossier",
+      "busy": "A redigir…",
+      "busyHint": "Conte com cerca de um minuto: e-mail, carta, CV adaptado e apresentação.",
+      "remaining": "{n} dossier(s) gratuito(s) restante(s) este mês, de {max}.",
+      "noInvention": "A IA usa apenas os factos do seu perfil."
+    },
+    "pieces": {
+      "email": "E-mail",
+      "letter": "Carta",
+      "cv": "CV",
+      "pitch": "Apresentação"
+    },
+    "sent": {
+      "title": "Enviar",
+      "intro": "Envie o dossier você mesmo (e-mail, site da empresa ou do recrutador) e depois confirme aqui. O seguimento será proposto dentro de {n} dias.",
+      "cta": "Já enviei",
+      "done": "Candidatura a {company} contabilizada, alvo passado para «Contactado». Seguimento previsto para {date}."
+    },
+    "untitled": "Dossier sem título",
+    "gapsTitle": "Pontos da oferta ausentes do seu perfil",
+    "gapsHint": "Não foram acrescentados. Se tem essa experiência, complete o seu perfil e volte a gerar.",
+    "review": "Releia e edite livremente antes de qualquer envio.",
+    "word": "Word",
+    "pdf": "PDF",
+    "allWord": "Dossier completo em Word",
+    "allPdf": "Dossier completo em PDF",
+    "popupBlocked": "O seu navegador bloqueou a janela de impressão. Permita janelas pop-up para este site.",
+    "confirmDelete": "Eliminar este dossier?",
+    "history": "Dossiers gerados",
+    "emptyTitle": "Ainda sem dossiers",
+    "emptyHint": "Analise uma oferta e gere o seu primeiro dossier.",
+    "dossierName": "Dossier de candidatura",
+    "free": {
+      "companyRequired": "Indique o nome da empresa.",
+      "briefHint": "Sem IA: o alvo é criado com o que introduzir. Cole a oferta para a ter à mão.",
+      "createTarget": "Criar o alvo",
+      "dossierHint": "Sem IA, o dossier é um modelo construído a partir do seu perfil: personalize a carta antes do envio.",
+      "noBrief": "Ficha automática da empresa indisponível sem IA. Anote as suas pesquisas no alvo."
+    }
+  },
+  "opps": {
+    "eyebrow": "Oportunidades para mim",
+    "title": "Onde candidatar-me",
+    "intro": "A partir do seu perfil: ofertas recolhidas e prováveis empresas-alvo, avaliadas de 0 a 100, com a razão. As melhores recebem um dossier pronto a validar.",
+    "run": "Procurar as minhas oportunidades",
+    "scoreTitle": "Pontuação de adequação ao seu perfil (de 0 a 100)",
+    "kindCompany": "Provável empresa-alvo",
+    "found": "Encontrada a {date}",
+    "openAd": "Ver a oferta",
+    "dismiss": "Descartar",
+    "prepare": "Preparar o dossier",
+    "preparing": "Dossier em preparação…",
+    "reviewDossier": "Rever o dossier",
+    "hideDossier": "Ocultar o dossier",
+    "validate": "Validar",
+    "mail": "Preparar o e-mail",
+    "openApply": "Abrir em Candidatar",
+    "select": "Selecionar {name}",
+    "sentDone": "Candidatura contabilizada. Seguimento previsto para {date}.",
+    "otherSector": "Outros setores",
+    "running": {
+      "search": "A procurar e avaliar oportunidades…",
+      "prepare": "A preparar o dossier {i} de {n}…"
+    },
+    "result": "{n} nova(s) oportunidade(s), {p} dossier(s) pronto(s) a validar.",
+    "jobsDisabled": "Recolha de ofertas inativa por agora: só são propostas empresas-alvo.",
+    "validatedN": "{n} envio(s) validado(s). Abra o separador «Validadas» para enviar.",
+    "digest": {
+      "today": "Resumo do dia",
+      "of": "Resumo de {date}",
+      "line": "{j} nova(s) oferta(s), {c} empresa(s)-alvo, {p} dossier(s) preparado(s)."
+    },
+    "rule": "Nenhum envio sem a sua validação: valide cada dossier (ou uma seleção), depois envie-o você mesmo e clique em «Já enviei».",
+    "views": {
+      "to_validate": "A validar",
+      "validated": "Validadas, a enviar",
+      "all": "Novas",
+      "sent": "Enviadas"
+    },
+    "selectAll": "Selecionar tudo",
+    "validateSelection": "Validar a seleção ({n})",
+    "empty": {
+      "to_validate": "Nada a validar",
+      "validated": "Nenhum envio validado pendente",
+      "all": "Nenhuma nova oportunidade",
+      "sent": "Nenhuma candidatura enviada a partir desta lista"
+    },
+    "emptyHint": "Inicie uma pesquisa: a aplicação percorre as ofertas e propõe empresas adequadas ao seu perfil.",
+    "settings": {
+      "title": "Definições das oportunidades",
+      "auto": "Preparar automaticamente o dossier das melhores oportunidades (dentro do limite dos seus documentos de IA)",
+      "minScore": "Pontuação mínima para a preparação automática",
+      "email": "Receber o resumo diário por e-mail",
+      "note": "O resumo diário está sempre visível aqui. O e-mail requer a ativação de um serviço de envio no lançamento."
+    }
+  },
+  "history": {
+    "eyebrow": "Acompanhamento",
+    "title": "Histórico",
+    "intro": "Todas as suas candidaturas e as respostas recebidas. Filtre, ordene clicando numa coluna, exporte para Excel.",
+    "date": "Data",
+    "job": "Cargo",
+    "source": "Origem da oferta",
+    "lang": "Idioma",
+    "documents": "Documentos enviados",
+    "status": "Estado",
+    "followup": "Data de seguimento",
+    "notes": "Notas",
+    "actions": "Ações",
+    "edit": "Editar",
+    "export": "Exportar para Excel",
+    "all": "Todos",
+    "reset": "Limpar filtros",
+    "from": "De",
+    "to": "Até",
+    "searchHint": "Empresa, cargo, notas…",
+    "noMatch": "Nenhuma linha corresponde aos filtros.",
+    "confirmDelete": "Eliminar esta linha do histórico?",
+    "statuses": {
+      "sent": "Enviada",
+      "followed_up": "Seguimento feito",
+      "interview": "Entrevista",
+      "offer": "Oferta",
+      "rejected": "Recusa",
+      "no_reply": "Sem resposta",
+      "withdrawn": "Retirada"
+    },
+    "types": {
+      "rejection": "Recusa",
+      "info_request": "Pedido de informações",
+      "interview": "Entrevista",
+      "offer": "Oferta",
+      "no_reply": "Sem resposta"
+    },
+    "apps": {
+      "title": "As minhas candidaturas",
+      "new": "Adicionar uma candidatura",
+      "file": "as-minhas-candidaturas",
+      "respond": "Resposta recebida",
+      "empty": "Ainda sem candidaturas.",
+      "emptyHint": "Cada clique em «Já enviei» acrescenta aqui uma linha. Também pode adicionar uma candidatura enviada por outra via."
+    },
+    "resps": {
+      "title": "Respostas recebidas",
+      "new": "Adicionar uma resposta",
+      "file": "respostas-recebidas",
+      "type": "Tipo de resposta",
+      "nextStep": "Próximo passo",
+      "nextOn": "Data do próximo passo",
+      "nextHint": "Ex.: entrevista telefónica, enviar referências…",
+      "application": "Candidatura em causa",
+      "noApplication": "Nenhuma (introdução livre)",
+      "effect": "O estado da candidatura e a etapa do alvo serão atualizados.",
+      "empty": "Nenhuma resposta registada.",
+      "emptyHint": "Anote aqui cada resposta de um empregador, mesmo uma recusa: ajuda a perceber o que funciona."
+    },
+    "see": "Ver o histórico"
+  },
+  "offers": {
+    "eyebrow": "Alertas",
+    "title": "Ofertas recebidas",
+    "intro": "As ofertas que chegaram pelos seus alertas de e-mail, pela pesquisa diária ou adicionadas por si. Leia cada oferta e peça a sua análise antes de se candidatar.",
+    "new": "Nova",
+    "newCount": "{n} nova(s) oferta(s)",
+    "alert": "{n} nova(s) oferta(s) recebida(s).",
+    "alertHint": "Abra-as para as ler e pedir a análise.",
+    "alertWeek": "{n} nova(s) oferta(s) recebida(s) para ler.",
+    "see": "Ver as ofertas",
+    "empty": "Ainda sem ofertas recebidas.",
+    "emptyHint": "Adicione uma oferta manualmente, leia os seus alertas de e-mail ou inicie a pesquisa em «Oportunidades».",
+    "emptyView": "Nenhuma oferta nesta vista.",
+    "views": {
+      "new": "Novas",
+      "todo": "A tratar",
+      "sent": "Enviadas",
+      "all": "Todas"
+    },
+    "origins": {
+      "gmail": "Alerta Gmail",
+      "outlook": "Alerta Outlook",
+      "collected": "Pesquisa diária",
+      "manual": "Adição manual"
+    },
+    "statuses": {
+      "new": "Nova",
+      "analyzed": "Analisada",
+      "preparing": "Em preparação…",
+      "ready": "Dossier pronto",
+      "sent": "Enviada",
+      "dismissed": "Descartada"
+    },
+    "location": "Local",
+    "link": "Ligação do anúncio",
+    "text": "Texto da oferta",
+    "textHint": "Cole aqui o texto completo do anúncio.",
+    "textHelp": "Um alerta contém muitas vezes apenas um excerto: abra o anúncio e cole o texto completo para uma análise fiável.",
+    "read": "Ler a oferta",
+    "view": "Ver",
+    "dismiss": "Descartar",
+    "back": "Todas as ofertas",
+    "openAd": "Abrir o anúncio",
+    "steps": {
+      "read": "Ler a oferta",
+      "analyze": "Análise detalhada",
+      "prepare": "Verificar e depois preparar os documentos",
+      "send": "Rever e depois enviar"
+    },
+    "analyze": "Analisar a oferta com a IA",
+    "reanalyze": "Repetir a análise",
+    "analyzeHint": "A IA detalha o cargo, a empresa, o local, o contrato, o salário, as línguas, as funções e os requisitos, e depois compara com o seu perfil.",
+    "notStated": "Não indicado na oferta",
+    "aiNote": "Análise produzida por IA a partir do texto da oferta e do seu perfil: verifique os pontos importantes no anúncio.",
+    "fields": {
+      "job_title": "Cargo",
+      "company": "Empresa",
+      "location": "Local",
+      "contract": "Contrato",
+      "salary": "Salário",
+      "languages": "Línguas",
+      "missions": "Funções",
+      "requirements": "Requisitos",
+      "strengths": "Os seus pontos fortes",
+      "gaps": "Lacunas"
+    },
+    "reco": {
+      "apply": "Recomendado: candidatar-se",
+      "apply_with_care": "A estudar antes de se candidatar",
+      "skip": "Não recomendado"
+    },
+    "checks": {
+      "offer_read": "Li a oferta na íntegra",
+      "conditions_ok": "Aceito as condições (contrato, local, horário, salário)",
+      "docs_reviewed": "Revi os documentos e corrigi o que era necessário"
+    },
+    "prepareHint": "Assinale as duas caixas para validar a preparação do e-mail, da carta, do CV adaptado e da apresentação.",
+    "prepare": "Validar e preparar os documentos",
+    "prepareLocked": "As duas caixas têm de estar assinaladas antes da preparação.",
+    "sendHint": "Envie o dossier você mesmo (e-mail ou site do empregador). Nada é enviado automaticamente.",
+    "sendLocked": "Assinale a revisão dos documentos para poder enviar.",
+    "sentDone": "Candidatura registada. Seguimento previsto para {date}.",
+    "add": {
+      "title": "Adicionar uma oferta",
+      "cta": "Adicionar",
+      "required": "Indique pelo menos o cargo ou a empresa.",
+      "badLink": "A ligação deve começar por http:// ou https://."
+    },
+    "mail": {
+      "title": "Alertas de e-mail dos sites de emprego",
+      "intro": "Leia os alertas recebidos nos últimos 14 dias (jobs.lu, Moovijob, LinkedIn, Indeed…): as ofertas que contêm são adicionadas aqui.",
+      "read_gmail": "Ler o Gmail",
+      "read_outlook": "Ler o Outlook",
+      "notConfigured": "Ligação ao e-mail ainda não configurada para este site.",
+      "privacy": "Acesso só de leitura, apenas durante a leitura. Só são lidos os alertas dos sites de emprego; são enviados à IA para extrair as ofertas e depois não são guardados.",
+      "none": "Nenhum alerta de emprego encontrado nos últimos 14 dias.",
+      "done": "{n} nova(s) oferta(s) encontrada(s) em {emails} alerta(s).",
+      "errors": {
+        "denied": "Ligação ao e-mail recusada ou interrompida.",
+        "failed": "O serviço de e-mail não respondeu. Tente mais tarde.",
+        "unavailable": "Ligação ao e-mail indisponível.",
+        "script": "Não foi possível carregar a ligação Google. Verifique a sua rede.",
+        "popup": "O seu navegador bloqueou a janela de início de sessão. Permita janelas pop-up para este site."
+      }
+    }
+  },
+  "free": {
+    "oppsOff": "A avaliação automática das oportunidades usa a IA, que não está ativada. Adicione as suas ofertas em «Ofertas recebidas» ou utilize «Candidatar».",
+    "pdfOff": "Sem IA, um PDF não pode ser lido automaticamente: importe o seu CV em .docx ou .txt, ou cole o texto, e depois preencha os campos.",
+    "cvImported": "Texto do CV importado. Preencha agora os campos abaixo a partir deste texto.",
+    "profileHint": "A IA não está ativada: o texto do CV é importado e é você que preenche os campos do perfil.",
+    "analyzeOff": "A análise automática usa a IA, que não está ativada. Leia a oferta com atenção: cargo, contrato, local, salário, línguas e requisitos.",
+    "mailOff": "A leitura dos alertas de e-mail usa a IA para extrair as ofertas; não está ativada. Adicione as ofertas manualmente."
+  },
+  "setup": {
+    "title": "O Cap Emploi Luxembourg abre muito em breve",
+    "body": "O site está online, mas as contas ainda não estão ativadas. Volte dentro de alguns dias para criar a sua conta e preparar as suas candidaturas em francês, inglês e alemão."
+  }
+}

@@ -1,0 +1,690 @@
+{
+  "common": {
+    "loading": "Gëtt gelueden…",
+    "retry": "Nach eng Kéier probéieren",
+    "copy": "Kopéieren",
+    "copied": "Kopéiert",
+    "close": "Zoumaachen",
+    "save": "Späicheren",
+    "saved": "Gespäichert",
+    "cancel": "Ofbriechen",
+    "delete": "Läschen",
+    "search": "Sichen",
+    "wait": "Ee Moment…",
+    "optional": "fakultativ",
+    "language": "Sprooch vum Interface"
+  },
+  "langs": {
+    "fr": "Franséisch",
+    "en": "Englesch",
+    "de": "Däitsch",
+    "lb": "Lëtzebuergesch",
+    "pt": "Portugisesch"
+  },
+  "nav": {
+    "main": "Haaptnavigatioun",
+    "skip": "Direkt bei den Inhalt",
+    "week": "Woch",
+    "targets": "Ziler",
+    "messages": "Messagen",
+    "profile": "Profil",
+    "account": "Mäi Kont",
+    "privacy": "Dateschutz",
+    "signout": "Ofmellen",
+    "apply": "Kandidéieren",
+    "opps": "Chancen",
+    "history": "Verlaf",
+    "offers": "Kritt Offeren",
+    "offersShort": "Offeren"
+  },
+  "errors": {
+    "network": "Keng Verbindung mam Server. Kontrolléiert Äert Netz a probéiert et nach eng Kéier.",
+    "expired": "Är Sessioun ass ofgelaf. Mellt Iech nach eng Kéier un.",
+    "load": "D'Donnéeë konnten net geluede ginn.",
+    "notFound": "Säit net fonnt",
+    "ai": {
+      "unauthorized": "Är Sessioun ass ofgelaf. Mellt Iech nach eng Kéier un.",
+      "quota_documents": "Dir hutt Är gratis KI-Dokumenter fir dëse Mount opgebraucht. Si ginn den 1. vum Mount erneiert.",
+      "quota_extract": "Monatlech Limitt fir CV-Analysen erreecht. Dir kënnt Äre Profil vun Hand änneren.",
+      "file_too_large": "Fichier ze grouss: maximal 8 MB.",
+      "cv_missing": "Füügt fir d'éischt Äre CV bäi (Fichier oder Text).",
+      "offer_too_short": "Fügt de komplette Text vun der Offer an (op d'mannst e puer Zeilen).",
+      "profile_empty": "Äre Profil ass eidel: importéiert Äre CV am Tab Profil.",
+      "ai_refused": "D'KI konnt dës Ufro net beaarbechten. Kontrolléiert den Text a probéiert et nach eng Kéier.",
+      "ai_too_long": "Dat gefroten Dokument ass ze laang. Kierzt d'Offer oder de CV.",
+      "ai_busy": "D'KI ass grad staark gefrot. Probéiert et an enger Minutt nach eng Kéier.",
+      "ai_unavailable": "De KI-Service ass am Moment net disponibel. Probéiert et méi spéit.",
+      "server_error": "Feeler um Server. Probéiert et gläich nach eng Kéier.",
+      "unknown_action": "Onbekannt Aktioun.",
+      "network": "Keng Verbindung mam Server. Kontrolléiert Äert Netz a probéiert et nach eng Kéier.",
+      "brief_missing": "Gitt den Numm vun enger Firma un oder fügt den Text vun der Offer an.",
+      "quota_briefs": "Monatlech Limitt fir Firmefichen erreecht.",
+      "search_disabled": "Déi automatesch Sich no Offeren ass nach net aktivéiert.",
+      "keywords_missing": "Gitt e Posten oder Schlësselwierder an.",
+      "quota_searches": "Monatlech Limitt fir automatesch Sichen erreecht. D'Linken op d'Säite bleiwen disponibel.",
+      "search_unavailable": "De Service fir d'Sich no Offeren äntwert net. Benotzt d'Linken op d'Säiten.",
+      "quota_discoveries": "Monatlech Limitt fir d'Sich no Chancen erreecht.",
+      "quota_analyses": "Monatlech Limitt fir Analyse vun Offeren erreecht.",
+      "quota_alerts": "Monatlech Limitt fir d'Ofruffe vun Alerten erreecht.",
+      "offer_missing": "Offer net fonnt.",
+      "ai_disabled": "D'KI-Funktiounen sinn op dësem Site net aktivéiert."
+    }
+  },
+  "auth": {
+    "tagline": "Är Aarbechtssich am Grëff: Ziler, Nofroen, Rhythmus a Kandidaturen op Mooss.",
+    "loginTitle": "Umellen",
+    "signupTitle": "Kont uleeën",
+    "name": "Virnumm an Numm",
+    "email": "E-Mail",
+    "password": "Passwuert",
+    "pwdHint": "Mindestens 8 Zeechen.",
+    "confirmPwd": "Passwuert bestätegen",
+    "forgot": "Passwuert vergiess?",
+    "consent": "Ech sinn domat averstanen, datt meng Donnéeë veraarbecht ginn, fir datt Cap Emploi Luxembourg funktionéiert, no der Politik vum",
+    "loginCta": "Umellen",
+    "signupCta": "Mäi Kont uleeën",
+    "haveAccount": "Scho e Kont?",
+    "noAccount": "Nach kee Kont?",
+    "created": "Kont ugeluecht.",
+    "checkMail": "Eng Bestätegungs-E-Mail gouf un {email} geschéckt. Maacht de Link op, deen dran ass, a mellt Iech dann un.",
+    "goLogin": "Bei d'Umeldung",
+    "expired": "Är Sessioun ass ofgelaf. Mellt Iech nach eng Kéier un.",
+    "forgotTitle": "Passwuert vergiess",
+    "forgotIntro": "Gitt d'Adress vun Ärem Kont an: Dir kritt e Link, fir en neit Passwuert ze wielen.",
+    "sendLink": "Link kréien",
+    "resetSent": "Wann et e Kont fir {email} gëtt, gouf elo e Link zum Zrécksetze geschéckt. Kuckt och am Spam-Dossier.",
+    "backLogin": "Zréck bei d'Umeldung",
+    "newPwdTitle": "Neit Passwuert",
+    "pwdChanged": "Passwuert geännert.",
+    "openApp": "Cap Emploi Luxembourg opmaachen",
+    "linkInvalid": "Link ongëlteg oder ofgelaf. E Link zum Zrécksetze funktionéiert nëmmen eng Kéier.",
+    "err": {
+      "email": "Gitt eng gëlteg E-Mail-Adress an, zum Beispill numm@domain.lu.",
+      "weak": "D'Passwuert muss mindestens 8 Zeechen hunn.",
+      "mismatch": "Déi zwee Passwierder sinn net identesch.",
+      "consent": "Är Zoustëmmung ass néideg, fir e Kont unzeleeën.",
+      "credentials": "E-Mail oder Passwuert falsch.",
+      "unconfirmed": "Adress net bestätegt: maacht de Link aus der E-Mail op a mellt Iech dann nach eng Kéier un.",
+      "exists": "Et gëtt schonn e Kont mat dëser Adress. Mellt Iech un.",
+      "rate": "Ze vill Versich. Waart e puer Minutten, ier Dir et nach eng Kéier probéiert."
+    }
+  },
+  "onboarding": {
+    "title": "Wëllkomm op Cap Emploi Luxembourg",
+    "intro": "Dräi Astellungen, fir d'Tool un Är Sich unzepassen. Alles kann een duerno an Ärem Profil änneren.",
+    "trade": "D'Beruffer, déi Dir sicht",
+    "cta": "Weider",
+    "tradeHint": "Wielt der e puer: Är Erfarung léisst sech an aner Beruffer iwwerdroen. Deen éischten ugekräizten gëtt fir d'Messagemodeller benotzt."
+  },
+  "trades": {
+    "general": {
+      "name": "All Beruffer",
+      "desc": "Allgemeng Secteuren a Messagen, gëlteg fir all Posten.",
+      "skills": "Equipe féieren, e Budget an e Betriibsresultat geréieren, Service-Sënn, Organisatioun a Sproochen."
+    },
+    "hospitality": {
+      "name": "Hotellerie a Restauratioun",
+      "desc": "Hotelen, Restauranten, Hotelsgruppen, Casinoen, Traiteuren.",
+      "skills": "Äre Kärberuff: Exploitatioun, Logement, Restauratioun, Revenue, Servicequalitéit a Leedung vun Equippen."
+    },
+    "events": {
+      "name": "Evenementer",
+      "desc": "Agencen, Veranstaltungsplazen, Kongresser, Salonen, Festivalen.",
+      "skills": "Banquetten a Seminairen, Koordinatioun vu Prestatairen, Ëmgang mat Onvirgesinnem um Dag selwer, Relatioun mat exigente Clienten."
+    },
+    "operations": {
+      "name": "Direktioun vun den Operatiounen",
+      "desc": "Exploitatioun vu Sitten oder Servicer: Gemeinschaftsverpflegung, Fräizäit, Servicer fir Betriber.",
+      "skills": "E Site féieren, deen 7 Deeg op 7 op ass: Planning, Indicateuren, Betriibsresultat, Multiservice-Equippen a Kontinuitéit vum Service."
+    },
+    "facility": {
+      "name": "Facility Management",
+      "desc": "Allgemeng Servicer, Accueil, Botzen, Ënnerhalt, Sëtzer an Institutiounen.",
+      "skills": "Technik an Ënnerhalt vun engem Gebai, Subunternehmer (Botzen, Sécherheet, Restauratioun), Servicecontrater an Erfarung vun de Benotzer."
+    },
+    "property": {
+      "name": "Immobilien a Property Management",
+      "desc": "Verwaltung vu Gebaier, Residenze mat Servicer, Büroen, Akafszentren.",
+      "skills": "En Immobiliëverméigen am Alldag geréieren: Ënnerhalt, Budgeten, Relatioun mat Bewunner oder Locatairen, verbonne Servicer."
+    },
+    "customer": {
+      "name": "Service a Clientserfarung",
+      "desc": "Private Banking, Loftfaart, Premium-Autoen, Assurancen, Conciergerie.",
+      "skills": "Kultur vum Héichklass-Service, Behandlung vu Reklamatiounen, Clientebindung, Moosse vun der Zefriddenheet a Formatioun vun den Accueil-Equippen."
+    },
+    "luxury_retail": {
+      "name": "Retail a Luxushandel",
+      "desc": "Moud, Bijouterie, Aueren, Grand Magasinen, Wäin a Spirituosen.",
+      "skills": "Exigent international Clientèle, Coden vum Luxus, Leedung vu Verkafsequippen an Ëmsazzieler."
+    },
+    "purchasing": {
+      "name": "Akaf a Beschaffung",
+      "desc": "Akaf vu Liewensmëttel an allgemengen Artikelen, Gemeinschaftsverpflegung, Distributioun.",
+      "skills": "Verhandlunge mat Fournisseuren, Matièreskäschten, Stock an Ausschreiwungen, geléiert an der Gestioun vun engem Hotel a senge Restauranten."
+    },
+    "quality": {
+      "name": "Qualitéit, Hygiène a Sécherheet",
+      "desc": "Qualitéit, HACCP, Gesondheet a Sécherheet, Audit a Certificatioun.",
+      "skills": "Markestandarden, HACCP, Audite a Mystery-Visitten, Aktiounspläng a Sécherheet vu Clienten a Personal."
+    },
+    "project": {
+      "name": "Projetsmanagement",
+      "desc": "Ouverturen, Renovatiounen, Transformatioun, grouss Evenementer.",
+      "skills": "Ouverturen a Renovatiounen, Lancement vun neie Servicer, Koordinatioun vu ville Bedeelegten ënner knappen Delaien."
+    },
+    "health_seniors": {
+      "name": "Gesondheet a Senioresidenzen",
+      "desc": "Senioresidenzen, Fleegeheemer, Spidolshotellerie.",
+      "skills": "Logement, Restauratioun an Accueil am Déngscht vun de Bewunner, Bienveillance, Leedung vun Equippen an Androe vun den Normen."
+    },
+    "consulting": {
+      "name": "Berodung, Formatioun an Iwwergangsmanagement",
+      "desc": "Interim-Management, Berodung, Formatioun, Hotelsschoulen.",
+      "skills": "Joerelaang Erfarung weiderginn: e Betrib erëm op d'Been bréngen, Equippe forméieren, auditéieren a beroden. Missiounen, déi no erfuerene Profiler sichen."
+    }
+  },
+  "counters": {
+    "contacts": "Direkt Kontakter",
+    "applications": "Kandidaturen",
+    "followups": "Nofroen",
+    "posts": "Publikatiounen",
+    "training": "Formatioun",
+    "network": "Netzwierk-Rendez-vousen"
+  },
+  "stages": {
+    "todo": "Ze kontaktéieren",
+    "contacted": "Kontaktéiert",
+    "followed_up": "Nogefrot",
+    "interview": "Rendez-vous / Entretien",
+    "offer": "Offer",
+    "rejected": "Net zréckbehalen"
+  },
+  "channels": {
+    "linkedin": "LinkedIn",
+    "email": "E-Mail",
+    "phone": "Telefon",
+    "visit": "Besuch op der Plaz",
+    "jobboard": "Jobsite",
+    "other": "Anerer"
+  },
+  "priorities": {
+    "A": "A – prioritär",
+    "B": "B – interessant",
+    "C": "C – am Hannerkapp behalen"
+  },
+  "week": {
+    "eyebrow": "Woch {n} · {year}",
+    "title": "Rhythmus vun der Woch",
+    "prev": "Vireg Woch",
+    "next": "Nächst Woch",
+    "today": "Dës Woch",
+    "goals": "Ziler",
+    "plus": "1 derbäi bei",
+    "minus": "1 ewech bei",
+    "followups": "Nofroen ze maachen",
+    "followupRule": "Zënter {n} Deeg oder méi keng Äntwert",
+    "noFollowups": "Keng Nofro am Waarden",
+    "noFollowupsHint": "Kontaktéiert Ziler ouni Neiegkeet erschéngen hei automatesch.",
+    "lastContact": "Leschte Kontakt de {date}, viru {n} Deeg",
+    "copyFollowup": "Message fir nozefroen",
+    "followupSent": "Nofro geschéckt",
+    "pipeline": "Pipeline",
+    "seeTargets": "Ziler kucken"
+  },
+  "targets": {
+    "eyebrow": "{n} Ziler",
+    "title": "Ziler a Pipeline",
+    "new": "Neit Zil",
+    "emptyTitle": "Nach keng Ziler",
+    "emptyHint": "Füügt d'Firmen derbäi, déi Dir wëllt kontaktéieren: Dir verfollegt all Kontakt bis bei d'Offer.",
+    "company": "Firma",
+    "companyRequired": "Gitt den Numm vun der Firma un.",
+    "sector": "Secteur",
+    "contact": "Décideur",
+    "role": "Funktioun",
+    "channel": "Kanal",
+    "priority": "Prioritéit",
+    "stage": "Etapp",
+    "lastContact": "Leschte Kontakt",
+    "jobUrl": "Link vun der Offer",
+    "notes": "Notizen",
+    "noContact": "Décideur nach ze fannen",
+    "confirmDelete": "Dëst Zil läschen?",
+    "tailor": "Kandidatur virbereeden",
+    "next": {
+      "todo": "Kontaktéiert",
+      "contacted": "Nogefrot",
+      "followed_up": "Entretien",
+      "interview": "Offer"
+    }
+  },
+  "messages": {
+    "eyebrow": "Prett zum Kopéieren",
+    "title": "Messagen",
+    "kinds": {
+      "first_contact": "Éischte Kontakt",
+      "followup": "Nofro",
+      "thanks": "Merci-Message"
+    },
+    "target": "Zil",
+    "noTarget": "Keen Zil gewielt",
+    "lang": "Sprooch vum Message",
+    "subject": "Sujet",
+    "body": "Message",
+    "copyBody": "Message kopéieren",
+    "missing": "Virum Schécken ze ergänzen: {list}. Wielt en Zil oder ergänzt Äre Profil."
+  },
+  "profile": {
+    "eyebrow": "Är Informatiounen",
+    "title": "Kandidateprofil",
+    "welcome": "Leschte Schrëtt: importéiert Äre CV. D'KI zitt Är Erfarungen, Zuelen a Kompetenzen eraus, déi Dir dann nach korrigéiere kënnt.",
+    "cvTitle": "Äre CV",
+    "cvIntro": "Importéiert e PDF-, Word- (.docx) oder Textfichier. E déngt just dofir, Är eege Dokumenter ze erstellen.",
+    "import": "Mäi CV importéieren",
+    "extract": "Text mat der KI analyséieren",
+    "cvText": "Text vum CV",
+    "extracting": "CV gëtt analyséiert…",
+    "extracted": "Profil erausgezunn. Kontrolléiert all Feld a späichert dann.",
+    "dataTitle": "Erausgezunne Profil",
+    "dataIntro": "Dës Fakte sinn déi eenzeg Quell, déi d'KI fir Är CVen a Bréiwer benotzt. Korrigéiert oder ergänzt se hei.",
+    "fullName": "Ganzen Numm",
+    "headline": "Beruffstitel",
+    "location": "Uert",
+    "summary": "Resumé",
+    "experiences": "Erfarungen",
+    "expTitle": "Posten",
+    "expCompany": "Firma",
+    "expStart": "Ufank",
+    "expEnd": "Enn",
+    "achievements": "Realisatiounen an Zuelen (eng pro Zeil)",
+    "addExperience": "Erfarung derbäisetzen",
+    "skills": "Kompetenzen",
+    "languages": "Sproochen",
+    "education": "Ausbildung",
+    "certifications": "Zertifikater",
+    "onePerLine": "Eng pro Zeil.",
+    "langFormat": "Eng pro Zeil: Sprooch – Niveau.",
+    "eduFormat": "Eng pro Zeil: Diplom – Schoul – Joer.",
+    "settings": "Astellungen",
+    "name": "Virnumm an Numm",
+    "trade": "Gesichte Beruffer",
+    "docLang": "Standardsprooch vun den Dokumenter",
+    "docLangHint": "Sprooch vun de CVen, Bréiwer a Messagen; onofhängeg vun der Sprooch vum Interface.",
+    "followupDays": "Delai bis zur Nofro (Deeg)",
+    "goals": "Ziler vun der Woch",
+    "account": "Kont an Donnéeën",
+    "accountIntro": "Är Donnéeë sinn an der Europäescher Unioun gehost. Dir kënnt se zu all Moment eroflueden oder Äre Kont läschen.",
+    "export": "Meng Donnéeën eroflueden",
+    "deleteWord": "LÄSCHEN",
+    "deleteLabel": "Fir Äre Kont an all Är Donnéeën definitiv ze läschen, tippt {word}",
+    "delete": "Mäi Kont läschen",
+    "tradesHint": "Kräizt all d'Beruffer un, déi Iech interesséieren: si orientéieren d'Quellen, d'Iddie fir d'Sich an d'Chancen.",
+    "skillsTitle": "Är iwwerdrobar Kompetenzen",
+    "skillsIntro": "Wat sech aus engem Parcours an der Hotellerie an all gesichte Beruff iwwerdroe léisst. Kontrolléiert, ob Äre Profil dat mat Fakten an Zuele weist.",
+    "senior": {
+      "label": "Meng Erfarung ervirhiewen (erfuerene Profil)",
+      "hint": "Är CVe weisen keen Alter, keen Gebuertsdatum a keng Foto; Erfarunge vu méi wéi 15 Joer ginn an enger Zeil zesummegefaasst; Bréiwer a Chancen presentéieren Är Erfarung als Plus a weisen Iech och Patronen, déi no erfuerene Profiler sichen. Näischt gëtt verstoppt oder erfonnt: alles bleift an Ärem Profil.",
+      "law": "Zu Lëtzebuerg verbitt d'Gesetz Diskriminatioun wéinst dem Alter beim Astellen (Gesetz vum 28. November 2006 iwwer d'Gläichbehandlung)."
+    },
+    "mainTrade": "Haaptberuff"
+  },
+  "privacy": {
+    "title": "Dateschutzerklärung",
+    "who": {
+      "h": "Verantwortlechen",
+      "p": "Cap Emploi Luxembourg gëtt vum Yorrick Pellegri, Lëtzebuerg, erausginn. Dësen Text ass eng Lancementsversioun, déi nach muss validéiert ginn, ier de Site fir de Public opgemaach gëtt."
+    },
+    "data": {
+      "h": "Veraarbecht Donnéeën",
+      "p": "E-Mail-Adress, verschlësselt Passwuert, Kandidateprofil a CV, Ziler an Notizen, wëchentlech Zieler a generéiert Dokumenter. Si déngen eleng dofir, datt Äre Beräich funktionéiert."
+    },
+    "ai": {
+      "h": "Kënschtlech Intelligenz",
+      "p": "Fir Är Dokumenter ze erstellen, ginn Äre Profil an d'Offer iwwer eng Serverfunktioun un de Modell Claude vun Anthropic geschéckt. Si déngen eleng dofir, Är Dokumenter ze erstellen, a ginn net benotzt, fir de Modell ze trainéieren."
+    },
+    "where": {
+      "h": "Hosting a Sécherheet",
+      "p": "Konten an Datebank ginn duerch Supabase an der Europäescher Unioun gehost. All Benotzer huet nëmmen Zougrëff op seng eegen Donnéeën, garantéiert duerch Sécherheetsreegelen um Niveau vun der Datebank."
+    },
+    "rights": {
+      "h": "Är Rechter",
+      "p": "Vun Ärem Profil aus kënnt Dir all Är Donnéeën eroflueden oder Äre Kont läschen, wat all Är Donnéeën definitiv läscht."
+    },
+    "contact": {
+      "h": "Kontakt",
+      "p": "Fir all Fro iwwer Är Donnéeë schreift dem Responsabel vum Projet."
+    },
+    "updated": "Versioun vum 22. Oktober 2026.",
+    "mail": {
+      "h": "E-Mail-Alerten (Optioun)",
+      "p": "Wann Dir Är Gmail- oder Outlook-Alerten ofrufft, ass den Zougrëff nëmmen zum Liesen, vun Ärem Browser aus a just fir d'Zäit vum Ofruff. Nëmmen d'E-Maile vu Jobsitte vun de leschte 14 Deeg ginn gelies an un d'KI geschéckt, fir d'Offeren erauszezéien; nëmmen d'Offere ginn opgehalen."
+    }
+  },
+  "apply": {
+    "eyebrow": "Direkt kandidéieren",
+    "title": "Vun der Offer bis zum Schécken",
+    "intro": "Fannt eng Offer, kritt d'Fiche vun der Firma, generéiert Äre komplette Dossier a schéckt e selwer.",
+    "needProfile": "Fir datt d'KI Ären Dossier virbereet, importéiert fir d'éischt Äre CV.",
+    "goProfile": "Mäi Profil ergänzen",
+    "search": {
+      "title": "Offere fannen",
+      "query": "Posten oder Schlësselwierder",
+      "queryPlaceholder": "Z. B. Hoteldirekter, Revenue Manager",
+      "where": "Uert",
+      "collect": "Sichen",
+      "sources": "D'Sich op all Site opmaachen",
+      "tagGeneral": "Generalist",
+      "tagPublic": "Ëffentlechen Déngscht",
+      "viaWeb": "iwwer Websich",
+      "tos": "Dës Säite verbidden automatescht Sammelen: Cap Emploi Luxembourg mécht hir Sich op, ouni hir Annoncen ze kopéieren. Déi automatesch Sich leeft iwwer déi offiziell API vu Jooble.",
+      "disabled": "Déi automatesch Sich ass nach net aktivéiert (Jooble-API-Schlëssel ze ufroen, gratis). Benotzt bis dohin d'Linken uewendriwwer.",
+      "none": "Keng Offer fir dës Sich fonnt.",
+      "results": "Fonnt Offeren",
+      "open": "Offer kucken",
+      "use": "Kandidatur virbereeden",
+      "ideas": "Iddie fir d'Sich no Äre Beruffer",
+      "tagSpecialized": "Spezialiséiert",
+      "tagRecruiter": "Rekrutéierungsbüro"
+    },
+    "brief": {
+      "title": "Eng Offer oder eng Firma analyséieren",
+      "offer": "Text vun der Offer",
+      "offerOptional": "fakultativ fir eng Spontankandidatur",
+      "offerPlaceholder": "Fügt déi komplett Annonce an: Titel, Missiounen, gesichte Profil…",
+      "snippetHint": "Dëst ass just en Auszuch: maacht d'Offer op a fügt de komplette Text an, fir e bessere Dossier.",
+      "hint": "D'Fiche leet d'Zil an Ärer Pipeline automatesch un oder ergänzt et.",
+      "cta": "Fiche an Zil uleeën",
+      "busy": "Analys leeft…",
+      "noCompany": "Den Numm vun der Firma steet net an der Offer: gitt en am Feld Firma un.",
+      "orPick": "Oder en existent Zil iwwerhuelen",
+      "sheet": "Firmefiche",
+      "inPipeline": "An der Pipeline kucken",
+      "empty": "Nach keng Fiche fir dëst Zil: analyséiert eng Offer oder den Numm hei uewen.",
+      "expectations": "Méiglech Erwaardungen",
+      "toCheck": "Punkten, déi virum Schécken ze kontrolléiere sinn",
+      "digital": "Iddi fir en digitalt Tool ze proposéieren:",
+      "disclaimer": "Fiche vun der KI ouni Zougrëff op de Web erstallt: kontrolléiert d'Informatiounen, ier Dir se benotzt."
+    },
+    "dossier": {
+      "title": "De komplette Dossier generéieren",
+      "needTarget": "Analyséiert fir d'éischt eng Offer oder wielt en Zil.",
+      "fromOffer": "Den Dossier baut op der analyséierter Offer an op de Fakte vun Ärem Profil op.",
+      "spontaneous": "Spontankandidatur: den Dossier baut op der Firmefiche an op de Fakte vun Ärem Profil op.",
+      "lang": "Sprooch vum Dossier",
+      "cta": "Dossier generéieren",
+      "busy": "Gëtt geschriwwen…",
+      "busyHint": "Rechent mat ongeféier enger Minutt: E-Mail, Bréif, ugepasste CV a Presentatioun.",
+      "remaining": "{n} gratis Dossier(en) dëse Mount iwwreg vun {max}.",
+      "noInvention": "D'KI benotzt nëmmen d'Fakte vun Ärem Profil."
+    },
+    "pieces": {
+      "email": "E-Mail",
+      "letter": "Bréif",
+      "cv": "CV",
+      "pitch": "Presentatioun"
+    },
+    "sent": {
+      "title": "Schécken",
+      "intro": "Schéckt den Dossier selwer (E-Mail, Websäit vun der Firma oder vum Recruteur) a bestätegt dann hei. D'Nofro gëtt an {n} Deeg proposéiert.",
+      "cta": "Ech hunn et geschéckt",
+      "done": "Kandidatur bei {company} gezielt, Zil op „Kontaktéiert“ gesat. Nofro geplangt fir de {date}."
+    },
+    "untitled": "Dossier ouni Titel",
+    "gapsTitle": "Punkte vun der Offer, déi net an Ärem Profil sinn",
+    "gapsHint": "Si goufen net derbäigesat. Wann Dir déi Erfarung hutt, ergänzt Äre Profil a generéiert nach eng Kéier.",
+    "review": "Liest a verännert alles fräi, ier Dir eppes schéckt.",
+    "word": "Word",
+    "pdf": "PDF",
+    "allWord": "Komplette Dossier als Word",
+    "allPdf": "Komplette Dossier als PDF",
+    "popupBlocked": "Äre Browser huet d'Dréckfënster blockéiert. Erlaabt Pop-up-Fënstere fir dëse Site.",
+    "confirmDelete": "Dësen Dossier läschen?",
+    "history": "Generéiert Dossieren",
+    "emptyTitle": "Nach keen Dossier",
+    "emptyHint": "Analyséiert eng Offer a generéiert dann Ären éischten Dossier.",
+    "dossierName": "Kandidaturdossier",
+    "free": {
+      "companyRequired": "Gitt den Numm vun der Firma un.",
+      "briefHint": "Ouni KI: d'Zil gëtt mat deem ugeluecht, wat Dir agitt. Fügt d'Offer an, fir se bei der Hand ze hunn.",
+      "createTarget": "Zil uleeën",
+      "dossierHint": "Ouni KI ass den Dossier e Modell, deen aus Ärem Profil gebaut gëtt: passt de Bréif virum Schécken un.",
+      "noBrief": "Automatesch Firmefiche ouni KI net disponibel. Notéiert Är Recherchen am Zil."
+    }
+  },
+  "opps": {
+    "eyebrow": "Chancen fir mech",
+    "title": "Wou kandidéieren",
+    "intro": "Op Basis vun Ärem Profil: gesammelt Offeren a méiglech Zilfirmen, op 100 bewäert, mat der Begrënnung. Déi bescht kréien en Dossier, prett fir ze validéieren.",
+    "run": "Meng Chance sichen",
+    "scoreTitle": "Score vun der Iwwereenstëmmung mat Ärem Profil (op 100)",
+    "kindCompany": "Méiglech Zilfirma",
+    "found": "Fonnt de {date}",
+    "openAd": "Offer kucken",
+    "dismiss": "Ewechleeën",
+    "prepare": "Dossier virbereeden",
+    "preparing": "Dossier gëtt virbereet…",
+    "reviewDossier": "Dossier noliesen",
+    "hideDossier": "Dossier verstoppen",
+    "validate": "Validéieren",
+    "mail": "E-Mail virbereeden",
+    "openApply": "A Kandidéieren opmaachen",
+    "select": "{name} auswielen",
+    "sentDone": "Kandidatur gezielt. Nofro geplangt fir de {date}.",
+    "otherSector": "Aner Secteuren",
+    "running": {
+      "search": "Chance gi gesicht a bewäert…",
+      "prepare": "Dossier {i} vun {n} gëtt virbereet…"
+    },
+    "result": "{n} nei Chance(n), {p} Dossier(en) prett fir ze validéieren.",
+    "jobsDisabled": "Sammele vun Offeren am Moment net aktiv: et gi just Zilfirme proposéiert.",
+    "validatedN": "{n} Versand validéiert. Maacht den Tab „Validéiert“ op, fir ze schécken.",
+    "digest": {
+      "today": "Resumé vum Dag",
+      "of": "Resumé vum {date}",
+      "line": "{j} nei Offer(en), {c} Zilfirma/-firmen, {p} virbereet Dossier(en)."
+    },
+    "rule": "Näischt gëtt ouni Är Validatioun geschéckt: validéiert all Dossier (oder eng Auswiel), schéckt e dann selwer a klickt op „Ech hunn et geschéckt“.",
+    "views": {
+      "to_validate": "Ze validéieren",
+      "validated": "Validéiert, ze schécken",
+      "all": "Nei",
+      "sent": "Geschéckt"
+    },
+    "selectAll": "Alles auswielen",
+    "validateSelection": "Auswiel validéieren ({n})",
+    "empty": {
+      "to_validate": "Näischt ze validéieren",
+      "validated": "Kee validéierte Versand am Waarden",
+      "all": "Keng nei Chancen",
+      "sent": "Keng Kandidatur aus dëser Lëscht geschéckt"
+    },
+    "emptyHint": "Start eng Sich: d'Applikatioun geet d'Offeren duerch a proposéiert Firmen, déi op Äre Profil passen.",
+    "settings": {
+      "title": "Astellunge vun de Chancen",
+      "auto": "Den Dossier vun de beschte Chancen automatesch virbereeden (am Kader vun Äre KI-Dokumenter)",
+      "minScore": "Mindestscore fir d'automatesch Virbereedung",
+      "email": "De Resumé vum Dag per E-Mail kréien",
+      "note": "De Resumé vum Dag ass ëmmer hei ze gesinn. D'E-Mail brauch beim Lancement en aktivéierte Versandservice."
+    }
+  },
+  "history": {
+    "eyebrow": "Suivi",
+    "title": "Verlaf",
+    "intro": "All Är Kandidaturen an d'Äntwerten, déi Dir kritt hutt. Filtert, sortéiert mat engem Klick op eng Kolonn, exportéiert an Excel.",
+    "date": "Datum",
+    "job": "Posten",
+    "source": "Quell vun der Offer",
+    "lang": "Sprooch",
+    "documents": "Geschéckt Dokumenter",
+    "status": "Status",
+    "followup": "Datum vun der Nofro",
+    "notes": "Notizen",
+    "actions": "Aktiounen",
+    "edit": "Änneren",
+    "export": "An Excel exportéieren",
+    "all": "All",
+    "reset": "Filteren zrécksetzen",
+    "from": "Vum",
+    "to": "Bis",
+    "searchHint": "Firma, Posten, Notizen…",
+    "noMatch": "Keng Zeil passt op d'Filteren.",
+    "confirmDelete": "Dës Zeil aus dem Verlaf läschen?",
+    "statuses": {
+      "sent": "Geschéckt",
+      "followed_up": "Nogefrot",
+      "interview": "Entretien",
+      "offer": "Offer",
+      "rejected": "Ofsot",
+      "no_reply": "Keng Äntwert",
+      "withdrawn": "Zréckgezunn"
+    },
+    "types": {
+      "rejection": "Ofsot",
+      "info_request": "Fro no Informatiounen",
+      "interview": "Entretien",
+      "offer": "Offer",
+      "no_reply": "Keng Äntwert"
+    },
+    "apps": {
+      "title": "Meng Kandidaturen",
+      "new": "Kandidatur derbäisetzen",
+      "file": "meng-kandidaturen",
+      "respond": "Äntwert kritt",
+      "empty": "Nach keng Kandidaturen.",
+      "emptyHint": "All Klick op „Ech hunn et geschéckt“ setzt hei eng Zeil derbäi. Dir kënnt och eng Kandidatur derbäisetzen, déi Dir soss anzwousch geschéckt hutt."
+    },
+    "resps": {
+      "title": "Kritt Äntwerten",
+      "new": "Äntwert derbäisetzen",
+      "file": "kritt-aentwerten",
+      "type": "Zort vun Äntwert",
+      "nextStep": "Nächste Schrëtt",
+      "nextOn": "Datum vum nächste Schrëtt",
+      "nextHint": "Z. B.: Telefonsentretien, Referenze schécken…",
+      "application": "Betraffe Kandidatur",
+      "noApplication": "Keng (fräi Agab)",
+      "effect": "De Status vun der Kandidatur an d'Etapp vum Zil ginn aktualiséiert.",
+      "empty": "Nach keng Äntwert agedroen.",
+      "emptyHint": "Notéiert hei all Récksmeldung vun engem Patron, och en Ofsot: dat hëlleft ze erkennen, wat funktionéiert."
+    },
+    "see": "Verlaf kucken"
+  },
+  "offers": {
+    "eyebrow": "Alerten",
+    "title": "Kritt Offeren",
+    "intro": "D'Offeren, déi iwwer Är E-Mail-Alerten, iwwer déi deeglech Sich oder vun Iech selwer derbäikomm sinn. Liest all Offer a loosst se analyséieren, ier Dir kandidéiert.",
+    "new": "Nei",
+    "newCount": "{n} nei Offer(en)",
+    "alert": "{n} nei Offer(en) kritt.",
+    "alertHint": "Maacht se op, fir se ze liesen an analyséieren ze loossen.",
+    "alertWeek": "{n} nei Offer(en) kritt, fir ze liesen.",
+    "see": "Offere kucken",
+    "empty": "Nach keng Offeren kritt.",
+    "emptyHint": "Füügt vun Hand eng Offer derbäi, ruft Är E-Mail-Alerten of oder start d'Sich ënner „Chancen“.",
+    "emptyView": "Keng Offer an dëser Usiicht.",
+    "views": {
+      "new": "Nei",
+      "todo": "Ze behandelen",
+      "sent": "Geschéckt",
+      "all": "All"
+    },
+    "origins": {
+      "gmail": "Gmail-Alert",
+      "outlook": "Outlook-Alert",
+      "collected": "Deeglech Sich",
+      "manual": "Vun Hand derbäigesat"
+    },
+    "statuses": {
+      "new": "Nei",
+      "analyzed": "Analyséiert",
+      "preparing": "Gëtt virbereet…",
+      "ready": "Dossier prett",
+      "sent": "Geschéckt",
+      "dismissed": "Ewechgeluecht"
+    },
+    "location": "Uert",
+    "link": "Link vun der Annonce",
+    "text": "Text vun der Offer",
+    "textHint": "Fügt hei de komplette Text vun der Annonce an.",
+    "textHelp": "En Alert huet dacks just en Auszuch: maacht d'Annonce op a fügt de komplette Text an, fir eng zouverlässeg Analys.",
+    "read": "Offer liesen",
+    "view": "Kucken",
+    "dismiss": "Ewechleeën",
+    "back": "All Offeren",
+    "openAd": "Annonce opmaachen",
+    "steps": {
+      "read": "Offer liesen",
+      "analyze": "Detailléiert Analys",
+      "prepare": "Kontrolléieren, dann d'Dokumenter virbereeden",
+      "send": "Noliesen, dann schécken"
+    },
+    "analyze": "Offer mat der KI analyséieren",
+    "reanalyze": "Analys nei starten",
+    "analyzeHint": "D'KI beschreift de Posten, d'Firma, den Uert, de Contrat, d'Pai, d'Sproochen, d'Missiounen an d'Ufuerderungen am Detail a vergläicht dat dann mat Ärem Profil.",
+    "notStated": "Net an der Offer uginn",
+    "aiNote": "Analys vun der KI op Basis vum Text vun der Offer an Ärem Profil: kontrolléiert déi wichteg Punkten an der Annonce.",
+    "fields": {
+      "job_title": "Posten",
+      "company": "Firma",
+      "location": "Uert",
+      "contract": "Contrat",
+      "salary": "Pai",
+      "languages": "Sproochen",
+      "missions": "Missiounen",
+      "requirements": "Ufuerderungen",
+      "strengths": "Är Stäerkten",
+      "gaps": "Lücken"
+    },
+    "reco": {
+      "apply": "Recommandéiert: kandidéieren",
+      "apply_with_care": "Virum Kandidéiere gutt kucken",
+      "skip": "Ofgeroden"
+    },
+    "checks": {
+      "offer_read": "Ech hunn d'Offer ganz gelies",
+      "conditions_ok": "Ech akzeptéieren d'Konditiounen (Contrat, Uert, Aarbechtszäiten, Pai)",
+      "docs_reviewed": "Ech hunn d'Dokumenter nogelies a korrigéiert, wat néideg war"
+    },
+    "prepareHint": "Kräizt déi zwou Këschten un, fir d'Virbereedung vun der E-Mail, dem Bréif, dem ugepasste CV an der Presentatioun ze validéieren.",
+    "prepare": "Validéieren an d'Dokumenter virbereeden",
+    "prepareLocked": "Déi zwou Këschte musse virun der Virbereedung ugekräizt sinn.",
+    "sendHint": "Schéckt den Dossier selwer (E-Mail oder Websäit vum Patron). Näischt gëtt automatesch geschéckt.",
+    "sendLocked": "Kräizt d'Noliese vun den Dokumenter un, fir ze schécken.",
+    "sentDone": "Kandidatur agedroen. Nofro geplangt fir de {date}.",
+    "add": {
+      "title": "Offer derbäisetzen",
+      "cta": "Derbäisetzen",
+      "required": "Gitt op d'mannst de Posten oder d'Firma un.",
+      "badLink": "De Link muss mat http:// oder https:// ufänken."
+    },
+    "mail": {
+      "title": "E-Mail-Alerte vu Jobsitten",
+      "intro": "Ruft d'Alerten of, déi Dir an de leschte 14 Deeg kritt hutt (jobs.lu, Moovijob, LinkedIn, Indeed…): d'Offeren, déi dran sinn, ginn hei derbäigesat.",
+      "read_gmail": "Gmail ofruffen",
+      "read_outlook": "Outlook ofruffen",
+      "notConfigured": "E-Mail-Verbindung fir dëse Site nach net konfiguréiert.",
+      "privacy": "Zougrëff nëmmen zum Liesen, just fir d'Zäit vum Ofruff. Nëmmen d'Alerte vu Jobsitte ginn gelies; si ginn un d'KI geschéckt, fir d'Offeren erauszezéien, an da net opgehalen.",
+      "none": "Keen Job-Alert an de leschte 14 Deeg fonnt.",
+      "done": "{n} nei Offer(en) an {emails} Alert(en) fonnt.",
+      "errors": {
+        "denied": "Verbindung mat der Mailbox refuséiert oder ënnerbrach.",
+        "failed": "D'Mailbox huet net geäntwert. Probéiert et méi spéit.",
+        "unavailable": "E-Mail-Verbindung net disponibel.",
+        "script": "D'Google-Verbindung konnt net geluede ginn. Kontrolléiert Äert Netz.",
+        "popup": "Äre Browser huet d'Umeldefënster blockéiert. Erlaabt Pop-up-Fënstere fir dëse Site."
+      }
+    }
+  },
+  "free": {
+    "oppsOff": "Déi automatesch Bewäertung vun de Chancen benotzt d'KI, déi net aktivéiert ass. Füügt Är Offeren ënner „Kritt Offeren“ derbäi oder benotzt „Kandidéieren“.",
+    "pdfOff": "Ouni KI kann e PDF net automatesch gelies ginn: importéiert Äre CV als .docx oder .txt, oder fügt den Text an, a fëllt dann d'Felder aus.",
+    "cvImported": "Text vum CV importéiert. Fëllt elo d'Felder hei ënnendrënner op Basis vun dësem Text aus.",
+    "profileHint": "D'KI ass net aktivéiert: den Text vum CV gëtt importéiert, an Dir fëllt d'Felder vum Profil selwer aus.",
+    "analyzeOff": "Déi automatesch Analys benotzt d'KI, déi net aktivéiert ass. Liest d'Offer genee: Posten, Contrat, Uert, Pai, Sproochen an Ufuerderungen.",
+    "mailOff": "Den Ofruff vun den E-Mail-Alerte benotzt d'KI, fir d'Offeren erauszezéien; en ass net aktivéiert. Füügt d'Offere vun Hand derbäi."
+  },
+  "setup": {
+    "title": "Cap Emploi Luxembourg mécht ganz geschwë op",
+    "body": "De Site ass online, mee d'Konte sinn nach net aktivéiert. Kommt an e puer Deeg erëm, fir Äre Kont unzeleeën an Är Kandidaturen op Franséisch, Englesch an Däitsch virzebereeden."
+  }
+}

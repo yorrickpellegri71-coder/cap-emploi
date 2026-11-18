@@ -34,7 +34,7 @@ function spontaneousOffer(target: Target, headline: string) {
 // ───────────── 1. Recherche ─────────────
 
 function Search({ onUse }: { onUse: (job: JobResult) => void }) {
-  const { t, locale, lang } = useI18n();
+  const { t, locale, contentLang: lang } = useI18n();
   const { profile } = useApp();
   const [query, setQuery] = useState(profile.profile_data.headline ?? '');
   const [where, setWhere] = useState('Luxembourg');

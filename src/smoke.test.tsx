@@ -69,8 +69,8 @@ const ROUTES = ['/', '/opportunites', '/cibles', '/messages?cible=t1&type=follow
 
 afterEach(cleanup);
 
-// Chaque écran dans les trois langues sans IA (mode gratuit), et en français avec l'IA activée.
-describe.each([['fr', 'false'], ['en', 'false'], ['de', 'false'], ['fr', 'true']])('écrans (%s, IA %s)', (lang, ai) => {
+// Chaque écran dans les cinq langues sans IA (mode gratuit), et en français avec l'IA activée.
+describe.each([['fr', 'false'], ['en', 'false'], ['de', 'false'], ['lb', 'false'], ['pt', 'false'], ['fr', 'true']])('écrans (%s, IA %s)', (lang, ai) => {
   it.each(ROUTES)('%s se rend sans erreur', async (path) => {
     vi.stubEnv('VITE_AI_ENABLED', ai);
     localStorage.setItem('cap.lang', lang);

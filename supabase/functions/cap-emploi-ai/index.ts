@@ -24,7 +24,7 @@ const MAX_SEARCHES = 200;
 const MAX_OFFER_CHARS = 20000;
 const MAX_CV_CHARS = 60000;
 const MAX_PDF_BYTES = 8 * 1024 * 1024;
-const LANG_NAMES: Record<string, string> = { fr: 'French', en: 'English', de: 'German' };
+const LANG_NAMES: Record<string, string> = { fr: 'French', en: 'English', de: 'German', lb: 'Luxembourgish', pt: 'European Portuguese' };
 
 const cors = {
   'Access-Control-Allow-Origin': Deno.env.get('CAP_ALLOWED_ORIGIN') ?? '*',
