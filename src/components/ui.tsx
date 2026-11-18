@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { useI18n, type TFn } from '../i18n';
+import { UI_LANGS, type UiLang } from '../lib/types';
 
 export function errorMessage(e: unknown, t: TFn): string {
   const msg = (e as { message?: string })?.message ?? String(e);
@@ -107,15 +108,22 @@ export function Modal({ title, onClose, children }: { title: string; onClose: ()
   );
 }
 
-export function LangSwitch({ onChange }: { onChange?: (l: 'fr' | 'en' | 'de') => void }) {
+export function LangSwitch({ onChange }: { onChange?: (l: UiLang) => void }) {
   const { lang, setLang, t } = useI18n();
+  const pick = (l: UiLang) => { setLang(l); onChange?.(l); };
+  // Boutons sur grand écran ; liste déroulante sur téléphone, où cinq boutons ne tiennent pas dans la barre.
   return (
-    <div className="lang-switch" role="group" aria-label={t('common.language')}>
-      {(['fr', 'en', 'de'] as const).map((l) => (
-        <button key={l} type="button" className={l === lang ? 'active' : ''} aria-pressed={l === lang}
-          onClick={() => { setLang(l); onChange?.(l); }}>{l.toUpperCase()}</button>
-      ))}
-    </div>
+    <>
+      <div className="lang-switch" role="group" aria-label={t('common.language')}>
+        {UI_LANGS.map((l) => (
+          <button key={l} type="button" className={l === lang ? 'active' : ''} aria-pressed={l === lang}
+            title={t(`langs.${l}`)} onClick={() => pick(l)}>{l.toUpperCase()}</button>
+        ))}
+      </div>
+      <select className="lang-select" aria-label={t('common.language')} value={lang} onChange={(e) => pick(e.target.value as UiLang)}>
+        {UI_LANGS.map((l) => <option key={l} value={l}>{l.toUpperCase()}</option>)}
+      </select>
+    </>
   );
 }
 

@@ -1,5 +1,12 @@
+// Langues des documents (CV, lettres, messages, modèles en base) : fr, en, de.
 export type Lang = 'fr' | 'en' | 'de';
 export const LANGS: Lang[] = ['fr', 'en', 'de'];
+// Langues de l'interface : les langues des documents, plus le luxembourgeois et le portugais.
+export type UiLang = Lang | 'lb' | 'pt';
+export const UI_LANGS: UiLang[] = ['fr', 'en', 'de', 'lb', 'pt'];
+// Langue des contenus (modèles, secteurs, mots-clés) pour une langue d'interface qui n'en a pas :
+// le luxembourgeois prend l'allemand, le portugais prend le français (langue de travail courante au Luxembourg).
+export const CONTENT_LANG: Record<UiLang, Lang> = { fr: 'fr', en: 'en', de: 'de', lb: 'de', pt: 'fr' };
 
 export const COUNTERS = ['contacts', 'applications', 'followups', 'posts', 'training', 'network'] as const;
 export type CounterKey = (typeof COUNTERS)[number];
@@ -33,7 +40,7 @@ export interface ProfileData {
 export interface Profile {
   id: string;
   display_name: string;
-  ui_lang: Lang;
+  ui_lang: UiLang;
   doc_lang: Lang;
   trade: string;
   target_trades: string[];

@@ -13,7 +13,7 @@ const EMPTY: TargetInput = {
 };
 
 function TargetForm({ target, onClose }: { target: Target | null; onClose: () => void }) {
-  const { t, lang } = useI18n();
+  const { t, contentLang: lang } = useI18n();
   const { profile, setTargets } = useApp();
   const [form, setForm] = useState<TargetInput>(() => (target ? { ...target } : { ...EMPTY }));
   const [sectors, setSectors] = useState<string[]>([]);

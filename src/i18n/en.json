@@ -17,7 +17,9 @@
   "langs": {
     "fr": "French",
     "en": "English",
-    "de": "German"
+    "de": "German",
+    "lb": "Luxembourgish",
+    "pt": "Portuguese"
   },
   "nav": {
     "main": "Main navigation",

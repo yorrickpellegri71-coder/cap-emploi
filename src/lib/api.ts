@@ -1,7 +1,7 @@
 // Accès aux données. La sécurité par utilisateur est garantie côté base (RLS) : aucune requête ne filtre « à la main ».
 import { stageEffect, isoDay, isoWeek } from './dates';
 import { supabase, unwrap } from './supabase';
-import type { Profile, Application, AppStatus, OfferCheck, OfferOrigin, ReceivedOffer, ResponseRow, ResponseType, CompanyBrief, CounterKey, Counters, Digest, DocumentRow, JobResult, Lang, MessageTemplates, Opportunity, OppStatus, ProfileData, Stage, Target } from './types';
+import type { Profile, Application, AppStatus, OfferCheck, OfferOrigin, ReceivedOffer, ResponseRow, ResponseType, CompanyBrief, CounterKey, Counters, Digest, DocumentRow, JobResult, Lang, MessageTemplates, Opportunity, OppStatus, ProfileData, Stage, Target, UiLang } from './types';
 
 export async function fetchTargets(): Promise<Target[]> {
   return unwrap(await supabase.from('targets').select('*').order('updated_at', { ascending: false })) as Target[];
@@ -107,7 +107,7 @@ export function setOfferCheck(offer: ReceivedOffer, key: OfferCheck, on: boolean
   return updateReceivedOffer(offer.id, { checks });
 }
 
-export const analyzeOffer = (offerId: string, lang?: Lang) => callAi<{ offer: ReceivedOffer }>({ action: 'analyze_offer', offer_id: offerId, lang });
+export const analyzeOffer = (offerId: string, lang?: UiLang) => callAi<{ offer: ReceivedOffer }>({ action: 'analyze_offer', offer_id: offerId, lang });
 
 export interface AlertEmail { from: string; subject: string; date: string; text: string }
 export const importAlerts = (origin: Exclude<OfferOrigin, 'collected' | 'manual'>, emails: AlertEmail[]) =>
@@ -246,7 +246,7 @@ export const extractProfile = (input: { cv_text?: string; pdf_base64?: string })
 export const tailorDocuments = (input: { offer_text: string; lang: Lang; target_id?: string | null }) =>
   callAi<{ document: DocumentRow; remaining: number | null }>({ action: 'tailor', ...input });
 
-export const companyBrief = (input: { company?: string; offer_text?: string; job_url?: string; lang: Lang }) =>
+export const companyBrief = (input: { company?: string; offer_text?: string; job_url?: string; lang: UiLang }) =>
   callAi<{ brief: CompanyBrief }>({ action: 'brief', ...input });
 
 export const searchJobs = (input: { keywords: string; location?: string; page?: number }) =>
