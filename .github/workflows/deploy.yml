@@ -1,6 +1,7 @@
 # Tests, build et publication sur GitHub Pages à chaque push sur main.
 # Variables du dépôt (Settings → Secrets and variables → Actions → Variables) :
 #   VITE_SUPABASE_URL, VITE_SUPABASE_PUBLISHABLE_KEY (clé publique, faite pour le navigateur).
+# Sans variable, le site utilise le schéma cap_emploi du projet Supabase hôte (GeoMarket) : clé publique, sans risque à publier.
 name: Déploiement
 
 on:
@@ -32,8 +33,8 @@ jobs:
       - run: npm run build
         env:
           VITE_BASE: /${{ github.event.repository.name }}/
-          VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL }}
-          VITE_SUPABASE_PUBLISHABLE_KEY: ${{ vars.VITE_SUPABASE_PUBLISHABLE_KEY }}
+          VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL || 'https://qleeggufkhdwadhuqnzg.supabase.co' }}
+          VITE_SUPABASE_PUBLISHABLE_KEY: ${{ vars.VITE_SUPABASE_PUBLISHABLE_KEY || 'sb_publishable_O3uSO4MQjOvWJ_Tngq-fXg_abXeGpVZ' }}
           VITE_SUPABASE_SCHEMA: ${{ vars.VITE_SUPABASE_SCHEMA || 'cap_emploi' }}
           VITE_AI_ENABLED: ${{ vars.VITE_AI_ENABLED || 'false' }}
           VITE_GOOGLE_CLIENT_ID: ${{ vars.VITE_GOOGLE_CLIENT_ID }}
