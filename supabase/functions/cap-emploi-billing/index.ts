@@ -66,7 +66,7 @@ async function checkout(userId: string, email: string | undefined, body: Record<
     ...(profile.stripe_customer_id ? { customer: profile.stripe_customer_id } : { customer_email: email }),
     ...(plan === 'monthly'
       ? { subscription_data: { metadata: { user_id: userId } } }
-      : { customer_creation: profile.stripe_customer_id ? undefined : 'always', payment_intent_data: { metadata: { user_id: userId } } }),
+      : { ...(profile.stripe_customer_id ? {} : { customer_creation: 'always' as const }), payment_intent_data: { metadata: { user_id: userId } } }),
     allow_promotion_codes: true,
     automatic_tax: { enabled: false },
     locale: STRIPE_LOCALES[lang] ?? 'auto',
