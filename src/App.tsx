@@ -10,6 +10,7 @@ import { Onboarding } from './pages/Onboarding';
 import { Opportunities } from './pages/Opportunities';
 import { History } from './pages/History';
 import { ReceivedOffers } from './pages/ReceivedOffers';
+import { Pricing } from './pages/Pricing';
 import { Profile } from './pages/Profile';
 import { Targets } from './pages/Targets';
 import { Week } from './pages/Week';
@@ -80,6 +81,7 @@ export function App() {
       </Route>
       <Route path="/nouveau-mot-de-passe" element={<NewPassword />} />
       <Route path="/confidentialite" element={<Privacy />} />
+      <Route path="/tarifs" element={<Pricing />} />
       <Route element={<Protected />}>
         <Route element={<Onboarded want={false} />}>
           <Route path="/bienvenue" element={<Onboarding />} />

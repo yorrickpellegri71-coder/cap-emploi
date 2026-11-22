@@ -35,7 +35,9 @@
     "opps": "Chancen",
     "history": "Verlaf",
     "offers": "Kritt Offeren",
-    "offersShort": "Offeren"
+    "offersShort": "Offeren",
+    "pricing": "Präisser",
+    "premium": "Mäin Abo"
   },
   "errors": {
     "network": "Keng Verbindung mam Server. Kontrolléiert Äert Netz a probéiert et nach eng Kéier.",
@@ -107,7 +109,16 @@
       "unconfirmed": "Adress net bestätegt: maacht de Link aus der E-Mail op a mellt Iech dann nach eng Kéier un.",
       "exists": "Et gëtt schonn e Kont mat dëser Adress. Mellt Iech un.",
       "rate": "Ze vill Versich. Waart e puer Minutten, ier Dir et nach eng Kéier probéiert."
-    }
+    },
+    "planLabel": "Är Formule",
+    "plan": {
+      "free": "{n} KI-Dossieren de Mount",
+      "monthly": "Ouni Limit, ouni Engagement",
+      "pass": "3 Méint, ouni Verlängerung"
+    },
+    "planFreeHint": "Dir kënnt zu all Moment op Premium wiesselen.",
+    "planPaidHint": "Déi sécher Bezuelung (Stripe) gëtt Iech direkt no Ärer éischter Umeldung proposéiert.",
+    "seePricing": "Präisser kucken"
   },
   "onboarding": {
     "title": "Wëllkomm op Cap Emploi Luxembourg",
@@ -326,7 +337,11 @@
       "hint": "Är CVe weisen keen Alter, keen Gebuertsdatum a keng Foto; Erfarunge vu méi wéi 15 Joer ginn an enger Zeil zesummegefaasst; Bréiwer a Chancen presentéieren Är Erfarung als Plus a weisen Iech och Patronen, déi no erfuerene Profiler sichen. Näischt gëtt verstoppt oder erfonnt: alles bleift an Ärem Profil.",
       "law": "Zu Lëtzebuerg verbitt d'Gesetz Diskriminatioun wéinst dem Alter beim Astellen (Gesetz vum 28. November 2006 iwwer d'Gläichbehandlung)."
     },
-    "mainTrade": "Haaptberuff"
+    "mainTrade": "Haaptberuff",
+    "planTitle": "Formule",
+    "planRenews": "verlängert den {date}",
+    "planUntil": "bis den {date}",
+    "upgrade": "Op Premium wiesselen"
   },
   "privacy": {
     "title": "Dateschutzerklärung",
@@ -415,7 +430,8 @@
       "busy": "Gëtt geschriwwen…",
       "busyHint": "Rechent mat ongeféier enger Minutt: E-Mail, Bréif, ugepasste CV a Presentatioun.",
       "remaining": "{n} gratis Dossier(en) dëse Mount iwwreg vun {max}.",
-      "noInvention": "D'KI benotzt nëmmen d'Fakte vun Ärem Profil."
+      "noInvention": "D'KI benotzt nëmmen d'Fakte vun Ärem Profil.",
+      "upgrade": "Dir hutt Är {n} gratis Dossieren dëse Mount gebraucht. Mat Premium geet et ouni Limit weider:"
     },
     "pieces": {
       "email": "E-Mail",
@@ -686,5 +702,59 @@
   "setup": {
     "title": "Cap Emploi Luxembourg mécht ganz geschwë op",
     "body": "De Site ass online, mee d'Konte sinn nach net aktivéiert. Kommt an e puer Deeg erëm, fir Äre Kont unzeleeën an Är Kandidaturen op Franséisch, Englesch an Däitsch virzebereeden."
+  },
+  "pricing": {
+    "title": "Wielt Är Formule",
+    "intro": "Fänkt gratis un. Wiesselt op Premium, wann Är Sich méi intensiv gëtt.",
+    "popular": "Am meeschte gewielt",
+    "premiumName": "Premium",
+    "free": {
+      "name": "Gratis",
+      "per": "fir ëmmer",
+      "pitch": "Fir Cap Emploi kennenzeléieren an d’Sich ze organiséieren."
+    },
+    "monthly": {
+      "name": "Premium",
+      "per": "de Mount",
+      "pitch": "Fir dacks ze postuléieren, mat Dossieren op Mooss."
+    },
+    "pass": {
+      "name": "Pass 3 Méint",
+      "per": "eemol",
+      "pitch": "Fir eng intensiv Sich, ouni Abo."
+    },
+    "f": {
+      "profile": "Profil a CV, Interface a 5 Sproochen",
+      "search": "Sich no Offeren zu Lëtzebuerg",
+      "freeDocs": "{n} KI-Dossieren de Mount (ugepassene Bréif a CV)",
+      "tracking": "Suivi vun de Kandidaturen a Rappelle fir nozefroen",
+      "unlimited": "Vun der KI ugepasste Bréiwer a CVen, ouni Limit",
+      "followups": "Bis zu 5 Dossieren all Dag preparéiert fir Är bescht Chancen",
+      "cancel": "Ouni Engagement, zu all Moment kënnegbar",
+      "noRenewal": "Eemol bezuelen, keng automatesch Verlängerung"
+    },
+    "ctaFree": "Gratis ufänken",
+    "ctaSignup": "Mäi Kont uleeën",
+    "ctaMonthly": "Abonnéieren",
+    "ctaPass": "De Pass kafen",
+    "ctaExtend": "Ëm 3 Méint verlängeren",
+    "current": "Är aktuell Formule",
+    "backApp": "Zréck an d’Applikatioun",
+    "manage": "Mäin Abo a meng Rechnunge geréieren",
+    "thanks": "Merci, Är Bezuelung ass confirméiert.",
+    "activeUntil": "Premium aktiv bis den {date}.",
+    "activeGift": "Premium ass op Ärem Kont aktiv.",
+    "pending": "Bezuelung kritt, Aktivéierung leeft… D’Säit aktualiséiert sech an e puer Sekonnen.",
+    "canceled": "Bezuelung ofgebrach: et gouf näischt ofgebucht.",
+    "legal": "Präisser an Euro, TVA abegraff. Sécher Bezuelung iwwer Stripe: Cap Emploi gesäit Är Kaart ni.",
+    "err": {
+      "billing_disabled": "D’Online-Bezuelung ass nach net op. Probéiert w.e.g. geschwënn nach eng Kéier.",
+      "already_subscribed": "Dir hutt schonn en Abo.",
+      "no_customer": "Op dësem Kont ass keng Bezuelung registréiert.",
+      "billing_unavailable": "De Bezuelservice äntwert net. Probéiert w.e.g. gläich nach eng Kéier.",
+      "network": "Keng Verbindung mam Server. Kontrolléiert Äert Netz a probéiert nach eng Kéier.",
+      "unauthorized": "Är Sessioun ass ofgelaf. Meldt Iech w.e.g. nei un.",
+      "server_error": "Et ass e Feeler geschitt. Probéiert w.e.g. gläich nach eng Kéier."
+    }
   }
 }

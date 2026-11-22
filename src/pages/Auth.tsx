@@ -1,7 +1,8 @@
 import { useState, type FormEvent } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { Brand, LangSwitch, Notice, errorMessage } from '../components/ui';
 import { useI18n, type TFn } from '../i18n';
+import { FREE_DOCS, PLANS, PRICE_EUR, isPlanId, rememberWantedPlan, type PlanId } from '../lib/plans';
 import { useSession } from '../lib/session';
 import { supabase } from '../lib/supabase';
 
@@ -18,11 +19,11 @@ function authError(e: unknown, t: TFn): string {
   return msg;
 }
 
-function AuthFrame({ children }: { children: React.ReactNode }) {
+function AuthFrame({ children, wide = false }: { children: React.ReactNode; wide?: boolean }) {
   const { t } = useI18n();
   return (
     <div className="center-screen">
-      <div className="auth">
+      <div className={wide ? 'auth auth-wide' : 'auth'}>
         <div className="row-between"><Brand to="/connexion" /><LangSwitch /></div>
         {children}
         <p className="xs muted"><Link to="/confidentialite">{t('nav.privacy')}</Link></p>
@@ -32,9 +33,13 @@ function AuthFrame({ children }: { children: React.ReactNode }) {
 }
 
 function AuthPage({ mode }: { mode: 'login' | 'signup' }) {
-  const { t, lang } = useI18n();
+  const { t, lang, locale } = useI18n();
   const { expired } = useSession();
   const signup = mode === 'signup';
+  const [params] = useSearchParams();
+  const fromUrl = params.get('formule');
+  const [plan, setPlan] = useState<PlanId>(isPlanId(fromUrl) ? fromUrl : 'free');
+  const money = (n: number) => new Intl.NumberFormat(locale, { style: 'currency', currency: 'EUR', maximumFractionDigits: n % 1 ? 2 : 0 }).format(n);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -56,10 +61,12 @@ function AuthPage({ mode }: { mode: 'login' | 'signup' }) {
     setBusy(true);
     try {
       if (signup) {
+        // La formule payante est réglée juste après la première connexion (page des tarifs, paiement Stripe).
+        rememberWantedPlan(plan);
         const { data, error: err } = await supabase.auth.signUp({
           email: email.trim(),
           password,
-          options: { data: { app: 'cap_emploi', display_name: name.trim(), ui_lang: lang, consent: 'true' }, emailRedirectTo: appUrl() },
+          options: { data: { app: 'cap_emploi', display_name: name.trim(), ui_lang: lang, consent: 'true', wanted_plan: plan }, emailRedirectTo: appUrl() },
         });
         if (err) throw err;
         if (!data.session) setSent(true);
@@ -75,7 +82,7 @@ function AuthPage({ mode }: { mode: 'login' | 'signup' }) {
   };
 
   return (
-    <AuthFrame>
+    <AuthFrame wide={signup && !sent}>
       {!signup && <p className="lead">{t('auth.tagline')}</p>}
       {sent ? (
         <div className="stack-lg">
@@ -107,6 +114,22 @@ function AuthPage({ mode }: { mode: 'login' | 'signup' }) {
             {!signup && <Link to="/mot-de-passe-oublie" className="small">{t('auth.forgot')}</Link>}
           </div>
           {signup && (
+            <fieldset className="field">
+              <legend>{t('auth.planLabel')}</legend>
+              <div className="choice-grid plan-choice" role="radiogroup">
+                {PLANS.map((p) => (
+                  <label key={p} className={`choice ${plan === p ? 'selected' : ''}`}>
+                    <input type="radio" name="plan" value={p} checked={plan === p} onChange={() => setPlan(p)} />
+                    <strong>{t(`pricing.${p}.name`)}</strong>
+                    <span className="small">{money(PRICE_EUR[p])} <span className="muted">{t(`pricing.${p}.per`)}</span></span>
+                    <span className="xs muted">{t(`auth.plan.${p}`, { n: FREE_DOCS })}</span>
+                  </label>
+                ))}
+              </div>
+              <span className="hint">{plan === 'free' ? t('auth.planFreeHint') : t('auth.planPaidHint')} <Link to="/tarifs">{t('auth.seePricing')}</Link></span>
+            </fieldset>
+          )}
+          {signup && (
             <div className="field">
               <label className="check">
                 <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} aria-invalid={touched && !!consentErr} />
@@ -121,7 +144,7 @@ function AuthPage({ mode }: { mode: 'login' | 'signup' }) {
           <p className="small muted">
             {signup
               ? <>{t('auth.haveAccount')} <Link to="/connexion">{t('auth.loginCta')}</Link></>
-              : <>{t('auth.noAccount')} <Link to="/inscription">{t('auth.signupCta')}</Link></>}
+              : <>{t('auth.noAccount')} <Link to="/inscription">{t('auth.signupCta')}</Link> · <Link to="/tarifs">{t('auth.seePricing')}</Link></>}
           </p>
         </form>
       )}

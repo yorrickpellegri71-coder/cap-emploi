@@ -8,10 +8,10 @@ import { AiError, companyBrief, createTemplateDocument, fetchDocuments, fetchUsa
 import { isoDay } from '../lib/dates';
 import { sourcesFor, sourceUrl } from '../lib/jobSources';
 import { searchIdeas, targetTrades } from '../lib/trades';
+import { FREE_DOCS, isPremium } from '../lib/plans';
 import { useApp } from '../lib/session';
 import { LANGS, type DocumentRow, type JobResult, type Lang, type Target } from '../lib/types';
 
-const FREE_DOCS = 3;
 const scrollTo = (id: string) => window.setTimeout(() => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 60);
 
 function addDays(day: string, n: number) {
@@ -175,7 +175,7 @@ export function Apply() {
   const ai = aiEnabled();
   const aiText = (e: unknown) => (e instanceof AiError ? t(`errors.ai.${e.code}`) : errorMessage(e, t));
   const hasProfile = Object.keys(profile.profile_data).length > 0 || profile.cv_text.trim().length > 0;
-  const remaining = ai && profile.plan === 'free' && usage !== null ? Math.max(FREE_DOCS - usage, 0) : null;
+  const remaining = ai && !isPremium(profile) && usage !== null ? Math.max(FREE_DOCS - usage, 0) : null;
 
   const useJob = (j: JobResult) => {
     setCompany(j.company);
@@ -337,6 +337,7 @@ export function Apply() {
             <span className="small muted">{ai ? <>{remaining !== null ? t('apply.dossier.remaining', { n: remaining, max: FREE_DOCS }) : ''} {t('apply.dossier.noInvention')}</> : t('apply.free.dossierHint')}</span>
             {genBusy && ai && <p className="small muted" role="status">{t('apply.dossier.busyHint')}</p>}
             {genError && <Notice tone="error">{genError}</Notice>}
+            {remaining === 0 && <Notice tone="info">{t('apply.dossier.upgrade', { n: FREE_DOCS })} <Link to="/tarifs">{t('nav.pricing')}</Link></Notice>}
           </>
         )}
       </section>

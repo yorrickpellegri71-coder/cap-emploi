@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { countNewOffers } from '../lib/api';
-import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
+import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useI18n } from '../i18n';
 import { dueFollowups } from '../lib/dates';
+import { isPremium, takeWantedPlan } from '../lib/plans';
 import { useApp } from '../lib/session';
 import { Brand, LangSwitch } from './ui';
 
@@ -23,8 +24,9 @@ function Icon({ d }: { d: string }) {
 
 export function Shell() {
   const { t } = useI18n();
-  const { profile, targets, updateProfile, signOut } = useApp();
+  const { profile, targets, updateProfile, signOut, session } = useApp();
   const { pathname } = useLocation();
+  const navigate = useNavigate();
   const [menu, setMenu] = useState(false);
   const due = dueFollowups(targets, profile.followup_days).length;
   const [fresh, setFresh] = useState(0);
@@ -33,6 +35,17 @@ export function Shell() {
   const badge = (to: string) => (to === '/' ? due : to === '/offres' ? fresh : 0);
 
   useEffect(() => { window.scrollTo(0, 0); setMenu(false); }, [pathname]);
+
+  // Formule payante choisie à l'inscription : on propose le paiement une seule fois, après la mise en route.
+  useEffect(() => {
+    if (!session || isPremium(profile)) return;
+    const key = `cap.planOffered.${profile.id}`;
+    let offered = false;
+    try { offered = localStorage.getItem(key) === '1'; localStorage.setItem(key, '1'); } catch { /* stockage indisponible */ }
+    const plan = takeWantedPlan(session.user.user_metadata?.wanted_plan, offered);
+    if (plan) navigate(`/tarifs?formule=${plan}`);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
@@ -58,6 +71,7 @@ export function Shell() {
               <Link to="/historique">{t('nav.history')}</Link>
               <Link to="/messages">{t('nav.messages')}</Link>
               <Link to="/profil">{t('nav.profile')}</Link>
+              <Link to="/tarifs">{isPremium(profile) ? t('nav.premium') : t('nav.pricing')}</Link>
               <Link to="/confidentialite">{t('nav.privacy')}</Link>
               <button type="button" onClick={() => void signOut()}>{t('nav.signout')}</button>
             </div>

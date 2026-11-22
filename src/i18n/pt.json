@@ -35,7 +35,9 @@
     "opps": "Oportunidades",
     "history": "Histórico",
     "offers": "Ofertas recebidas",
-    "offersShort": "Ofertas"
+    "offersShort": "Ofertas",
+    "pricing": "Preços",
+    "premium": "A minha assinatura"
   },
   "errors": {
     "network": "Não foi possível ligar ao servidor. Verifique a sua rede e tente novamente.",
@@ -107,7 +109,16 @@
       "unconfirmed": "Endereço não confirmado: abra a ligação recebida por e-mail e inicie sessão novamente.",
       "exists": "Já existe uma conta com este endereço. Inicie sessão.",
       "rate": "Demasiadas tentativas. Aguarde alguns minutos antes de tentar novamente."
-    }
+    },
+    "planLabel": "O seu plano",
+    "plan": {
+      "free": "{n} candidaturas IA por mês",
+      "monthly": "Ilimitado, sem compromisso",
+      "pass": "3 meses, sem renovação"
+    },
+    "planFreeHint": "Pode passar para Premium a qualquer momento.",
+    "planPaidHint": "O pagamento seguro (Stripe) ser-lhe-á proposto logo após o primeiro início de sessão.",
+    "seePricing": "Ver preços"
   },
   "onboarding": {
     "title": "Bem-vindo ao Cap Emploi Luxembourg",
@@ -326,7 +337,11 @@
       "hint": "Os seus CV não mostram idade, data de nascimento nem fotografia; as experiências com mais de 15 anos são resumidas numa linha; as cartas e oportunidades apresentam a sua experiência como uma mais-valia e orientam-no também para empregadores que procuram perfis experientes. Nada é escondido nem inventado: tudo fica no seu perfil.",
       "law": "No Luxemburgo, a lei proíbe a discriminação com base na idade na contratação (lei de 28 de novembro de 2006 sobre a igualdade de tratamento)."
     },
-    "mainTrade": "Principal"
+    "mainTrade": "Principal",
+    "planTitle": "Plano",
+    "planRenews": "renova a {date}",
+    "planUntil": "até {date}",
+    "upgrade": "Passar para Premium"
   },
   "privacy": {
     "title": "Política de privacidade",
@@ -415,7 +430,8 @@
       "busy": "A redigir…",
       "busyHint": "Conte com cerca de um minuto: e-mail, carta, CV adaptado e apresentação.",
       "remaining": "{n} dossier(s) gratuito(s) restante(s) este mês, de {max}.",
-      "noInvention": "A IA usa apenas os factos do seu perfil."
+      "noInvention": "A IA usa apenas os factos do seu perfil.",
+      "upgrade": "Já utilizou as suas {n} candidaturas gratuitas deste mês. Passe para Premium para continuar sem limites:"
     },
     "pieces": {
       "email": "E-mail",
@@ -686,5 +702,59 @@
   "setup": {
     "title": "O Cap Emploi Luxembourg abre muito em breve",
     "body": "O site está online, mas as contas ainda não estão ativadas. Volte dentro de alguns dias para criar a sua conta e preparar as suas candidaturas em francês, inglês e alemão."
+  },
+  "pricing": {
+    "title": "Escolha o seu plano",
+    "intro": "Comece gratuitamente. Passe para Premium quando a sua procura acelerar.",
+    "popular": "O mais escolhido",
+    "premiumName": "Premium",
+    "free": {
+      "name": "Gratuito",
+      "per": "para sempre",
+      "pitch": "Para conhecer o Cap Emploi e organizar a sua procura."
+    },
+    "monthly": {
+      "name": "Premium",
+      "per": "por mês",
+      "pitch": "Para se candidatar muitas vezes, com candidaturas à medida."
+    },
+    "pass": {
+      "name": "Passe 3 meses",
+      "per": "pagamento único",
+      "pitch": "Para uma procura intensiva, sem assinatura."
+    },
+    "f": {
+      "profile": "Perfil e CV, interface em 5 línguas",
+      "search": "Procura de ofertas no Luxemburgo",
+      "freeDocs": "{n} candidaturas IA por mês (carta e CV adaptados)",
+      "tracking": "Acompanhamento das candidaturas e lembretes de seguimento",
+      "unlimited": "Cartas e CV adaptados pela IA, sem limite",
+      "followups": "Até 5 candidaturas preparadas todos os dias para as suas melhores oportunidades",
+      "cancel": "Sem compromisso, cancelável a qualquer momento",
+      "noRenewal": "Pagamento único, sem renovação automática"
+    },
+    "ctaFree": "Começar gratuitamente",
+    "ctaSignup": "Criar a minha conta",
+    "ctaMonthly": "Assinar",
+    "ctaPass": "Comprar o passe",
+    "ctaExtend": "Prolongar 3 meses",
+    "current": "O seu plano atual",
+    "backApp": "Voltar à aplicação",
+    "manage": "Gerir a assinatura e as faturas",
+    "thanks": "Obrigado, o seu pagamento está confirmado.",
+    "activeUntil": "Premium ativo até {date}.",
+    "activeGift": "Premium está ativo na sua conta.",
+    "pending": "Pagamento recebido, ativação em curso… A página atualiza-se dentro de segundos.",
+    "canceled": "Pagamento cancelado: nada foi cobrado.",
+    "legal": "Preços em euros, IVA incluído. Pagamento seguro pela Stripe: o Cap Emploi nunca vê o seu cartão.",
+    "err": {
+      "billing_disabled": "O pagamento online ainda não está disponível. Tente novamente em breve.",
+      "already_subscribed": "Já tem uma assinatura.",
+      "no_customer": "Não há nenhum pagamento registado nesta conta.",
+      "billing_unavailable": "O serviço de pagamento não responde. Tente novamente dentro de instantes.",
+      "network": "Não foi possível contactar o servidor. Verifique a ligação e tente novamente.",
+      "unauthorized": "A sua sessão expirou. Inicie sessão novamente.",
+      "server_error": "Ocorreu um erro. Tente novamente dentro de instantes."
+    }
   }
 }

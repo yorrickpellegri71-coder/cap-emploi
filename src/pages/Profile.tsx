@@ -1,8 +1,9 @@
 import { useRef, useState, type ChangeEvent } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { Notice, errorMessage } from '../components/ui';
 import { useI18n } from '../i18n';
-import { AiError, deleteMyAccount, exportMyData, extractProfile } from '../lib/api';
+import { AiError, deleteMyAccount, exportMyData, extractProfile, openBillingPortal } from '../lib/api';
+import { isPremium, premiumEnd } from '../lib/plans';
 import { aiEnabled } from '../lib/ai';
 import { useApp } from '../lib/session';
 import { TradePicker } from '../components/TradePicker';
@@ -109,7 +110,7 @@ function clean(d: ProfileData): ProfileData {
 }
 
 export function Profile() {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const { profile, updateProfile } = useApp();
   const [params] = useSearchParams();
   const welcome = params.get('bienvenue') === '1';
@@ -195,6 +196,10 @@ export function Profile() {
   };
 
   const deleteWord = t('profile.deleteWord');
+  const premium = isPremium(profile);
+  const planEnd = premiumEnd(profile);
+  const subscribed = ['active', 'trialing', 'past_due'].includes(profile.subscription_status ?? '');
+  const billingError = (e: unknown) => setNotice({ tone: 'error', text: e instanceof AiError ? t('pricing.err.billing_unavailable') : errorMessage(e, t) });
 
   return (
     <div className="page stack-xl">
@@ -283,6 +288,20 @@ export function Profile() {
         <div className="row-end"><button type="button" className="btn btn-primary" disabled={saving} onClick={() => void save()}>{t('common.save')}</button></div>
       </section>
 
+      <section className="card stack-lg" aria-labelledby="plan-h">
+        <h2 id="plan-h" className="h2">{t('profile.planTitle')}</h2>
+        <p>
+          <strong>{premium ? t('pricing.premiumName') : t('pricing.free.name')}</strong>
+          {premium && planEnd && <span className="muted"> · {t(subscribed ? 'profile.planRenews' : 'profile.planUntil', { date: new Date(planEnd).toLocaleDateString(locale) })}</span>}
+        </p>
+        <div className="row-end wrap" style={{ justifyContent: 'flex-start' }}>
+          <Link className={`btn ${premium ? '' : 'btn-primary'}`} to="/tarifs">{premium ? t('nav.pricing') : t('profile.upgrade')}</Link>
+          {profile.stripe_customer_id && (
+            <button type="button" className="btn" onClick={() => void openBillingPortal().catch(billingError)}>{t('pricing.manage')}</button>
+          )}
+        </div>
+      </section>
+
       <section className="card stack-lg" aria-labelledby="acc-h">
         <h2 id="acc-h" className="h2">{t('profile.account')}</h2>
         <p className="small muted">{t('profile.accountIntro')}</p>
@@ -292,7 +311,7 @@ export function Profile() {
           <div className="row-end wrap" style={{ justifyContent: 'flex-start' }}>
             <input id="del-confirm" className="input" value={confirmDelete} onChange={(e) => setConfirmDelete(e.target.value)} />
             <button type="button" className="btn btn-danger" disabled={confirmDelete.trim().toUpperCase() !== deleteWord.toUpperCase()}
-              onClick={async () => { try { await deleteMyAccount(); } catch (e) { setNotice({ tone: 'error', text: errorMessage(e, t) }); } }}>
+              onClick={async () => { try { await deleteMyAccount(subscribed); } catch (e) { setNotice({ tone: 'error', text: errorMessage(e, t) }); } }}>
               {t('profile.delete')}
             </button>
           </div>

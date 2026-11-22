@@ -52,6 +52,10 @@ export interface Profile {
   onboarded: boolean;
   consent_at: string | null;
   plan: 'free' | 'premium';
+  premium_until: string | null;
+  pass_until: string | null;
+  stripe_customer_id: string | null;
+  subscription_status: string | null;
   opp_auto_prepare: boolean;
   opp_min_score: number;
   opp_daily_email: boolean;

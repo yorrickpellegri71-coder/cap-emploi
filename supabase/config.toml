@@ -1,3 +1,7 @@
 # La fonction ai vérifie elle-même la session (auth.getUser) ou le secret de la tâche planifiée.
 [functions.cap-emploi-ai]
 verify_jwt = false
+
+# Paiements : la fonction vérifie la session elle-même, et le webhook Stripe est authentifié par sa signature.
+[functions.cap-emploi-billing]
+verify_jwt = false

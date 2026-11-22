@@ -229,6 +229,13 @@ Write all documents entirely in the requested output language. "company" and "jo
 
 const monthKey = () => new Date().toISOString().slice(0, 7);
 
+/** Premium : accès offert (plan), abonnement mensuel en cours ou Pass 3 mois valable. Même règle que cap_emploi.is_premium. */
+const PREMIUM_COLS = 'plan, premium_until, pass_until';
+function isPremium(p: { plan?: string; premium_until?: string | null; pass_until?: string | null }): boolean {
+  const now = Date.now();
+  return p.plan === 'premium' || [p.premium_until, p.pass_until].some((d) => !!d && new Date(d).getTime() > now);
+}
+
 async function usageRow(admin: Db, userId: string) {
   const { data, error } = await admin.from('ai_usage').select('*').eq('user_id', userId).eq('month', monthKey()).maybeSingle();
   if (error) throw error;
@@ -301,13 +308,13 @@ async function tailor(body: Record<string, unknown>, userId: string, db: Db, adm
   if (offer.length < 80) throw new Fail('offer_too_short');
   const lang = typeof body.lang === 'string' && body.lang in LANG_NAMES ? body.lang : 'fr';
 
-  const { data: profile, error } = await db.from('profiles').select('display_name, plan, cv_text, profile_data, senior_mode').eq('id', userId).single();
+  const { data: profile, error } = await db.from('profiles').select(`display_name, ${PREMIUM_COLS}, cv_text, profile_data, senior_mode`).eq('id', userId).single();
   if (error) throw error;
   const facts = profile.profile_data && Object.keys(profile.profile_data).length ? JSON.stringify(profile.profile_data, null, 1) : '';
   if (!facts && !profile.cv_text.trim()) throw new Fail('profile_empty');
 
   const row = await usageRow(admin, userId);
-  if (profile.plan === 'free' && row.documents >= FREE_DOCS) throw new Fail('quota_documents', 402);
+  if (!isPremium(profile) && row.documents >= FREE_DOCS) throw new Fail('quota_documents', 402);
 
   let target: { company: string; contact_name: string; contact_role: string; brief: Record<string, unknown> } | null = null;
   if (typeof body.target_id === 'string' && body.target_id) {
@@ -345,7 +352,7 @@ async function tailor(body: Record<string, unknown>, userId: string, db: Db, adm
     gaps: Array.isArray(result.gaps) ? result.gaps : [],
   }).select().single();
   if (insErr) throw insErr;
-  return { document: doc, remaining: profile.plan === 'free' ? Math.max(FREE_DOCS - row.documents - 1, 0) : null };
+  return { document: doc, remaining: !isPremium(profile) ? Math.max(FREE_DOCS - row.documents - 1, 0) : null };
 }
 
 async function companyBrief(body: Record<string, unknown>, userId: string, admin: Db) {
@@ -443,7 +450,7 @@ The candidate may target several fields, including fields next to their backgrou
 Be strict: 80+ only for a strong, evident match. Write reasons and sectors in the requested output language.`;
 
 type Profile = {
-  display_name: string; ui_lang: string; doc_lang: string; trade: string; target_trades: string[]; senior_mode: boolean; plan: string; cv_text: string;
+  display_name: string; ui_lang: string; doc_lang: string; trade: string; target_trades: string[]; senior_mode: boolean; plan: string; premium_until: string | null; pass_until: string | null; cv_text: string;
   profile_data: Record<string, unknown>; opp_auto_prepare: boolean; opp_min_score: number;
 };
 type Opportunity = { id: string; kind: string; title: string; company: string; location: string; sector: string; source: string; link: string; snippet: string; score: number; reason: string; status: string; target_id: string | null };
@@ -454,7 +461,7 @@ const offerKey = (link: string, title: string, company: string) => (link ? `link
 
 async function loadProfile(db: Db, userId: string): Promise<Profile> {
   const { data, error } = await db.from('profiles')
-    .select('display_name, ui_lang, doc_lang, trade, target_trades, senior_mode, plan, cv_text, profile_data, opp_auto_prepare, opp_min_score').eq('id', userId).single();
+    .select('display_name, ui_lang, doc_lang, trade, target_trades, senior_mode, plan, premium_until, pass_until, cv_text, profile_data, opp_auto_prepare, opp_min_score').eq('id', userId).single();
   if (error) throw error;
   return data as Profile;
 }
@@ -559,7 +566,7 @@ async function discoverFor(db: Db, admin: Db, userId: string) {
   await admin.from('profiles').update({ opp_last_run: new Date().toISOString() }).eq('id', userId);
 
   // 3. Opportunités à préparer automatiquement : au-dessus du seuil, dans la limite du quota.
-  const docsLeft = profile.plan === 'free' ? Math.max(FREE_DOCS - usage.documents, 0) : 5;
+  const docsLeft = !isPremium(profile) ? Math.max(FREE_DOCS - usage.documents, 0) : 5;
   const toPrepare = profile.opp_auto_prepare
     ? inserted.filter((o) => o.score >= profile.opp_min_score).sort((a, b) => b.score - a.score).slice(0, docsLeft).map((o) => o.id)
     : [];
