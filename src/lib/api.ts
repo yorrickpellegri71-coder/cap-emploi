@@ -240,6 +240,32 @@ async function callAi<T>(body: Record<string, unknown>): Promise<T> {
   return data as T;
 }
 
+// ───────────── Abonnements (Stripe) ─────────────
+
+async function callBilling<T>(body: Record<string, unknown>): Promise<T> {
+  const { data, error } = await supabase.functions.invoke('cap-emploi-billing', { body });
+  if (error) {
+    let code = 'server_error';
+    const ctx = (error as { context?: Response }).context;
+    try { code = (await ctx?.json())?.error ?? code; } catch { /* réponse non JSON */ }
+    if (/Failed to fetch|NetworkError|Load failed/i.test(error.message)) code = 'network';
+    throw new AiError(code);
+  }
+  return data as T;
+}
+
+/** Ouvre la page de paiement Stripe pour la formule choisie. */
+export async function startCheckout(plan: 'monthly' | 'pass', lang: UiLang): Promise<void> {
+  const { url } = await callBilling<{ url: string }>({ action: 'checkout', plan, lang });
+  window.location.assign(url);
+}
+
+/** Ouvre l'espace client Stripe (factures, carte bancaire, résiliation). */
+export async function openBillingPortal(): Promise<void> {
+  const { url } = await callBilling<{ url: string }>({ action: 'portal' });
+  window.location.assign(url);
+}
+
 export const extractProfile = (input: { cv_text?: string; pdf_base64?: string }) =>
   callAi<{ profile: ProfileData & { cv_text: string } }>({ action: 'extract', ...input });
 
@@ -302,7 +328,9 @@ export async function exportMyData(): Promise<Blob> {
   return new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
 }
 
-export async function deleteMyAccount(): Promise<void> {
+export async function deleteMyAccount(subscribed = false): Promise<void> {
+  // Un abonnement en cours est résilié avant la suppression, pour ne plus être prélevé.
+  if (subscribed) await callBilling({ action: 'cancel' });
   unwrap(await supabase.rpc('delete_my_account'));
   await supabase.auth.signOut();
 }
