@@ -503,10 +503,11 @@
     "emptyHint": "Run a search: the app scans job ads and suggests companies that fit your profile.",
     "settings": {
       "title": "Opportunity settings",
-      "auto": "Automatically prepare the pack for the best opportunities (within your AI document allowance)",
-      "minScore": "Minimum score for automatic preparation",
+      "auto": "Automatically prepare the CV and cover letter for the offers that match me best",
+      "minScore": "Minimum match level: {n} out of 100",
       "email": "Receive the daily summary by email",
-      "note": "The daily summary is always shown here. Email requires a sending service to be enabled at launch."
+      "note": "The daily summary is always shown here. Email requires a sending service to be enabled at launch.",
+      "minScoreHelp": "Each offer gets a score from 0 to 100 showing how well it matches your profile (experience, job level, sector, languages). 100 = perfect match. A dossier is only prepared automatically for offers that reach this level. Higher: fewer, better-targeted dossiers. Lower: more dossiers, sometimes less suitable."
     }
   },
   "history": {

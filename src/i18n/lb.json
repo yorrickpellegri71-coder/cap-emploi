@@ -503,10 +503,11 @@
     "emptyHint": "Start eng Sich: d'Applikatioun geet d'Offeren duerch a proposéiert Firmen, déi op Äre Profil passen.",
     "settings": {
       "title": "Astellunge vun de Chancen",
-      "auto": "Den Dossier vun de beschte Chancen automatesch virbereeden (am Kader vun Äre KI-Dokumenter)",
-      "minScore": "Mindestscore fir d'automatesch Virbereedung",
+      "auto": "CV a Bréif automatesch fir d’Offeren preparéieren, déi am beschte bei mech passen",
+      "minScore": "Minimal Iwwereneestëmmung: {n} vun 100",
       "email": "De Resumé vum Dag per E-Mail kréien",
-      "note": "De Resumé vum Dag ass ëmmer hei ze gesinn. D'E-Mail brauch beim Lancement en aktivéierte Versandservice."
+      "note": "De Resumé vum Dag ass ëmmer hei ze gesinn. D'E-Mail brauch beim Lancement en aktivéierte Versandservice.",
+      "minScoreHelp": "All Offer kritt eng Note vun 0 bis 100: si weist, wéi gutt d’Offer bei Äre Profil passt (Erfarung, Niveau, Secteur, Sproochen). 100 = perfekt. En Dossier gëtt nëmmen automatesch fir Offeren ab dësem Niveau preparéiert. Méi héich: manner Dossieren, mä méi geziilt. Méi niddreg: méi Dossieren, heiansdo manner passend."
     }
   },
   "history": {

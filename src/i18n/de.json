@@ -503,10 +503,11 @@
     "emptyHint": "Starten Sie eine Suche: Die App durchsucht Anzeigen und schlägt passende Unternehmen vor.",
     "settings": {
       "title": "Einstellungen für Chancen",
-      "auto": "Unterlagen für die besten Chancen automatisch vorbereiten (im Rahmen Ihrer KI-Dokumente)",
-      "minScore": "Mindestpunktzahl für die automatische Vorbereitung",
+      "auto": "Lebenslauf und Anschreiben für die am besten passenden Angebote automatisch vorbereiten",
+      "minScore": "Mindestübereinstimmung: {n} von 100",
       "email": "Tägliche Zusammenfassung per E-Mail erhalten",
-      "note": "Die tägliche Zusammenfassung ist immer hier sichtbar. Für die E-Mail muss beim Start ein Versanddienst aktiviert werden."
+      "note": "Die tägliche Zusammenfassung ist immer hier sichtbar. Für die E-Mail muss beim Start ein Versanddienst aktiviert werden.",
+      "minScoreHelp": "Jedes Angebot erhält eine Note von 0 bis 100, die zeigt, wie gut es zu Ihrem Profil passt (Erfahrung, Position, Branche, Sprachen). 100 = perfekte Übereinstimmung. Eine Bewerbung wird nur für Angebote ab diesem Wert automatisch vorbereitet. Höher: weniger, aber gezieltere Bewerbungen. Niedriger: mehr Bewerbungen, manchmal weniger passend."
     }
   },
   "history": {

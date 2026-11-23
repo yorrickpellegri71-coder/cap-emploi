@@ -503,10 +503,11 @@
     "emptyHint": "Lancez une recherche : l’application parcourt les offres et propose des entreprises adaptées à votre profil.",
     "settings": {
       "title": "Réglages des opportunités",
-      "auto": "Préparer automatiquement le dossier des meilleures opportunités (dans la limite de vos documents IA)",
-      "minScore": "Score minimum pour la préparation automatique",
+      "auto": "Préparer automatiquement le CV et la lettre pour les offres qui me correspondent le mieux",
+      "minScore": "Niveau de correspondance minimum : {n} sur 100",
       "email": "Recevoir le résumé quotidien par e-mail",
-      "note": "Le résumé quotidien est toujours visible ici. L’e-mail nécessite l’activation d’un service d’envoi au lancement."
+      "note": "Le résumé quotidien est toujours visible ici. L’e-mail nécessite l’activation d’un service d’envoi au lancement.",
+      "minScoreHelp": "Chaque offre reçoit une note de 0 à 100 : elle mesure à quel point l’offre correspond à votre profil (expérience, niveau de poste, secteur, langues). 100 = correspondance parfaite. Un dossier n’est préparé automatiquement que pour les offres qui atteignent ce niveau. Plus haut : moins de dossiers, mais plus ciblés. Plus bas : plus de dossiers, parfois moins adaptés."
     }
   },
   "history": {
