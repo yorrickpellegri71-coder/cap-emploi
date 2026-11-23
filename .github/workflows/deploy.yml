@@ -1,8 +1,10 @@
-# Tests, build et publication sur GitHub Pages à chaque push sur main.
+# Tests et build à chaque push sur main et sur chaque PR.
+# Le site est hébergé sur Netlify (https://cap-emploi-luxembourg.netlify.app, voir netlify.toml).
+# GitHub Pages ne publie plus l'application : seulement une page qui renvoie vers Netlify.
 # Variables du dépôt (Settings → Secrets and variables → Actions → Variables) :
 #   VITE_SUPABASE_URL, VITE_SUPABASE_PUBLISHABLE_KEY (clé publique, faite pour le navigateur).
 # Sans variable, le site utilise le schéma cap_emploi du projet Supabase hôte (GeoMarket) : clé publique, sans risque à publier.
-name: Déploiement
+name: Tests, build et renvoi vers Netlify
 
 on:
   push:
@@ -32,17 +34,26 @@ jobs:
       - run: npm test
       - run: npm run build
         env:
-          VITE_BASE: /${{ github.event.repository.name }}/
           VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL || 'https://qleeggufkhdwadhuqnzg.supabase.co' }}
           VITE_SUPABASE_PUBLISHABLE_KEY: ${{ vars.VITE_SUPABASE_PUBLISHABLE_KEY || 'sb_publishable_O3uSO4MQjOvWJ_Tngq-fXg_abXeGpVZ' }}
           VITE_SUPABASE_SCHEMA: ${{ vars.VITE_SUPABASE_SCHEMA || 'cap_emploi' }}
           VITE_AI_ENABLED: ${{ vars.VITE_AI_ENABLED || 'false' }}
           VITE_GOOGLE_CLIENT_ID: ${{ vars.VITE_GOOGLE_CLIENT_ID }}
           VITE_MS_CLIENT_ID: ${{ vars.VITE_MS_CLIENT_ID }}
+      - name: Page de renvoi vers Netlify (seul contenu publié sur github.io)
+        run: |
+          mkdir -p redirect
+          cat > redirect/index.html <<'HTML'
+          <!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="robots" content="noindex">
+          <meta http-equiv="refresh" content="0; url=https://cap-emploi-luxembourg.netlify.app/">
+          <link rel="canonical" href="https://cap-emploi-luxembourg.netlify.app/"><title>Cap Emploi Luxembourg</title></head>
+          <body><a href="https://cap-emploi-luxembourg.netlify.app/">Cap Emploi Luxembourg</a></body></html>
+          HTML
+          cp redirect/index.html redirect/404.html
       - uses: actions/upload-pages-artifact@v3
         if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
         with:
-          path: dist
+          path: redirect
 
   deploy:
     needs: build
