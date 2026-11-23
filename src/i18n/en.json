@@ -354,9 +354,9 @@
     },
     "contact": {
       "h": "Contact",
-      "p": "For any question about your data, write to the project owner."
+      "p": "For any question about your data or to exercise your rights, write to us:"
     },
-    "updated": "Version of 22 October 2026.",
+    "updated": "Version of 23 November 2026.",
     "mail": {
       "h": "Email alerts (optional)",
       "p": "If you check your Gmail or Outlook alerts, access is read-only, from your browser and only while checking. Only emails from job sites over the last 14 days are read and sent to the AI to extract the offers; only the offers are kept."

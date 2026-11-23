@@ -354,9 +354,9 @@
     },
     "contact": {
       "h": "Contact",
-      "p": "Pour toute question sur vos données, écrivez au porteur du projet."
+      "p": "Pour toute question sur vos données ou pour exercer vos droits, écrivez-nous :"
     },
-    "updated": "Version du 22 octobre 2026.",
+    "updated": "Version du 23 novembre 2026.",
     "mail": {
       "h": "Alertes e-mail (option)",
       "p": "Si vous relevez vos alertes Gmail ou Outlook, l’accès se fait en lecture seule, depuis votre navigateur et le temps du relevé. Seuls les e-mails des sites d’emploi des 14 derniers jours sont lus et transmis à l’IA pour en extraire les offres ; seules les offres sont conservées."

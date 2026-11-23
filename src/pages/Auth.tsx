@@ -238,6 +238,9 @@ export function NewPassword() {
   return <AuthFrame>{body}</AuthFrame>;
 }
 
+/** Adresse de contact affichée sur la page Confidentialité (demande de Yorrick, 2026-11-23). */
+const CONTACT_EMAIL = 'yorrickpellegri71@gmail.com';
+
 export function Privacy() {
   const { t } = useI18n();
   const { session } = useSession();
@@ -249,6 +252,7 @@ export function Privacy() {
         <section key={k} className="stack">
           <h2 className="h2">{t(`privacy.${k}.h`)}</h2>
           <p>{t(`privacy.${k}.p`)}</p>
+          {k === 'contact' && <p><a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a></p>}
         </section>
       ))}
       <p className="xs muted">{t('privacy.updated')}</p>
