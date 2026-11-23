@@ -107,7 +107,9 @@
       "unconfirmed": "Adress net bestätegt: maacht de Link aus der E-Mail op a mellt Iech dann nach eng Kéier un.",
       "exists": "Et gëtt schonn e Kont mat dëser Adress. Mellt Iech un.",
       "rate": "Ze vill Versich. Waart e puer Minutten, ier Dir et nach eng Kéier probéiert."
-    }
+    },
+    "showPwd": "Passwuert weisen",
+    "hidePwd": "Passwuert verstoppen"
   },
   "onboarding": {
     "title": "Wëllkomm op Cap Emploi Luxembourg",

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type InputHTMLAttributes, type ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { useI18n, type TFn } from '../i18n';
 import { UI_LANGS, type UiLang } from '../lib/types';
@@ -131,4 +131,22 @@ export function fmtDate(iso: string | null, locale: string): string {
   if (!iso) return '—';
   const d = iso.length === 10 ? new Date(`${iso}T12:00:00`) : new Date(iso);
   return d.toLocaleDateString(locale, { day: 'numeric', month: 'short', year: 'numeric' });
+}
+
+/** Champ mot de passe avec bouton œil pour afficher ou masquer la saisie. */
+export function PasswordInput(props: Omit<InputHTMLAttributes<HTMLInputElement>, 'type'>) {
+  const { t } = useI18n();
+  const [shown, setShown] = useState(false);
+  return (
+    <div className="pwd-wrap">
+      <input {...props} className={`input ${props.className ?? ''}`.trim()} type={shown ? 'text' : 'password'} autoCapitalize="none" autoCorrect="off" spellCheck={false} />
+      <button type="button" className="pwd-toggle" aria-label={shown ? t('auth.hidePwd') : t('auth.showPwd')} aria-pressed={shown} onClick={() => setShown((v) => !v)}>
+        {shown ? (
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M3 3l18 18" /><path d="M10.6 5.1A9.8 9.8 0 0 1 12 5c6 0 10 7 10 7a17 17 0 0 1-3.2 3.9M6.6 6.6A17.6 17.6 0 0 0 2 12s4 7 10 7a9.6 9.6 0 0 0 5.4-1.6" /><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2" /></svg>
+        ) : (
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z" /><circle cx="12" cy="12" r="3" /></svg>
+        )}
+      </button>
+    </div>
+  );
 }

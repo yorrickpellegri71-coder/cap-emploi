@@ -107,7 +107,9 @@
       "unconfirmed": "Email not confirmed: open the link we emailed you, then sign in again.",
       "exists": "An account already exists with this email. Please sign in.",
       "rate": "Too many attempts. Wait a few minutes before trying again."
-    }
+    },
+    "showPwd": "Show password",
+    "hidePwd": "Hide password"
   },
   "onboarding": {
     "title": "Welcome to Cap Emploi Luxembourg",

@@ -107,7 +107,9 @@
       "unconfirmed": "Adresse non confirmée : ouvrez le lien reçu par e-mail, puis reconnectez-vous.",
       "exists": "Un compte existe déjà avec cette adresse. Connectez-vous.",
       "rate": "Trop de tentatives. Patientez quelques minutes avant de réessayer."
-    }
+    },
+    "showPwd": "Afficher le mot de passe",
+    "hidePwd": "Masquer le mot de passe"
   },
   "onboarding": {
     "title": "Bienvenue sur Cap Emploi Luxembourg",

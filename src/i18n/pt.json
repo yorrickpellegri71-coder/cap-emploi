@@ -107,7 +107,9 @@
       "unconfirmed": "Endereço não confirmado: abra a ligação recebida por e-mail e inicie sessão novamente.",
       "exists": "Já existe uma conta com este endereço. Inicie sessão.",
       "rate": "Demasiadas tentativas. Aguarde alguns minutos antes de tentar novamente."
-    }
+    },
+    "showPwd": "Mostrar palavra-passe",
+    "hidePwd": "Ocultar palavra-passe"
   },
   "onboarding": {
     "title": "Bem-vindo ao Cap Emploi Luxembourg",
