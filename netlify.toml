@@ -1,0 +1,18 @@
+# Hébergement Netlify (gratuit) : https://cap-emploi-luxembourg.netlify.app
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+  VITE_BASE = "/"
+  VITE_SUPABASE_URL = "https://qleeggufkhdwadhuqnzg.supabase.co"
+  VITE_SUPABASE_PUBLISHABLE_KEY = "sb_publishable_O3uSO4MQjOvWJ_Tngq-fXg_abXeGpVZ"
+  VITE_SUPABASE_SCHEMA = "cap_emploi"
+  VITE_AI_ENABLED = "false"
+
+# Application à une seule page : toutes les routes renvoient index.html.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
