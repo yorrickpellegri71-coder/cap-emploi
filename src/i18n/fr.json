@@ -676,6 +676,12 @@
         "script": "Impossible de charger la connexion Google. Vérifiez votre réseau.",
         "popup": "Votre navigateur a bloqué la fenêtre de connexion. Autorisez les fenêtres pour ce site."
       }
+    },
+    "sources": {
+      "title": "Sites d’emploi utilisés",
+      "count": "{n} sur {total}",
+      "intro": "Cochez les sites où vous voulez chercher. Seuls les sites cochés sont proposés dans « Postuler ». Votre choix est enregistré dans votre profil.",
+      "visit": "voir le site"
     }
   },
   "free": {

@@ -35,6 +35,8 @@ export interface ProfileData {
   skills?: string[];
   languages?: { language: string; level: string }[];
   certifications?: string[];
+  /** Sources d'offres que l'utilisateur a décochées (identifiants de JOB_SOURCES). */
+  job_sources_off?: string[];
 }
 
 export interface Profile {

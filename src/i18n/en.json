@@ -676,6 +676,12 @@
         "script": "Could not load the Google sign-in. Check your network.",
         "popup": "Your browser blocked the sign-in window. Allow pop-ups for this site."
       }
+    },
+    "sources": {
+      "title": "Job sites used",
+      "count": "{n} of {total}",
+      "intro": "Tick the sites you want to search. Only ticked sites are offered in “Apply”. Your choice is saved in your profile.",
+      "visit": "visit"
     }
   },
   "free": {

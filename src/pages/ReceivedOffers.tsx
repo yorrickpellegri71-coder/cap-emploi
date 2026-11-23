@@ -9,7 +9,9 @@ import {
 } from '../lib/api';
 import { aiEnabled } from '../lib/ai';
 import { isoDay } from '../lib/dates';
+import { JOB_SOURCES, sourcesFor } from '../lib/jobSources';
 import { fetchAlertEmails, mailConfigured, type MailProvider } from '../lib/mailAlerts';
+import { targetTrades } from '../lib/trades';
 import { useApp } from '../lib/session';
 import { LANGS, type DocumentRow, type Lang, type OfferCheck, type ReceivedOffer } from '../lib/types';
 import { Score } from './Opportunities';
@@ -287,6 +289,39 @@ function OfferDetail({ offer, onChange, onClose }: { offer: ReceivedOffer; onCha
 
 // ───────────── Page ─────────────
 
+/** Choix des sites d'emploi utilisés par l'application (enregistré dans le profil). */
+function SourcesPicker() {
+  const { t } = useI18n();
+  const { profile, updateProfile } = useApp();
+  const [error, setError] = useState<unknown>(null);
+  const off = profile.profile_data.job_sources_off ?? [];
+  const tradesKey = targetTrades(profile).join(',');
+  const list = useMemo(() => sourcesFor(tradesKey.split(',')), [tradesKey]);
+  const toggle = async (id: string, on: boolean) => {
+    setError(null);
+    const next = on ? off.filter((x) => x !== id) : [...new Set([...off, id])];
+    try { await updateProfile({ profile_data: { ...profile.profile_data, job_sources_off: next } }); } catch (e) { setError(e); }
+  };
+  const used = JOB_SOURCES.length - off.filter((id) => JOB_SOURCES.some((s) => s.id === id)).length;
+  return (
+    <details className="card">
+      <summary className="strong">{t('offers.sources.title')} <span className="xs muted">({t('offers.sources.count', { n: used, total: JOB_SOURCES.length })})</span></summary>
+      <div className="stack" style={{ marginTop: 12 }}>
+        <p className="small muted">{t('offers.sources.intro')}</p>
+        {error != null && <Notice tone="error">{errorMessage(error, t)}</Notice>}
+        <div className="source-checks">
+          {list.map((s) => (
+            <label key={s.id} className="check">
+              <input type="checkbox" checked={!off.includes(s.id)} onChange={(e) => void toggle(s.id, e.target.checked)} />
+              <span>{s.name} <a className="xs" href={s.home} target="_blank" rel="noopener noreferrer">{t('offers.sources.visit')}</a></span>
+            </label>
+          ))}
+        </div>
+      </div>
+    </details>
+  );
+}
+
 export function ReceivedOffers() {
   const { t, locale } = useI18n();
   const errText = useErrText();
@@ -341,6 +376,8 @@ export function ReceivedOffers() {
       </header>
 
       {fresh > 0 && <Notice tone="info"><strong>{t('offers.alert', { n: fresh })}</strong> {t('offers.alertHint')}</Notice>}
+
+      <SourcesPicker />
 
       <section className="card stack" aria-labelledby="mail-h">
         <h2 id="mail-h" className="h3">{t('offers.mail.title')} <span className="xs muted">({t('common.optional')})</span></h2>

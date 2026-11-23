@@ -676,6 +676,12 @@
         "script": "Não foi possível carregar a ligação Google. Verifique a sua rede.",
         "popup": "O seu navegador bloqueou a janela de início de sessão. Permita janelas pop-up para este site."
       }
+    },
+    "sources": {
+      "title": "Sites de emprego utilizados",
+      "count": "{n} de {total}",
+      "intro": "Marque os sites onde quer procurar. Só os sites marcados aparecem em «Candidatar». A sua escolha fica guardada no seu perfil.",
+      "visit": "ver o site"
     }
   },
   "free": {

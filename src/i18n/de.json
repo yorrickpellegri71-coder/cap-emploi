@@ -676,6 +676,12 @@
         "script": "Google-Anmeldung konnte nicht geladen werden. Prüfen Sie Ihre Verbindung.",
         "popup": "Ihr Browser hat das Anmeldefenster blockiert. Erlauben Sie Pop-ups für diese Website."
       }
+    },
+    "sources": {
+      "title": "Verwendete Jobportale",
+      "count": "{n} von {total}",
+      "intro": "Haken Sie die Seiten an, auf denen Sie suchen möchten. Nur angehakte Seiten erscheinen unter „Bewerben“. Ihre Auswahl wird in Ihrem Profil gespeichert.",
+      "visit": "Website"
     }
   },
   "free": {

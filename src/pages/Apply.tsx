@@ -43,7 +43,8 @@ function Search({ onUse }: { onUse: (job: JobResult) => void }) {
   const [note, setNote] = useState<{ tone: 'info' | 'error'; text: string } | null>(null);
   const trades = targetTrades(profile);
   const tradesKey = trades.join(',');
-  const sources = useMemo(() => sourcesFor(tradesKey.split(',')), [tradesKey]);
+  const offKey = (profile.profile_data.job_sources_off ?? []).join(',');
+  const sources = useMemo(() => sourcesFor(tradesKey.split(',')).filter((s) => !offKey.split(',').includes(s.id)), [tradesKey, offKey]);
   const ideas = useMemo(() => searchIdeas(tradesKey.split(','), lang), [tradesKey, lang]);
 
   const collect = async (e: FormEvent) => {

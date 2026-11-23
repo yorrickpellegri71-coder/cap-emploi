@@ -313,3 +313,4 @@ details summary { cursor: pointer; margin-bottom: 8px; }
 /* Badge « Powered by Netlify » injecté par l'hébergeur : il masquait la barre d'onglets du bas sur téléphone. */
 #nl-badge-frame { display: none !important; }
 input[type="range"] { width: 100%; accent-color: var(--brand-2); }
+.source-checks { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px 16px; }

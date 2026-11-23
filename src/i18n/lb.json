@@ -676,6 +676,12 @@
         "script": "D'Google-Verbindung konnt net geluede ginn. Kontrolléiert Äert Netz.",
         "popup": "Äre Browser huet d'Umeldefënster blockéiert. Erlaabt Pop-up-Fënstere fir dëse Site."
       }
+    },
+    "sources": {
+      "title": "Benotzt Job-Säiten",
+      "count": "{n} vun {total}",
+      "intro": "Kräizt d’Säiten un, wou Dir sichen wëllt. Nëmmen déi ugekräizten Säite ginn ënner „Postuléieren“ proposéiert. Äre Choix gëtt an Ärem Profil gespäichert.",
+      "visit": "Säit kucken"
     }
   },
   "free": {

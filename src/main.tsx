@@ -10,6 +10,18 @@ import '@fontsource-variable/inter';
 import '@fontsource-variable/sora';
 import './styles.css';
 
+// Après une mise en ligne, une page restée ouverte (ou en cache) réclame d'anciens fichiers qui n'existent plus :
+// on recharge une fois la page pour prendre la nouvelle version, au lieu d'afficher « Connexion au serveur impossible ».
+window.addEventListener('vite:preloadError', (e) => {
+  try {
+    const last = Number(sessionStorage.getItem('cap-reload') || 0);
+    if (Date.now() - last < 30_000) return;
+    sessionStorage.setItem('cap-reload', String(Date.now()));
+  } catch { /* stockage indisponible : on recharge quand même */ }
+  e.preventDefault();
+  window.location.reload();
+});
+
 // GitHub Pages : 404.html (copie de index.html) sert toutes les adresses ; le routeur prend le relais.
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
