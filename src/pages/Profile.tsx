@@ -4,6 +4,7 @@ import { Notice, errorMessage } from '../components/ui';
 import { useI18n } from '../i18n';
 import { AiError, deleteMyAccount, exportMyData, extractProfile } from '../lib/api';
 import { aiEnabled } from '../lib/ai';
+import { mergeProfile, parseCv } from '../lib/cvParse';
 import { useApp } from '../lib/session';
 import { TradePicker } from '../components/TradePicker';
 import { targetTrades } from '../lib/trades';
@@ -145,6 +146,17 @@ export function Profile() {
     } finally { setExtracting(false); }
   };
 
+  // Sans IA : lecture du CV par règles simples ; on complète les champs vides et on enregistre aussitôt.
+  const autoFill = async (text: string) => {
+    const { data: next, filled } = mergeProfile(data, parseCv(text));
+    setData(next);
+    if (!filled) { setNotice({ tone: 'info', text: t('free.cvNothing') }); return; }
+    try {
+      await updateProfile({ cv_text: text, profile_data: clean(next) });
+      setNotice({ tone: 'ok', text: t('free.cvFilled', { n: filled }) });
+    } catch (err) { setNotice({ tone: 'error', text: errorMessage(err, t) }); }
+  };
+
   const onFile = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     e.target.value = '';
@@ -153,9 +165,13 @@ export function Profile() {
     try {
       const name = file.name.toLowerCase();
       if (name.endsWith('.pdf')) {
-        // Sans IA, un PDF ne peut pas être lu ici : on demande un .docx ou le texte collé.
-        if (!aiEnabled()) { setNotice({ tone: 'info', text: t('free.pdfOff') }); return; }
-        return void (await runExtract({ pdf_base64: toBase64(await file.arrayBuffer()) }));
+        if (aiEnabled()) return void (await runExtract({ pdf_base64: toBase64(await file.arrayBuffer()) }));
+        const { pdfToText } = await import('../lib/pdfText');
+        const pdfText = (await pdfToText(await file.arrayBuffer())).trim();
+        // PDF scanné (image) : pas de texte lisible sans IA.
+        if (pdfText.length < 50) { setNotice({ tone: 'info', text: t('free.pdfOff') }); return; }
+        setCvText(pdfText);
+        return void (await autoFill(pdfText));
       }
       let text: string;
       if (name.endsWith('.docx')) {
@@ -164,7 +180,7 @@ export function Profile() {
       } else text = await file.text();
       setCvText(text);
       if (aiEnabled()) await runExtract({ cv_text: text });
-      else setNotice({ tone: 'ok', text: t('free.cvImported') });
+      else await autoFill(text);
     } catch (err) {
       setNotice({ tone: 'error', text: errorMessage(err, t) });
     }
@@ -215,7 +231,8 @@ export function Profile() {
         <div className="row-end wrap" style={{ justifyContent: 'flex-start' }}>
           <input ref={fileRef} type="file" accept=".pdf,.docx,.txt,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain" hidden onChange={(e) => void onFile(e)} />
           <button type="button" className="btn btn-primary" disabled={extracting} onClick={() => fileRef.current?.click()}>{t('profile.import')}</button>
-          {aiEnabled() && <button type="button" className="btn" disabled={extracting || cvText.trim().length < 50} onClick={() => void runExtract({ cv_text: cvText })}>{t('profile.extract')}</button>}
+          {aiEnabled() ? <button type="button" className="btn" disabled={extracting || cvText.trim().length < 50} onClick={() => void runExtract({ cv_text: cvText })}>{t('profile.extract')}</button>
+            : <button type="button" className="btn" disabled={cvText.trim().length < 50} onClick={() => void autoFill(cvText)}>{t('free.fill')}</button>}
         </div>
         {!aiEnabled() && <p className="small muted">{t('free.profileHint')}</p>}
         <details>

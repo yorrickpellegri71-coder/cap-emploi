@@ -686,11 +686,14 @@
   },
   "free": {
     "oppsOff": "La notation automatique des opportunités utilise l’IA, qui n’est pas activée. Ajoutez vos offres dans « Offres reçues » ou utilisez « Postuler ».",
-    "pdfOff": "Sans IA, un PDF ne peut pas être lu automatiquement : importez votre CV en .docx ou en .txt, ou collez son texte, puis remplissez les champs.",
+    "pdfOff": "Ce PDF ne contient pas de texte lisible (CV scanné ?) : importez-le en .docx ou collez son texte.",
     "cvImported": "Texte du CV importé. Remplissez maintenant les champs ci-dessous à partir de ce texte.",
-    "profileHint": "L’IA n’est pas activée : le texte du CV est importé, et vous remplissez vous-même les champs du profil.",
+    "profileHint": "Après l’import, les champs du profil se remplissent tout seuls. La lecture est automatique : vérifiez chaque champ.",
     "analyzeOff": "L’analyse automatique utilise l’IA, qui n’est pas activée. Lisez l’offre attentivement : poste, contrat, lieu, salaire, langues et exigences.",
-    "mailOff": "Le relevé des alertes e-mail utilise l’IA pour extraire les offres ; il n’est pas activé. Ajoutez les offres à la main."
+    "mailOff": "Le relevé des alertes e-mail utilise l’IA pour extraire les offres ; il n’est pas activé. Ajoutez les offres à la main.",
+    "cvFilled": "{n} rubriques remplies depuis votre CV et enregistrées. Vérifiez-les et corrigez si besoin.",
+    "cvNothing": "Texte du CV importé, mais aucune rubrique n’a été reconnue : remplissez les champs ci-dessous.",
+    "fill": "Remplir les champs vides depuis le CV"
   },
   "setup": {
     "title": "Cap Emploi Luxembourg ouvre très bientôt",

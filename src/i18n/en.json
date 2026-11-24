@@ -686,11 +686,14 @@
   },
   "free": {
     "oppsOff": "Automatic scoring of opportunities uses AI, which is not enabled. Add your offers in “Received offers” or use “Apply”.",
-    "pdfOff": "Without AI, a PDF cannot be read automatically: import your CV as .docx or .txt, or paste its text, then fill in the fields.",
+    "pdfOff": "This PDF has no readable text (scanned CV?): import it as .docx or paste its text.",
     "cvImported": "CV text imported. Now fill in the fields below from this text.",
-    "profileHint": "AI is not enabled: the CV text is imported and you fill in the profile fields yourself.",
+    "profileHint": "After import, the profile fields fill in automatically. Reading is automatic: check every field.",
     "analyzeOff": "Automatic analysis uses AI, which is not enabled. Read the offer carefully: position, contract, location, salary, languages and requirements.",
-    "mailOff": "Checking email alerts uses AI to extract the offers; it is not enabled. Add offers manually."
+    "mailOff": "Checking email alerts uses AI to extract the offers; it is not enabled. Add offers manually.",
+    "cvFilled": "{n} sections filled from your CV and saved. Check them and correct if needed.",
+    "cvNothing": "CV text imported, but no section was recognised: fill in the fields below.",
+    "fill": "Fill empty fields from the CV"
   },
   "setup": {
     "title": "Cap Emploi Luxembourg opens very soon",

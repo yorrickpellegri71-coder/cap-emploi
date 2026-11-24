@@ -686,11 +686,14 @@
   },
   "free": {
     "oppsOff": "Déi automatesch Bewäertung vun de Chancen benotzt d'KI, déi net aktivéiert ass. Füügt Är Offeren ënner „Kritt Offeren“ derbäi oder benotzt „Kandidéieren“.",
-    "pdfOff": "Ouni KI kann e PDF net automatesch gelies ginn: importéiert Äre CV als .docx oder .txt, oder fügt den Text an, a fëllt dann d'Felder aus.",
+    "pdfOff": "Dëse PDF huet keen liesbaren Text (gescannten CV?): als .docx importéieren oder den Text apechen.",
     "cvImported": "Text vum CV importéiert. Fëllt elo d'Felder hei ënnendrënner op Basis vun dësem Text aus.",
-    "profileHint": "D'KI ass net aktivéiert: den Text vum CV gëtt importéiert, an Dir fëllt d'Felder vum Profil selwer aus.",
+    "profileHint": "Nom Import fëllen d’Profilfelder sech eleng aus. D’Liesen ass automatesch: kuckt all Feld no.",
     "analyzeOff": "Déi automatesch Analys benotzt d'KI, déi net aktivéiert ass. Liest d'Offer genee: Posten, Contrat, Uert, Pai, Sproochen an Ufuerderungen.",
-    "mailOff": "Den Ofruff vun den E-Mail-Alerte benotzt d'KI, fir d'Offeren erauszezéien; en ass net aktivéiert. Füügt d'Offere vun Hand derbäi."
+    "mailOff": "Den Ofruff vun den E-Mail-Alerte benotzt d'KI, fir d'Offeren erauszezéien; en ass net aktivéiert. Füügt d'Offere vun Hand derbäi.",
+    "cvFilled": "{n} Rubrike vun Ärem CV ausgefëllt a gespäichert. Kuckt se no a verbessert wann néideg.",
+    "cvNothing": "CV-Text importéiert, mee keng Rubrik erkannt: fëllt d’Felder hei ënnen aus.",
+    "fill": "Eidel Felder aus dem CV ausfëllen"
   },
   "setup": {
     "title": "Cap Emploi Luxembourg mécht ganz geschwë op",
