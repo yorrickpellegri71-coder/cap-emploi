@@ -107,7 +107,9 @@
       "unconfirmed": "Email not confirmed: open the link we emailed you, then sign in again.",
       "exists": "An account already exists with this email. Please sign in.",
       "rate": "Too many attempts. Wait a few minutes before trying again."
-    }
+    },
+    "showPwd": "Show password",
+    "hidePwd": "Hide password"
   },
   "onboarding": {
     "title": "Welcome to Cap Emploi Luxembourg",
@@ -352,9 +354,9 @@
     },
     "contact": {
       "h": "Contact",
-      "p": "For any question about your data, write to the project owner."
+      "p": "For any question about your data or to exercise your rights, write to us:"
     },
-    "updated": "Version of 22 October 2026.",
+    "updated": "Version of 23 November 2026.",
     "mail": {
       "h": "Email alerts (optional)",
       "p": "If you check your Gmail or Outlook alerts, access is read-only, from your browser and only while checking. Only emails from job sites over the last 14 days are read and sent to the AI to extract the offers; only the offers are kept."
@@ -501,10 +503,11 @@
     "emptyHint": "Run a search: the app scans job ads and suggests companies that fit your profile.",
     "settings": {
       "title": "Opportunity settings",
-      "auto": "Automatically prepare the pack for the best opportunities (within your AI document allowance)",
-      "minScore": "Minimum score for automatic preparation",
+      "auto": "Automatically prepare the CV and cover letter for the offers that match me best",
+      "minScore": "Minimum match level: {n} out of 100",
       "email": "Receive the daily summary by email",
-      "note": "The daily summary is always shown here. Email requires a sending service to be enabled at launch."
+      "note": "The daily summary is always shown here. Email requires a sending service to be enabled at launch.",
+      "minScoreHelp": "Each offer gets a score from 0 to 100 showing how well it matches your profile (experience, job level, sector, languages). 100 = perfect match. A dossier is only prepared automatically for offers that reach this level. Higher: fewer, better-targeted dossiers. Lower: more dossiers, sometimes less suitable."
     }
   },
   "history": {
@@ -673,6 +676,12 @@
         "script": "Could not load the Google sign-in. Check your network.",
         "popup": "Your browser blocked the sign-in window. Allow pop-ups for this site."
       }
+    },
+    "sources": {
+      "title": "Job sites used",
+      "count": "{n} of {total}",
+      "intro": "Tick the sites you want to search. Only ticked sites are offered in “Apply”. Your choice is saved in your profile.",
+      "visit": "visit"
     }
   },
   "free": {

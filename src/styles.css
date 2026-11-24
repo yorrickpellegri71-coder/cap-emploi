@@ -138,6 +138,10 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .field label, .field legend { font-size: 13px; font-weight: 600; }
 .input { width: 100%; min-height: 44px; padding: 8px 14px; border: 1px solid var(--rule-strong); border-radius: var(--radius); background: var(--surface); color: var(--text); font-size: 15px; }
 textarea.input { resize: vertical; line-height: 1.5; }
+.pwd-wrap { position: relative; }
+.pwd-wrap .input { padding-right: 48px; }
+.pwd-toggle { position: absolute; top: 0; right: 0; width: 44px; height: 44px; display: inline-flex; align-items: center; justify-content: center; border: 0; background: none; color: var(--muted); cursor: pointer; border-radius: var(--radius); }
+.pwd-toggle:hover { color: var(--text); }
 .input-sm { min-height: 36px; padding: 4px 10px; font-size: 13px; width: auto; max-width: 60%; }
 .input[aria-invalid='true'] { border-color: var(--danger); }
 .hint { font-size: 12px; color: var(--muted); }
@@ -305,3 +309,8 @@ details summary { cursor: pointer; margin-bottom: 8px; }
 .btn.disabled { opacity: 0.5; pointer-events: none; }
 .alert-banner { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
 .tag-main { margin-left: 8px; background: var(--brand-2); color: #fff; font-size: 11px; vertical-align: 2px; }
+
+/* Badge « Powered by Netlify » injecté par l'hébergeur : il masquait la barre d'onglets du bas sur téléphone. */
+#nl-badge-frame { display: none !important; }
+input[type="range"] { width: 100%; accent-color: var(--brand-2); }
+.source-checks { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px 16px; }

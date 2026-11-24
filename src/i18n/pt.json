@@ -107,7 +107,9 @@
       "unconfirmed": "Endereço não confirmado: abra a ligação recebida por e-mail e inicie sessão novamente.",
       "exists": "Já existe uma conta com este endereço. Inicie sessão.",
       "rate": "Demasiadas tentativas. Aguarde alguns minutos antes de tentar novamente."
-    }
+    },
+    "showPwd": "Mostrar palavra-passe",
+    "hidePwd": "Ocultar palavra-passe"
   },
   "onboarding": {
     "title": "Bem-vindo ao Cap Emploi Luxembourg",
@@ -352,9 +354,9 @@
     },
     "contact": {
       "h": "Contacto",
-      "p": "Para qualquer questão sobre os seus dados, escreva ao responsável do projeto."
+      "p": "Para qualquer questão sobre os seus dados ou para exercer os seus direitos, escreva-nos:"
     },
-    "updated": "Versão de 22 de outubro de 2026.",
+    "updated": "Versão de 23 de novembro de 2026.",
     "mail": {
       "h": "Alertas de e-mail (opção)",
       "p": "Se ler os seus alertas do Gmail ou do Outlook, o acesso é só de leitura, a partir do seu navegador e apenas durante a leitura. Só os e-mails dos sites de emprego dos últimos 14 dias são lidos e enviados à IA para extrair as ofertas; só as ofertas são guardadas."
@@ -501,10 +503,11 @@
     "emptyHint": "Inicie uma pesquisa: a aplicação percorre as ofertas e propõe empresas adequadas ao seu perfil.",
     "settings": {
       "title": "Definições das oportunidades",
-      "auto": "Preparar automaticamente o dossier das melhores oportunidades (dentro do limite dos seus documentos de IA)",
-      "minScore": "Pontuação mínima para a preparação automática",
+      "auto": "Preparar automaticamente o CV e a carta para as ofertas que melhor me correspondem",
+      "minScore": "Nível mínimo de correspondência: {n} em 100",
       "email": "Receber o resumo diário por e-mail",
-      "note": "O resumo diário está sempre visível aqui. O e-mail requer a ativação de um serviço de envio no lançamento."
+      "note": "O resumo diário está sempre visível aqui. O e-mail requer a ativação de um serviço de envio no lançamento.",
+      "minScoreHelp": "Cada oferta recebe uma nota de 0 a 100 que mostra quanto corresponde ao seu perfil (experiência, nível do cargo, setor, línguas). 100 = correspondência perfeita. Só é preparado automaticamente um dossiê para as ofertas que atingem este nível. Mais alto: menos dossiês, mais direcionados. Mais baixo: mais dossiês, por vezes menos adequados."
     }
   },
   "history": {
@@ -673,6 +676,12 @@
         "script": "Não foi possível carregar a ligação Google. Verifique a sua rede.",
         "popup": "O seu navegador bloqueou a janela de início de sessão. Permita janelas pop-up para este site."
       }
+    },
+    "sources": {
+      "title": "Sites de emprego utilizados",
+      "count": "{n} de {total}",
+      "intro": "Marque os sites onde quer procurar. Só os sites marcados aparecem em «Candidatar». A sua escolha fica guardada no seu perfil.",
+      "visit": "ver o site"
     }
   },
   "free": {

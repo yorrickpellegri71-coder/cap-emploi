@@ -119,6 +119,19 @@ function OppCard({ opp, selected, onSelect, onChange, busy, setBusy }: {
   );
 }
 
+function MinScore({ value, onSave }: { value: number; onSave: (n: number) => void }) {
+  const { t } = useI18n();
+  const [n, setN] = useState(value);
+  return (
+    <div className="field" style={{ maxWidth: 480 }}>
+      <label htmlFor="opp-min">{t('opps.settings.minScore', { n })}</label>
+      <input id="opp-min" type="range" min={0} max={100} step={5} value={n} aria-describedby="opp-min-help"
+        onChange={(e) => setN(Number(e.target.value))} onPointerUp={() => onSave(n)} onKeyUp={() => onSave(n)} onBlur={() => onSave(n)} />
+      <span id="opp-min-help" className="hint">{t('opps.settings.minScoreHelp')}</span>
+    </div>
+  );
+}
+
 function Settings() {
   const { t } = useI18n();
   const { profile, updateProfile } = useApp();
@@ -134,14 +147,8 @@ function Settings() {
         {error != null && <Notice tone="error">{errorMessage(error, t)}</Notice>}
         <label className="check"><input type="checkbox" checked={profile.opp_auto_prepare} onChange={(e) => void save({ opp_auto_prepare: e.target.checked })} />
           <span>{t('opps.settings.auto')}</span></label>
-        <div className="field" style={{ maxWidth: 260 }}>
-          <label htmlFor="opp-min">{t('opps.settings.minScore')}</label>
-          <input id="opp-min" className="input" type="number" min={0} max={100} step={5} defaultValue={profile.opp_min_score}
-            onBlur={(e) => void save({ opp_min_score: Math.min(100, Math.max(0, Number(e.target.value) || 75)) })} />
-        </div>
-        <label className="check"><input type="checkbox" checked={profile.opp_daily_email} onChange={(e) => void save({ opp_daily_email: e.target.checked })} />
-          <span>{t('opps.settings.email')}</span></label>
-        <p className="xs muted">{t('opps.settings.note')}</p>
+        <MinScore value={profile.opp_min_score} onSave={(n) => void save({ opp_min_score: n })} />
+        {/* Résumé quotidien par e-mail : option masquée tant qu'aucun service d'envoi n'est branché (CAP_RESEND_API_KEY). */}
       </div>
     </details>
   );

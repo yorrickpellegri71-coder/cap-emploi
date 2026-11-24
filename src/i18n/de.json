@@ -107,7 +107,9 @@
       "unconfirmed": "Adresse nicht bestätigt: Öffnen Sie den Link aus der E-Mail und melden Sie sich erneut an.",
       "exists": "Mit dieser Adresse existiert bereits ein Konto. Bitte melden Sie sich an.",
       "rate": "Zu viele Versuche. Warten Sie einige Minuten, bevor Sie es erneut versuchen."
-    }
+    },
+    "showPwd": "Passwort anzeigen",
+    "hidePwd": "Passwort verbergen"
   },
   "onboarding": {
     "title": "Willkommen bei Cap Emploi Luxembourg",
@@ -352,9 +354,9 @@
     },
     "contact": {
       "h": "Kontakt",
-      "p": "Bei Fragen zu Ihren Daten wenden Sie sich an den Projektträger."
+      "p": "Bei Fragen zu Ihren Daten oder zur Ausübung Ihrer Rechte schreiben Sie uns:"
     },
-    "updated": "Fassung vom 22. Oktober 2026.",
+    "updated": "Fassung vom 23. November 2026.",
     "mail": {
       "h": "E-Mail-Benachrichtigungen (optional)",
       "p": "Wenn Sie Ihre Gmail- oder Outlook-Benachrichtigungen abrufen, erfolgt der Zugriff nur lesend, über Ihren Browser und nur während des Abrufs. Nur E-Mails von Jobportalen der letzten 14 Tage werden gelesen und der KI übermittelt, um die Angebote zu extrahieren; nur die Angebote werden gespeichert."
@@ -501,10 +503,11 @@
     "emptyHint": "Starten Sie eine Suche: Die App durchsucht Anzeigen und schlägt passende Unternehmen vor.",
     "settings": {
       "title": "Einstellungen für Chancen",
-      "auto": "Unterlagen für die besten Chancen automatisch vorbereiten (im Rahmen Ihrer KI-Dokumente)",
-      "minScore": "Mindestpunktzahl für die automatische Vorbereitung",
+      "auto": "Lebenslauf und Anschreiben für die am besten passenden Angebote automatisch vorbereiten",
+      "minScore": "Mindestübereinstimmung: {n} von 100",
       "email": "Tägliche Zusammenfassung per E-Mail erhalten",
-      "note": "Die tägliche Zusammenfassung ist immer hier sichtbar. Für die E-Mail muss beim Start ein Versanddienst aktiviert werden."
+      "note": "Die tägliche Zusammenfassung ist immer hier sichtbar. Für die E-Mail muss beim Start ein Versanddienst aktiviert werden.",
+      "minScoreHelp": "Jedes Angebot erhält eine Note von 0 bis 100, die zeigt, wie gut es zu Ihrem Profil passt (Erfahrung, Position, Branche, Sprachen). 100 = perfekte Übereinstimmung. Eine Bewerbung wird nur für Angebote ab diesem Wert automatisch vorbereitet. Höher: weniger, aber gezieltere Bewerbungen. Niedriger: mehr Bewerbungen, manchmal weniger passend."
     }
   },
   "history": {
@@ -673,6 +676,12 @@
         "script": "Google-Anmeldung konnte nicht geladen werden. Prüfen Sie Ihre Verbindung.",
         "popup": "Ihr Browser hat das Anmeldefenster blockiert. Erlauben Sie Pop-ups für diese Website."
       }
+    },
+    "sources": {
+      "title": "Verwendete Jobportale",
+      "count": "{n} von {total}",
+      "intro": "Haken Sie die Seiten an, auf denen Sie suchen möchten. Nur angehakte Seiten erscheinen unter „Bewerben“. Ihre Auswahl wird in Ihrem Profil gespeichert.",
+      "visit": "Website"
     }
   },
   "free": {

@@ -107,7 +107,9 @@
       "unconfirmed": "Adress net bestätegt: maacht de Link aus der E-Mail op a mellt Iech dann nach eng Kéier un.",
       "exists": "Et gëtt schonn e Kont mat dëser Adress. Mellt Iech un.",
       "rate": "Ze vill Versich. Waart e puer Minutten, ier Dir et nach eng Kéier probéiert."
-    }
+    },
+    "showPwd": "Passwuert weisen",
+    "hidePwd": "Passwuert verstoppen"
   },
   "onboarding": {
     "title": "Wëllkomm op Cap Emploi Luxembourg",
@@ -352,9 +354,9 @@
     },
     "contact": {
       "h": "Kontakt",
-      "p": "Fir all Fro iwwer Är Donnéeë schreift dem Responsabel vum Projet."
+      "p": "Fir all Fro iwwer Är Donnéeën oder fir Är Rechter geltend ze maachen, schreift eis:"
     },
-    "updated": "Versioun vum 22. Oktober 2026.",
+    "updated": "Versioun vum 23. November 2026.",
     "mail": {
       "h": "E-Mail-Alerten (Optioun)",
       "p": "Wann Dir Är Gmail- oder Outlook-Alerten ofrufft, ass den Zougrëff nëmmen zum Liesen, vun Ärem Browser aus a just fir d'Zäit vum Ofruff. Nëmmen d'E-Maile vu Jobsitte vun de leschte 14 Deeg ginn gelies an un d'KI geschéckt, fir d'Offeren erauszezéien; nëmmen d'Offere ginn opgehalen."
@@ -501,10 +503,11 @@
     "emptyHint": "Start eng Sich: d'Applikatioun geet d'Offeren duerch a proposéiert Firmen, déi op Äre Profil passen.",
     "settings": {
       "title": "Astellunge vun de Chancen",
-      "auto": "Den Dossier vun de beschte Chancen automatesch virbereeden (am Kader vun Äre KI-Dokumenter)",
-      "minScore": "Mindestscore fir d'automatesch Virbereedung",
+      "auto": "CV a Bréif automatesch fir d’Offeren preparéieren, déi am beschte bei mech passen",
+      "minScore": "Minimal Iwwereneestëmmung: {n} vun 100",
       "email": "De Resumé vum Dag per E-Mail kréien",
-      "note": "De Resumé vum Dag ass ëmmer hei ze gesinn. D'E-Mail brauch beim Lancement en aktivéierte Versandservice."
+      "note": "De Resumé vum Dag ass ëmmer hei ze gesinn. D'E-Mail brauch beim Lancement en aktivéierte Versandservice.",
+      "minScoreHelp": "All Offer kritt eng Note vun 0 bis 100: si weist, wéi gutt d’Offer bei Äre Profil passt (Erfarung, Niveau, Secteur, Sproochen). 100 = perfekt. En Dossier gëtt nëmmen automatesch fir Offeren ab dësem Niveau preparéiert. Méi héich: manner Dossieren, mä méi geziilt. Méi niddreg: méi Dossieren, heiansdo manner passend."
     }
   },
   "history": {
@@ -673,6 +676,12 @@
         "script": "D'Google-Verbindung konnt net geluede ginn. Kontrolléiert Äert Netz.",
         "popup": "Äre Browser huet d'Umeldefënster blockéiert. Erlaabt Pop-up-Fënstere fir dëse Site."
       }
+    },
+    "sources": {
+      "title": "Benotzt Job-Säiten",
+      "count": "{n} vun {total}",
+      "intro": "Kräizt d’Säiten un, wou Dir sichen wëllt. Nëmmen déi ugekräizten Säite ginn ënner „Postuléieren“ proposéiert. Äre Choix gëtt an Ärem Profil gespäichert.",
+      "visit": "Säit kucken"
     }
   },
   "free": {

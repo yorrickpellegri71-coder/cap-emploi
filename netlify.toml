@@ -11,6 +11,23 @@
   VITE_SUPABASE_SCHEMA = "cap_emploi"
   VITE_AI_ENABLED = "false"
 
+# Fichiers compilés : jamais en cache pour index.html, cache long pour /assets (noms uniques).
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "no-cache"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Un ancien fichier /assets absent renvoie une vraie erreur 404 (la page se recharge alors d'elle-même).
+[[redirects]]
+  from = "/assets/*"
+  to = "/404-asset"
+  status = 404
+
 # Application à une seule page : toutes les routes renvoient index.html.
 [[redirects]]
   from = "/*"

@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from 'react';
 import { Link } from 'react-router-dom';
-import { Brand, LangSwitch, Notice, errorMessage } from '../components/ui';
+import { Brand, LangSwitch, Notice, PasswordInput, errorMessage } from '../components/ui';
 import { useI18n, type TFn } from '../i18n';
 import { useSession } from '../lib/session';
 import { supabase } from '../lib/supabase';
@@ -101,7 +101,7 @@ function AuthPage({ mode }: { mode: 'login' | 'signup' }) {
           </div>
           <div className="field">
             <label htmlFor="password">{t('auth.password')}</label>
-            <input id="password" className="input" type="password" autoComplete={signup ? 'new-password' : 'current-password'} required minLength={8}
+            <PasswordInput id="password" autoComplete={signup ? 'new-password' : 'current-password'} required minLength={8}
               value={password} aria-invalid={touched && !!pwdErr} onChange={(e) => setPassword(e.target.value)} />
             <span className={touched && pwdErr ? 'err' : 'hint'}>{touched && pwdErr ? pwdErr : t('auth.pwdHint')}</span>
             {!signup && <Link to="/mot-de-passe-oublie" className="small">{t('auth.forgot')}</Link>}
@@ -225,18 +225,21 @@ export function NewPassword() {
       {error && <Notice tone="error">{error}</Notice>}
       <div className="field">
         <label htmlFor="np1">{t('auth.password')}</label>
-        <input id="np1" className="input" type="password" autoComplete="new-password" value={password} onChange={(e) => setPassword(e.target.value)} />
+        <PasswordInput id="np1" autoComplete="new-password" value={password} onChange={(e) => setPassword(e.target.value)} />
         <span className="hint">{t('auth.pwdHint')}</span>
       </div>
       <div className="field">
         <label htmlFor="np2">{t('auth.confirmPwd')}</label>
-        <input id="np2" className="input" type="password" autoComplete="new-password" value={confirm} onChange={(e) => setConfirm(e.target.value)} />
+        <PasswordInput id="np2" autoComplete="new-password" value={confirm} onChange={(e) => setConfirm(e.target.value)} />
       </div>
       <button className="btn btn-primary" type="submit" disabled={busy}>{busy ? t('common.wait') : t('common.save')}</button>
     </form>
   );
   return <AuthFrame>{body}</AuthFrame>;
 }
+
+/** Adresse de contact affichée sur la page Confidentialité (demande de Yorrick, 2026-11-23). */
+const CONTACT_EMAIL = 'yorrickpellegri71@gmail.com';
 
 export function Privacy() {
   const { t } = useI18n();
@@ -249,6 +252,7 @@ export function Privacy() {
         <section key={k} className="stack">
           <h2 className="h2">{t(`privacy.${k}.h`)}</h2>
           <p>{t(`privacy.${k}.p`)}</p>
+          {k === 'contact' && <p><a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a></p>}
         </section>
       ))}
       <p className="xs muted">{t('privacy.updated')}</p>
