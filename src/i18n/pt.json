@@ -686,11 +686,14 @@
   },
   "free": {
     "oppsOff": "A avaliação automática das oportunidades usa a IA, que não está ativada. Adicione as suas ofertas em «Ofertas recebidas» ou utilize «Candidatar».",
-    "pdfOff": "Sem IA, um PDF não pode ser lido automaticamente: importe o seu CV em .docx ou .txt, ou cole o texto, e depois preencha os campos.",
+    "pdfOff": "Este PDF não tem texto legível (CV digitalizado?): importe-o em .docx ou cole o texto.",
     "cvImported": "Texto do CV importado. Preencha agora os campos abaixo a partir deste texto.",
-    "profileHint": "A IA não está ativada: o texto do CV é importado e é você que preenche os campos do perfil.",
+    "profileHint": "Depois da importação, os campos do perfil preenchem-se sozinhos. A leitura é automática: verifique cada campo.",
     "analyzeOff": "A análise automática usa a IA, que não está ativada. Leia a oferta com atenção: cargo, contrato, local, salário, línguas e requisitos.",
-    "mailOff": "A leitura dos alertas de e-mail usa a IA para extrair as ofertas; não está ativada. Adicione as ofertas manualmente."
+    "mailOff": "A leitura dos alertas de e-mail usa a IA para extrair as ofertas; não está ativada. Adicione as ofertas manualmente.",
+    "cvFilled": "{n} secções preenchidas a partir do seu CV e guardadas. Verifique-as e corrija se necessário.",
+    "cvNothing": "Texto do CV importado, mas nenhuma secção foi reconhecida: preencha os campos abaixo.",
+    "fill": "Preencher os campos vazios a partir do CV"
   },
   "setup": {
     "title": "O Cap Emploi Luxembourg abre muito em breve",
