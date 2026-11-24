@@ -379,21 +379,22 @@ export function ReceivedOffers() {
 
       <SourcesPicker />
 
+      {/* Relevé des alertes e-mail : masqué tant que l'IA et la connexion Gmail/Outlook ne sont pas branchées. */}
+      {aiEnabled() && (mailConfigured('gmail') || mailConfigured('outlook')) && (
       <section className="card stack" aria-labelledby="mail-h">
         <h2 id="mail-h" className="h3">{t('offers.mail.title')} <span className="xs muted">({t('common.optional')})</span></h2>
         <p className="small muted">{t('offers.mail.intro')}</p>
         <div className="row-end wrap" style={{ justifyContent: 'flex-start' }}>
           {(['gmail', 'outlook'] as const).map((p) => (
-            <button key={p} type="button" className="btn btn-sm" disabled={!aiEnabled() || !mailConfigured(p) || !!mailBusy} onClick={() => void readMail(p)}
+            <button key={p} type="button" className="btn btn-sm" disabled={!mailConfigured(p) || !!mailBusy} onClick={() => void readMail(p)}
               title={mailConfigured(p) ? undefined : t('offers.mail.notConfigured')}>
               {mailBusy === p ? t('common.wait') : t(`offers.mail.read_${p}`)}
             </button>
           ))}
         </div>
-        {!aiEnabled() ? <p className="xs muted">{t('free.mailOff')}</p>
-          : !mailConfigured('gmail') && !mailConfigured('outlook') && <p className="xs muted">{t('offers.mail.notConfigured')}</p>}
         <p className="xs muted">{t('offers.mail.privacy')}</p>
       </section>
+      )}
       {note && <Notice tone={note.tone}>{note.text}</Notice>}
 
       <div className="tabs" role="tablist" aria-label={t('offers.title')}>
