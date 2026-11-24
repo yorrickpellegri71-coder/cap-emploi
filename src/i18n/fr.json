@@ -688,7 +688,7 @@
     "oppsOff": "La notation automatique des opportunités utilise l’IA, qui n’est pas activée. Ajoutez vos offres dans « Offres reçues » ou utilisez « Postuler ».",
     "pdfOff": "Ce PDF ne contient pas de texte lisible (CV scanné ?) : importez-le en .docx ou collez son texte.",
     "cvImported": "Texte du CV importé. Remplissez maintenant les champs ci-dessous à partir de ce texte.",
-    "profileHint": "Après l’import, les champs du profil se remplissent tout seuls. La lecture est automatique : vérifiez chaque champ.",
+    "profileHint": "Après l’import, les champs du profil se remplissent tout seuls. La lecture est automatique : vérifiez chaque champ. Un CV scanné (photo ou image) ne peut pas être lu : utilisez un PDF ou un Word créé sur ordinateur.",
     "analyzeOff": "L’analyse automatique utilise l’IA, qui n’est pas activée. Lisez l’offre attentivement : poste, contrat, lieu, salaire, langues et exigences.",
     "mailOff": "Le relevé des alertes e-mail utilise l’IA pour extraire les offres ; il n’est pas activé. Ajoutez les offres à la main.",
     "cvFilled": "{n} rubriques remplies depuis votre CV et enregistrées. Vérifiez-les et corrigez si besoin.",
