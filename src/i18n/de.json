@@ -688,7 +688,7 @@
     "oppsOff": "Die automatische Bewertung von Chancen nutzt KI, die nicht aktiviert ist. Erfassen Sie Ihre Angebote unter „Erhaltene Angebote“ oder nutzen Sie „Bewerben“.",
     "pdfOff": "Dieses PDF enthält keinen lesbaren Text (gescannter Lebenslauf?): als .docx importieren oder Text einfügen.",
     "cvImported": "Lebenslauftext importiert. Füllen Sie jetzt die Felder unten anhand dieses Textes aus.",
-    "profileHint": "Nach dem Import werden die Profilfelder automatisch ausgefüllt. Das Auslesen ist automatisch: prüfen Sie jedes Feld.",
+    "profileHint": "Nach dem Import werden die Profilfelder automatisch ausgefüllt. Das Auslesen ist automatisch: prüfen Sie jedes Feld. Ein gescannter Lebenslauf (Foto oder Bild) kann nicht gelesen werden: Verwenden Sie ein am Computer erstelltes PDF oder Word-Dokument.",
     "analyzeOff": "Die automatische Analyse nutzt KI, die nicht aktiviert ist. Lesen Sie das Angebot sorgfältig: Stelle, Vertrag, Ort, Gehalt, Sprachen und Anforderungen.",
     "mailOff": "Der Abruf der E-Mail-Benachrichtigungen nutzt KI, um die Angebote zu extrahieren; er ist nicht aktiviert. Erfassen Sie Angebote manuell.",
     "cvFilled": "{n} Rubriken aus Ihrem Lebenslauf ausgefüllt und gespeichert. Bitte prüfen und bei Bedarf korrigieren.",
